@@ -13,7 +13,7 @@ Next.jsの書き方とルール
     ・今回は画面幅と高さを固定するレスポンシブを採用しているため、CSSは全てpx指定で。
     　横414px　縦896px (iphoneXのサイズ)が画面全部の大きさになってるからコレをマックスとしてpx指定で。
     ・CSSファイルは ファイル名.module.css とする。
-    ・CSSの読み取りと使い方は以下の通り。Stylesにimportし、classNameでStyles.CSSファイルで作成したクラス名
+    ・CSSの読み取りと使い方は以下の通り。Stylesにimportし、classNameでStyles.CSSファイルで作成したクラス名aaa
 
         import Styles from "@/styles/App.module.css";
 
