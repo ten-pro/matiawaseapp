@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import styled from "styled-components";
 import Styles from "@/styles/App.module.css";
+import "@/styles/globals.css"
 
 const Wrapper = styled.div.attrs<{ renderScale: number }>((p) => ({
   style: {
