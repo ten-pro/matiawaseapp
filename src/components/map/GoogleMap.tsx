@@ -34,6 +34,7 @@ const addMarkers = (
   });
 };
 
+//otherLocationは相手の緯度経度
 const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,6 +71,11 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+
+          // 仮に相手の位置を現在地から少し離れた位置にする
+          otherLocation.lat = currentPosition.lat + 0.1;
+          otherLocation.lng = currentPosition.lng + 0.1;
+
           initMap(currentPosition, otherLocation);
         },
         (error) => {
