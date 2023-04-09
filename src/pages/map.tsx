@@ -17,7 +17,7 @@ const MapPage = () => {
   return (
     <div className={styles.container}>
       <Header />
-      <div style={{ width: "100%", height: "696px" }}>
+      <div style={{ width: "100%", height: "696px", position:"absolute" }}>
         <GoogleMap apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} otherLocation={otherLocation} />
       </div>
       <MenuButton />

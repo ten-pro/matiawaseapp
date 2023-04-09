@@ -1,6 +1,6 @@
 .menuButtonContainer {
     position: fixed;
-    bottom: 50%;
+    bottom: 50px;
     left: 50%;
     transform: translate(-50%, 50%);
   }
@@ -28,8 +28,8 @@
     position: absolute;
     width: 100px;
     height: 100px;
-    left: 50%;
-    top: 50%;
+    left: -50px;
+    bottom: 50px;
   }
   
   .menuItem {
@@ -39,3 +39,40 @@
     transition: transform 0.3s ease;
   }
   
+  .menuItem.closed {
+    transform: translate(-50%, -50%);
+  }
+  
+  .menuItem.open {
+    transform: translate(-50%, -50%) rotate(var(--rotate)) translateY(-100px) rotate(calc(-1 * var(--rotate)));
+  }
+
+  .menuItemOpening {
+    animation: menuItemOpening 0.3s forwards;
+  }
+  
+  .menuItemOpening {
+    animation: open 0.5s forwards;
+  }
+  
+  .menuItemClosing {
+    animation: close 0.5s forwards;
+  }
+  
+  @keyframes open {
+    0% {
+      transform: translate(-50%, -50%);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(var(--rotate)) translateY(-100px) rotate(calc(-1 * var(--rotate)));
+    }
+  }
+  
+  @keyframes close {
+    0% {
+      transform: translate(-50%, -50%) rotate(var(--rotate)) translateY(-100px) rotate(calc(-1 * var(--rotate)));
+    }
+    100% {
+      transform: translate(-50%, -50%);
+    }
+  }
