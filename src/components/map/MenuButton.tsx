@@ -18,18 +18,20 @@ const MenuButton: React.FC = () => {
     }
   };
 
-  
   const mainButtonStyle = isOpen ? styles.hidden : styles.mainButton;
   const menuStyle = isOpen ? styles.menu : styles.hidden;
 
   // 配列を作成
   const buttonsData = [
-    { id: 1, img: "/" },
-    { id: 2, img: "img_pass_2" },
-    { id: 3, img: "img_pass_3" },
-    { id: 4, img: "img_pass_4" },
-    { id: 5, img: "img_pass_5" },
-    { id: 6, img: "img_pass_6" },
+    { id: 1, img: "images/map/visible.svg" },
+    { id: 2, img: "images/map/invisible.svg" },
+    { id: 3, img: "images/map/schedule.svg" },
+    { id: 4, img: "images/map/chat.svg" },
+    { id: 5, img: "images/map/create.svg" },
+    { id: 6, img: "images/map/friend.svg" },
+    { id: 7, img: "images/map/profile.svg" },
+    { id: 8, img: "images/map/close.svg" },
+    { id: 9, img: "images/map/arrival.svg" },
   ];
 
   return (
