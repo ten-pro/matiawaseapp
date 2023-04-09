@@ -9,6 +9,9 @@ header('Content-Type: application/json; charset=UTF-8');
 require_once './LoginDAO.php';
 require_once './ScheduleDAO.php';
 require_once './IconDAO.php';
+require_once './CommentDAO.php';
+require_once './EmoticonDAO.php';
+require_once './FriendDAO.php';
 
 $data = "nosend";
 
@@ -39,6 +42,24 @@ if (isset($_POST['create_schedule']) == true) {
 if (isset($_POST['create_icon']) == true) {
     $class = new Icon();
     $data = $class->create_icon($_POST['icon_detail']);
+}
+
+//create_commentの引数がある時の処理
+if (isset($_POST['create_comment']) == true) {
+    $class = new Comment();
+    $data = $class->create_comment($_POST['comment_detail']);
+}
+
+//create_emoticonの引数がある時の処理
+if (isset($_POST['create_emoticon']) == true) {
+    $class = new Emoticon();
+    $data = $class->create_emoticon($_POST['emoticon_detail']);
+}
+
+//create_friendの引数がある時の処理
+if (isset($_POST['create_friend']) == true) {
+    $class = new Friend();
+    $data = $class->create_friend($_POST['follow_id'],$_POST['user_id']);
 }
 
 //arrayの中身をJSON形式に変換している
