@@ -45,6 +45,9 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
       const map = new google.maps.Map(mapRef.current, {
         center: currentPosition || otherLocation,
         zoom: 8,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false
       });
 
       if (currentPosition && otherPosition) {
