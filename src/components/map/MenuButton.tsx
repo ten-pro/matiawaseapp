@@ -2,43 +2,54 @@ import React, { useState } from "react";
 import styles from "@/styles/map/MenuButton.module.css";
 
 const MenuButton: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isClosing, setIsClosing] = useState(false);
-    const animationDuration = 500;
+  const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const animationDuration = 500;
 
-    const toggleMenu = () => {
+  const toggleMenu = () => {
     if (isOpen) {
-        setIsClosing(true);
-        setTimeout(() => {
+      setIsClosing(true);
+      setTimeout(() => {
         setIsOpen(false);
         setIsClosing(false);
-        }, animationDuration);
+      }, animationDuration);
     } else {
-        setIsOpen(true);
+      setIsOpen(true);
     }
-    };
+  };
 
+  
   const mainButtonStyle = isOpen ? styles.hidden : styles.mainButton;
   const menuStyle = isOpen ? styles.menu : styles.hidden;
+
+  // 配列を作成
+  const buttonsData = [
+    { id: 1, img: "/" },
+    { id: 2, img: "img_pass_2" },
+    { id: 3, img: "img_pass_3" },
+    { id: 4, img: "img_pass_4" },
+    { id: 5, img: "img_pass_5" },
+    { id: 6, img: "img_pass_6" },
+  ];
 
   return (
     <div className={styles.menuButtonContainer}>
       <button className={`${styles.button} ${mainButtonStyle}`} onClick={toggleMenu} />
       <div className={`${styles.menuContainer} ${menuStyle}`}>
         {/* 6つの周りのボタン */}
-        {Array.from({ length: 6 }).map((_, i) => (
+        {buttonsData.map((buttonData, i) => (
           <button
-            key={i}
+            key={buttonData.id}
             className={`${styles.button} ${styles.menuItem} ${
-                isOpen ? (isClosing ? styles.menuItemClosing : styles.menuItemOpening) : ""
+              isOpen ? (isClosing ? styles.menuItemClosing : styles.menuItemOpening) : ""
             }`}
             style={{
-                width: i === 3 ? "35px" : "50px",
-                height: i === 3 ? "35px" : "50px",
-                "--rotate": `${60 * i}deg`
+              width: i === 3 ? "35px" : "50px",
+              height: i === 3 ? "35px" : "50px",
+              "--rotate": `${60 * i}deg`
             } as React.CSSProperties}
             onClick={i === 3 ? toggleMenu : undefined}
-            />        
+          />
         ))}
         {/* 中心のボタン */}
         <button
