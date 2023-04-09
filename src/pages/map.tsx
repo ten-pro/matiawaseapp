@@ -1,15 +1,26 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import styles from "@/styles/map/map.module.css";
 import Header from "@/components/Header";
 
-const map =()=> {
+const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: false });
+
+const MapPage = () => {
   const [scale, setScale] = useState(1);
+
+  const otherLocation = {
+    lat: 35.6895, // 相手の緯度
+    lng: 139.6917, // 相手の経度
+  };
 
   return (
     <div className={styles.container}>
-        <Header />
+      <Header />
+      <div style={{ width: "100%", height: "696px" }}>
+        <GoogleMap apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} otherLocation={otherLocation} />
+      </div>
     </div>
   );
-}
+};
 
-export default map;
+export default MapPage;

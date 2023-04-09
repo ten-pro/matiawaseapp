@@ -1,52 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
 import styles from "@/styles/Header.module.css";
+import NowTime from "@/components/Header/NowTime";
+import SunTimer from "@/components/Header/SunTimer";
 
-const Map = () => {
+const Header = () => {
   const [currentTime, setCurrentTime] = useState<string>("");
-  const [timer, setTimer] = useState<number>(60);
-  const max = 60;
+  const [sunPosition, setSunPosition] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
-  useEffect(() => {
-    const updateCurrentTime = () => {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, "0");
-      const minutes = String(now.getMinutes()).padStart(2, "0");
-      setCurrentTime(`${hours}:${minutes}`);
-    };
-
-    updateCurrentTime();
-    const intervalId = setInterval(updateCurrentTime, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
+  const handleTimeChange = useCallback((time: string) => {
+    setCurrentTime(time);
   }, []);
 
-  useEffect(() => {
-    const updateTimer = () => {
-      setTimer((prevTimer) => (prevTimer > 0 ? prevTimer - 1 : max));
-    };
-
-    const timerIntervalId = setInterval(updateTimer, 1000);
-
-    return () => {
-      clearInterval(timerIntervalId);
-    };
+  const handlePositionChange = useCallback((x: number, y: number) => {
+    setSunPosition({ x, y });
   }, []);
-
-  const progress = 1 - timer / max;
-  const x = progress * (414 - 70);
-  const y = 50 - 50 * Math.sqrt(1 - Math.pow((x - (207 - 35)) / (207 - 35), 2));
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.NowTime}>{currentTime}</div>
+      <NowTime onTimeChange={handleTimeChange} />
+      <SunTimer onPositionChange={handlePositionChange} />
       <div
         className={styles.sun}
-        style={{ transform: `translate(${x}px, ${y}px)` }}
+        style={{ transform: `translate(${sunPosition.x}px, ${sunPosition.y}px)` }}
       ></div>
     </div>
   );
 };
 
-export default Map;
+export default Header;
