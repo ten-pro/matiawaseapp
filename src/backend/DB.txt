@@ -3,7 +3,7 @@
 CREATE TABLE user_tbl(
     user_id         INT             AUTO_INCREMENT  ,
     user_name       VARCHAR(30)     NOT NULL        ,
-    user_pass       VARCHAR(30)     NOT NULL        ,
+    user_pass       VARCHAR(255)    NOT NULL        ,
     user_mail       VARCHAR(50)     NOT NULL        ,
     PRIMARY KEY     (user_id)
 );
@@ -11,9 +11,10 @@ CREATE TABLE user_tbl(
 //予定テーブル
 CREATE TABLE schedule_tbl(
     schedule_id     INT             AUTO_INCREMENT  ,
-    schedule_name   VARCHAR(30)     NOT NULL        ,
-    schedule_place  VARCHAR(100)    NOT NULL        ,
-    schedule_time   TIME            NOT NULL        ,
+    schedule_name   VARCHAR(50)     NOT NULL        ,
+    schedule_lat    VARCHAR(100)    NOT NULL        ,
+    schedule_lng    VARCHAR(100)    NOT NULL        ,
+    schedule_time   DATETIME        NOT NULL        ,
     emoticon_id     INT                             ,
     comment_id      INT                             ,
     icon_id         INT             NOT NULL        ,
@@ -27,7 +28,8 @@ CREATE TABLE appointment_tbl(
     appointment_id  INT             AUTO_INCREMENT  ,
     schedule_id     INT             NOT NULL        ,
     user_id         INT             NOT NULL        ,
-    current_location VARCHAR(100)   NOT NULL        ,
+    appointment_lat VARCHAR(100)    NOT NULL        ,
+    appointment_lng VARCHAR(100)    NOT NULL        ,
     emoticon_id     INT                             ,
     comment_id      INT                             ,
     schedule_status VARCHAR(30)                     ,
