@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import styles from "@/styles/map/map.module.css";
 import Header from "@/components/Header";
+import MenuButton from "@/components/map/MenuButton";
 
 const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: false });
 
@@ -19,6 +20,7 @@ const MapPage = () => {
       <div style={{ width: "100%", height: "696px" }}>
         <GoogleMap apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} otherLocation={otherLocation} />
       </div>
+      <MenuButton />
     </div>
   );
 };
