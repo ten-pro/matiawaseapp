@@ -35,7 +35,7 @@ if (isset($_POST['create_user']) == true) {
 //create_scheduleの引数がある時の処理
 if (isset($_POST['create_schedule']) == true) {
     $class = new Schedule();
-    $data = $class->create_schedule($_POST['schedule_name'],$_POST['schedule_lat'],$_POST['schedule_lng'],$_POST['schedule_time'],$_POST['icon_id']);
+    $data = $class->create_schedule($_POST['schedule_name'],$_POST['schedule_lat'],$_POST['schedule_lng'],$_POST['schedule_time'],$_POST['icon_id'],$_POST['user_ids']);
 }
 
 //create_iconの引数がある時の処理
@@ -61,6 +61,22 @@ if (isset($_POST['create_friend']) == true) {
     $class = new Friend();
     $data = $class->create_friend($_POST['follow_id'],$_POST['user_id']);
 }
+
+//create_appointmentの引数がある時の処理
+if (isset($_POST['create_appointment']) == true) {
+    $class = new Appointment();
+    $data = $class->create_appointment($_POST['schedule_id'],$_POST['user_ids']);
+}
+
+
+//削除系処理
+
+//deleate_friend
+if (isset($_POST['delete_friend']) == true) {
+    $class = new Friend();
+    $data = $class->delete_friend($_POST['follow_id'],$_POST['user_id']);
+}
+
 
 //arrayの中身をJSON形式に変換している
 $json_array = json_encode($data);

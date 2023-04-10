@@ -32,7 +32,7 @@ CREATE TABLE appointment_tbl(
     appointment_lng VARCHAR(100)    NOT NULL        ,
     emoticon_id     INT                             ,
     comment_id      INT                             ,
-    schedule_status VARCHAR(30)                     ,
+    appointment_status VARCHAR(30)                     ,
     PRIMARY KEY     (appointment_id)                ,
     FOREIGN KEY (schedule_id) REFERENCES schedule_tbl(schedule_id),
     FOREIGN KEY (user_id) REFERENCES user_tbl(user_id)
