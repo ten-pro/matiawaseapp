@@ -62,6 +62,22 @@ if (isset($_POST['create_friend']) == true) {
     $data = $class->create_friend($_POST['follow_id'],$_POST['user_id']);
 }
 
+//create_appointmentの引数がある時の処理
+if (isset($_POST['create_appointment']) == true) {
+    $class = new Appointment();
+    $data = $class->create_appointment($_POST['schedule_id'],$_POST['user_ids']);
+}
+
+
+//削除系処理
+
+//deleate_friend
+if (isset($_POST['delete_friend']) == true) {
+    $class = new Friend();
+    $data = $class->delete_friend($_POST['follow_id'],$_POST['user_id']);
+}
+
+
 //arrayの中身をJSON形式に変換している
 $json_array = json_encode($data);
 
