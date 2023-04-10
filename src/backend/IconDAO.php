@@ -16,10 +16,10 @@ class Icon
             $ps->bindValue(1, $icon_detail, PDO::PARAM_STR);
             $ps->execute();
             $data = true;
-        } catch (Exception $e) {
-            $data = $e;
+        } catch (PDOException $e) {
+            $data = $e->getMessage();
         } catch (Error $e) {
-            $data = $e;
+            $data = $e->getMessage();
         }
         return $data;
     }

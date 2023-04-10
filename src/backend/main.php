@@ -35,7 +35,7 @@ if (isset($_POST['create_user']) == true) {
 //create_scheduleの引数がある時の処理
 if (isset($_POST['create_schedule']) == true) {
     $class = new Schedule();
-    $data = $class->create_schedule($_POST['schedule_name'],$_POST['schedule_lat'],$_POST['schedule_lng'],$_POST['schedule_time'],$_POST['icon_id']);
+    $data = $class->create_schedule($_POST['schedule_name'],$_POST['schedule_lat'],$_POST['schedule_lng'],$_POST['schedule_time'],$_POST['icon_id'],$_POST['user_ids']);
 }
 
 //create_iconの引数がある時の処理

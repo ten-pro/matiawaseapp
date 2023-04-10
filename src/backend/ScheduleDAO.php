@@ -8,7 +8,7 @@ class Schedule
         return $pdo;
     }
 
-    function create_schedule($schedule_name, $schedule_lat, $schedule_lng, $schedule_time, $icon_id)
+    function create_schedule($schedule_name, $schedule_lat, $schedule_lng, $schedule_time, $icon_id, $user_ids)
     {
         try {
             $pdo = $this->get_pdo();
@@ -22,10 +22,12 @@ class Schedule
             $ps->bindValue(5, $icon_id, PDO::PARAM_INT);
             $ps->bindValue(6, 0, PDO::PARAM_INT);
             $ps->execute();
-            $sch = true;
-            if($sch){
+            $schedule_id = $pdo->lastInsertId();
 
-            }
+            //待ち合わせ作成処理
+            $class = new Appointment();
+            $data = $class->create_appointment($schedule_id, $user_ids);
+
         } catch (PDOException $e) {
             $data = $e;
         } catch (Error $e) {

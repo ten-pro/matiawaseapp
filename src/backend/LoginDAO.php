@@ -29,7 +29,7 @@ class Login
                 $id = $pdo->lastInsertId();
                 $data = $id ? $id : false;
             } else {
-                $data = false;
+                $data = array("login"=>false,"result"=>"duplication");
             }
         } catch (PDOException $e) {
             // エラーメッセージを出力する
@@ -64,8 +64,8 @@ class Login
             return false;
         } catch (PDOException $e) {
             // エラーメッセージを出力する
-            echo 'データベースエラー：' . $e->getMessage();
-            return false;
+            $data = $e->getMessage();
+            return $data;
         }
     }
 }
