@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "@/styles/Header.module.css";
+import styles from "@/styles/Header/SunTimer.module.css";
 
 type SunTimerProps = {
   onPositionChange: (x: number, y: number) => void;
@@ -30,10 +30,12 @@ const SunTimer = ({ onPositionChange }: SunTimerProps) => {
   }, [x, y, onPositionChange]);
 
   return (
-    <div
-      className={styles.sun}
-      style={{ transform: `translate(${x}px, ${y}px)` }}
-    ></div>
+    <>
+      <div
+        className={styles.sun}
+        style={{ transform: `translate(${x}px, ${y}px)` }}
+      ></div>
+    </>
   );
 };
 

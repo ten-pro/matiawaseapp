@@ -1,0 +1,8 @@
+  .wrap {
+    box-sizing: border-box;
+    width: 414px;
+    height: 200px;
+    padding: 10px;
+    background-color: #00f2ff;
+  }
+  
