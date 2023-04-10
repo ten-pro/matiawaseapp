@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from "next/image";
 import styles from "@/styles/map/MenuButton.module.css";
 
 const MenuButton: React.FC = () => {
@@ -23,40 +24,54 @@ const MenuButton: React.FC = () => {
 
   // 配列を作成
   const buttonsData = [
-    { id: 1, img: "images/map/visible.svg" },
-    { id: 2, img: "images/map/invisible.svg" },
-    { id: 3, img: "images/map/schedule.svg" },
-    { id: 4, img: "images/map/chat.svg" },
-    { id: 5, img: "images/map/create.svg" },
-    { id: 6, img: "images/map/friend.svg" },
-    { id: 7, img: "images/map/profile.svg" },
-    { id: 8, img: "images/map/close.svg" },
-    { id: 9, img: "images/map/arrival.svg" },
+    { id: 1, img: "/images/map/invisible.svg" },
+    { id: 2, img: "/images/map/chat.svg" },
+    { id: 3, img: "/images/map/profile.svg" },
+    { id: 4, img: "/images/map/close.svg" },
+    { id: 5, img: "/images/map/friend.svg" },
+    { id: 6, img: "/images/map/schedule.svg" },
+    // { id: 7, img: "/images/map/close.svg" },
+    // { id: 8, img: "/images/map/arrival.svg" },
   ];
 
   return (
     <div className={styles.menuButtonContainer}>
-      <button className={`${styles.button} ${mainButtonStyle}`} onClick={toggleMenu} />
+      <Image 
+        src="images/map/menu.svg"
+        alt=""
+        width={50}
+        height={50}
+        className={`${styles.button} ${mainButtonStyle}`} 
+        onClick={toggleMenu} 
+      />
       <div className={`${styles.menuContainer} ${menuStyle}`}>
         {/* 6つの周りのボタン */}
         {buttonsData.map((buttonData, i) => (
-          <button
+          <Image
             key={buttonData.id}
+            src={buttonData.img}
+            width={50}
+            height={50}
+            alt=""
             className={`${styles.button} ${styles.menuItem} ${
               isOpen ? (isClosing ? styles.menuItemClosing : styles.menuItemOpening) : ""
             }`}
             style={{
-              width: i === 3 ? "35px" : "50px",
-              height: i === 3 ? "35px" : "50px",
+              width: i === 3 ? "40px" : "65px",
+              height: i === 3 ? "40px" : "65px",
               "--rotate": `${60 * i}deg`
             } as React.CSSProperties}
             onClick={i === 3 ? toggleMenu : undefined}
           />
         ))}
         {/* 中心のボタン */}
-        <button
+        <Image
+          src="images/map/create.svg"
+          alt=""
+          width={50}
+          height={50}
           className={`${styles.button} ${styles.menuItem}`}
-          style={{ width: "50px", height: "50px", transform: "translate(-50%, -50%)" }}
+          style={{ width: "65px", height: "65px", transform: "translate(-50%, -50%)" }}
         />
       </div>
     </div>

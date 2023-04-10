@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "@/styles/Header.module.css";
+import styles from "@/styles/Header/NowTime.module.css";
 
 type NowTimeProps = {
   onTimeChange: (time: string) => void;
