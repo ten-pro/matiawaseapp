@@ -1,0 +1,7 @@
+CREATE TABLE user_tbl(
+    user_id         INT             AUTO_INCREMENT  ,
+    user_pass       VARCHAR(30)     NOT NULL        ,
+    user_name       VARCHAR(30)     NOT NULL        ,
+    user_mail       VARCHAR(50)     NOT NULL        ,
+    PRIMARY KEY     (user_id)
+);
