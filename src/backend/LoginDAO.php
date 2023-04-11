@@ -1,4 +1,6 @@
 <?php
+require_once './ScheduleDAO.php';
+require_once './AppointmentDAO.php';
 class Login
 {
     function get_pdo()
@@ -29,7 +31,7 @@ class Login
                 $id = $pdo->lastInsertId();
                 $data = $id ? $id : false;
             } else {
-                $data = array("login"=>false,"result"=>"duplication");
+                $data = array("login" => false, "result" => "duplication");
             }
         } catch (PDOException $e) {
             // エラーメッセージを出力する
@@ -54,9 +56,15 @@ class Login
             if ($user) {
                 // パスワードの照合
                 if (password_verify($pass, $user['user_pass'])) {
-
+                    $class1 = new Appointment();
+                    $class2 = new Schedule();
+                    $data = array(
+                        'user_information' => $this->user_information($_POST['user_id']),
+                        'appointmentlist' => $class1->get_appointmentlist($_POST['user_id']),
+                        'get_schedulelist' => $class2->get_schedulelist($_POST['user_id'])
+                    );
                     // ユーザー情報を返す
-                    return $user;
+                    return $data;
                 }
             }
 
@@ -67,5 +75,33 @@ class Login
             $data = $e->getMessage();
             return $data;
         }
+    }
+
+    function user_information($user_id)
+    {
+        try {
+            $pdo = $this->get_pdo();
+
+            // ユーザー名に一致するユーザーを取得する
+            $sql = "SELECT * FROM user_tbl WHERE user_id = ?";
+            $ps = $pdo->prepare($sql);
+            $ps->bindValue(1, $user_id, PDO::PARAM_INT);
+            $ps->execute();
+            $search = $ps->fetchAll();
+            // データの整形
+            $data = array();
+            foreach ($search as $row) {
+                $data = array(
+                    'user_id' => $row['user_id'],
+                    'user_name' => $row['user_name'],
+                    'user_mail' => $row['user_mail']
+                );
+            }
+        } catch (PDOException $e) {
+            // エラーメッセージを出力する
+            $data = $e->getMessage();
+            return $data;
+        }
+        return $data;
     }
 }
