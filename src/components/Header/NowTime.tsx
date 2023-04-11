@@ -26,7 +26,13 @@ const NowTime = ({ onTimeChange }: NowTimeProps) => {
     };
   }, [onTimeChange]);
 
-  return <div className={styles.NowTime}>{currentTime}</div>;
+  return (
+    <div className={styles.wrap}>
+      <div className={styles.NowTime}>
+        {currentTime}
+      </div>
+    </div>
+  );
 };
 
 export default NowTime;
