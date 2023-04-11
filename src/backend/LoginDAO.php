@@ -51,17 +51,17 @@ class Login
             $ps = $pdo->prepare($sql);
             $ps->bindValue(1, $name, PDO::PARAM_STR);
             $ps->execute();
-            $user = $ps->fetch(PDO::FETCH_ASSOC);
+            $search = $ps->fetchAll();
 
-            if ($user) {
+            foreach ($search as $row) {
                 // パスワードの照合
-                if (password_verify($pass, $user['user_pass'])) {
+                if (password_verify($pass, $row['user_pass'])) {
                     $class1 = new Appointment();
                     $class2 = new Schedule();
                     $data = array(
-                        'user_information' => $this->user_information($_POST['user_id']),
-                        'appointmentlist' => $class1->get_appointmentlist($_POST['user_id']),
-                        'get_schedulelist' => $class2->get_schedulelist($_POST['user_id'])
+                        'user_information' => $this->user_information($row['user_id']),
+                        'appointmentlist' => $class1->get_appointmentlist($row['user_id']),
+                        'get_schedulelist' => $class2->get_schedulelist($row['user_id'])
                     );
                     // ユーザー情報を返す
                     return $data;

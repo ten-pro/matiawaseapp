@@ -88,7 +88,7 @@ class Schedule
                         "schedule_status" => $row2["schedule_status"]
                     );
                 }
-                
+
             }
         } catch (PDOException $e) {
             $data = $e;
@@ -97,4 +97,6 @@ class Schedule
         }
         return $data;
     }
+
+
 }

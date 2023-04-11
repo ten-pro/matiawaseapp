@@ -66,11 +66,20 @@ class Appointment
         try {
             $pdo = $this->get_pdo();
 
-            $sql = "UPDATE appointment_tbl SET emoticon_id = ? WHERE appointment_id = ?;";
+            $sql = "SELECT * FROM appointment_tbl WHERE appointment_id = ?;";
             $ps = $pdo->prepare($sql);
-            $ps->bindValue(1, $emoticon_id, PDO::PARAM_INT);
-            $ps->bindValue(2, $appointment_id, PDO::PARAM_INT);
+            $ps->bindValue(1, $appointment_id, PDO::PARAM_INT);
             $ps->execute();
+            $search = $ps->fetchAll();
+            foreach ($search as $row1) {
+                if ($row1['appointment_status'] == '未到着') {
+                    $sql = "UPDATE schedule_tbl SET emoticon_id = ? WHERE schedule_id = ?;";
+                    $ps = $pdo->prepare($sql);
+                    $ps->bindValue(1, $emoticon_id, PDO::PARAM_INT);
+                    $ps->bindValue(2, $row1['schedule_id'], PDO::PARAM_INT);
+                    $ps->execute();
+                }
+            }
 
             $data = true;
         } catch (PDOException $e) {
@@ -87,11 +96,20 @@ class Appointment
         try {
             $pdo = $this->get_pdo();
 
-            $sql = "UPDATE appointment_tbl SET comment_id = ? WHERE appointment_id = ?;";
+            $sql = "SELECT * FROM appointment_tbl WHERE appointment_id = ?;";
             $ps = $pdo->prepare($sql);
-            $ps->bindValue(1, $comment_id, PDO::PARAM_INT);
-            $ps->bindValue(2, $appointment_id, PDO::PARAM_INT);
+            $ps->bindValue(1, $appointment_id, PDO::PARAM_INT);
             $ps->execute();
+            $search = $ps->fetchAll();
+            foreach ($search as $row1) {
+                if ($row1['appointment_status'] == '未到着') {
+                    $sql = "UPDATE schedule_tbl SET comment_id = ? WHERE schedule_id = ?;";
+                    $ps = $pdo->prepare($sql);
+                    $ps->bindValue(1, $comment_id, PDO::PARAM_INT);
+                    $ps->bindValue(2, $row1['schedule_id'], PDO::PARAM_INT);
+                    $ps->execute();
+                }
+            }
 
             $data = true;
         } catch (PDOException $e) {
