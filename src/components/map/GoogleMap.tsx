@@ -57,6 +57,12 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
   };
 
   useEffect(() => {
+    if (document.querySelector('script[src^="https://maps.googleapis.com/maps/api/js?key="]')) {
+      window.initMap = initMap;
+      return;
+    }
+
+    // 以下は既存のコード
     window.initMap = initMap;
 
     const script = document.createElement("script");
