@@ -1,16 +1,15 @@
 import Styles from "@/styles/Frend.module.css";
 import { useState } from "react";
-const tuika = () =>{
+const tuika = (props:any) =>{
 
-  const[clicked,setClicked] = useState(true);
-
-  const handclick = () =>{
-    setClicked(false);
+  const handleclick = () =>{
+    props.hidediv();
   }
+
   
   return(
     <div className={Styles.tuika_area}>
-      <button className={Styles.tuika_btn} onClick={handclick}>追加</button>
+      <button className={Styles.tuika_btn} onClick={handleclick}>追加</button>
     </div>
   )
 }

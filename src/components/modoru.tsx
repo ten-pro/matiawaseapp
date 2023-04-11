@@ -1,7 +1,12 @@
 import styles from "@/styles/Mypage.module.css";
 const modoru = () =>{
+
+  const modoruclick = () =>{
+    window.history.back();
+  }
+
   return(
-    <div>
+    <div onClick={modoruclick}>
       <div className={styles.circle}>
         <p className={styles.p}>←</p>
       </div>

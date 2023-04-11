@@ -1,6 +1,6 @@
 import Styles from "@/styles/Sakusei.module.css";
 
-const sakusei = () =>{
+const sakuseibtn = () =>{
   
   return(
     <div className={Styles.btn_area}>
@@ -8,4 +8,4 @@ const sakusei = () =>{
     </div>
   )
 }
-export default sakusei;
+export default sakuseibtn;

@@ -1,6 +1,6 @@
 import Styles from "@/styles/Mypage.module.css";
 import Header from "@/components/Header";
-import Modoru from "@/components/mypage/modoru";
+import Modoru from "@/components/modoru";
 import Top from "@/components/Top";
 import Btn from "@/components/mypage/btn";
 import Mypage_input from "@/components/mypage/mypage_input"

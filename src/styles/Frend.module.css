@@ -34,11 +34,7 @@
   font-weight: bold;
   color: #FF8282;
 }
-.tuika_area{
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-}
+
 .tuika_btn{
   background-color: white;
   border:2px solid #FF8282;
@@ -53,4 +49,14 @@
   position: fixed;
   bottom:130px;
   left: 140px;
+}
+.input{
+  border: none;
+  border-bottom: 1px solid #FF8282;
+  width: 280px;
+  font-size: 20px;
+  margin-top: 90px;
+}
+.freinput_area{
+  text-align: center;
 }

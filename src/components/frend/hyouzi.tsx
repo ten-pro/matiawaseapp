@@ -5,8 +5,6 @@ import React from "react";
 
 function hyouzi(){
 
-  const[hyou,sethyouzi] = useState<string>("");
-
   const name = [
     {name:"上田"},
     {name:"上田"},
