@@ -20,7 +20,7 @@ class Schedule
             $ps->bindValue(3, $schedule_lng, PDO::PARAM_STR);
             $ps->bindValue(4, $schedule_time, PDO::PARAM_STR);
             $ps->bindValue(5, $icon_id, PDO::PARAM_INT);
-            $ps->bindValue(6, 0, PDO::PARAM_INT);
+            $ps->bindValue(6, '未完了', PDO::PARAM_STR);
             $ps->execute();
             $schedule_id = $pdo->lastInsertId();
 
@@ -63,7 +63,7 @@ class Schedule
     {
         try {
             $pdo = $this->get_pdo();
-            $sql = "SELECT schedule_id FROM `appointment_tbl` WHERE user_id = ?";
+            $sql = "SELECT schedule_id FROM `appointment_tbl` WHERE user_id = ?;";
             $ps = $pdo->prepare($sql);
             $ps->bindValue(1, $user_id, PDO::PARAM_INT);
             $ps->execute();
@@ -71,7 +71,7 @@ class Schedule
             $data = array();
 
             foreach ($search as $row1) {
-                $sql2 = "SELECT * FROM `schedule_tbl` WHERE schedule_id = ?";
+                $sql2 = "SELECT * FROM `schedule_tbl` WHERE schedule_id = ? AND schedule_status = '未完了';";
                 $ps2 = $pdo->prepare($sql2);
                 $ps2->bindValue(1, $row1['schedule_id'], PDO::PARAM_INT);
                 $ps2->execute();
@@ -84,6 +84,8 @@ class Schedule
                         "schedule_name" => $row2["schedule_name"],
                         "schedule_lat" => $row2["schedule_lat"],
                         "schedule_lng" => $row2["schedule_lng"],
+                        "emoticon_id" => $row2["emoticon_id"],
+                        "comment_id" => $row2["comment_id"],
                         "schedule_time" => $row2["schedule_time"],
                         "schedule_status" => $row2["schedule_status"]
                     );

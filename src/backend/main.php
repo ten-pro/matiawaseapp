@@ -90,13 +90,19 @@ if (isset($_POST['update_currentlocation']) == true) {
 //update_emoticonの引数がある時の処理
 if (isset($_POST['update_emoticon']) == true) {
     $class = new Appointment();
-    $data = $class->create_appointment($_POST['appointment_id'], $_POST['emoticon_id']);
+    $data = $class->update_emoticon($_POST['appointment_id'], $_POST['emoticon_id']);
 }
 
 //update_commentの引数がある時の処理
 if (isset($_POST['update_comment']) == true) {
     $class = new Appointment();
     $data = $class->update_comment($_POST['appointment_id'], $_POST['comment_id']);
+}
+
+//arrival_updateの引数がある時の処理
+if (isset($_POST['arrival_update']) == true) {
+    $class = new Appointment();
+    $data = $class->arrival_update($_POST['appointment_id'], $_POST['schedule_id']);
 }
 
 
