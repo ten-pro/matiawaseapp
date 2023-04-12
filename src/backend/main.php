@@ -99,12 +99,17 @@ if (isset($_POST['update_comment']) == true) {
     $data = $class->update_comment($_POST['appointment_id'], $_POST['comment_id']);
 }
 
-//arrival_updateの引数がある時の処理
-if (isset($_POST['arrival_update']) == true) {
+//update_arrivalの引数がある時の処理
+if (isset($_POST['update_arrival']) == true) {
     $class = new Appointment();
-    $data = $class->arrival_update($_POST['appointment_id'], $_POST['schedule_id']);
+    $data = $class->update_arrival($_POST['appointment_id'], $_POST['schedule_id']);
 }
 
+//update_userの引数がある時の処理
+if (isset($_POST['update_user']) == true) {
+    $class = new Login();
+    $data = $class->update_user($_POST['user_id'], $_POST['pass'], $_POST['newname'], $_POST['newpass'], $_POST['newmail']);
+}
 
 //取得系処理
 

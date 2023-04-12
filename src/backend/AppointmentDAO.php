@@ -128,7 +128,7 @@ class Appointment
     }
 
 
-    function arrival_update($appointment_id, $schedule_id)
+    function update_arrival($appointment_id, $schedule_id)
     {
         try {
             $pdo = $this->get_pdo();
