@@ -5,13 +5,14 @@ import SunTimer from "@/components/Header/SunTimer";
 import CountDown from "./Header/CountDown";
 import Image from "next/image";
 import { useAtom } from 'jotai';
-import { nowBgimg, nowTime, maxTime } from '@/atom/bgimg';
+import { nowBgimg, nowTime, maxTime, timeOut } from '@/atom/bgimg';
 
 const Header = () => {
 
   const [timer] = useAtom(nowTime);
   const [max, setMax] = useAtom(maxTime);
   const [bgimg, setBgimg] = useAtom(nowBgimg);
+  const [out] = useAtom(timeOut);
 
   const images = [
     "/images/Header/sougen.svg",
@@ -36,12 +37,12 @@ const Header = () => {
 
   useEffect(() => {
     console.log(timer / max)
-    if(timer / max > 0.3){
+    if(out){
+      setBgimg(2);
+    }else if(timer / max > 0.3){
       setBgimg(0);
     }else if(timer / max > 0){
       setBgimg(1);
-    }else{
-      setBgimg(2);
     }
   }, [timer]);
 

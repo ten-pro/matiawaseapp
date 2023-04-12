@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Header/SunTimer.module.css";
 import Image from "next/image";
 import { useAtom } from 'jotai';
-import { maxTime, nowTime } from '@/atom/bgimg';
+import { maxTime, nowTime, timeOut } from '@/atom/bgimg';
 
 type SunTimerProps = {
   onPositionChange?: (x: number, y: number) => void;
@@ -11,8 +11,10 @@ type SunTimerProps = {
 const SunTimer: React.FC<SunTimerProps> = ({ onPositionChange }) => {
   const [timer, setTimer] = useAtom(nowTime);
   const [max] = useAtom(maxTime);
+  const [out, setOut] = useAtom(timeOut);
 
   useEffect(() => {
+    setOut(false);
     const updateTimer = () => {
       setTimer((prevTimer) => (prevTimer - 1));
     };
@@ -27,7 +29,8 @@ const SunTimer: React.FC<SunTimerProps> = ({ onPositionChange }) => {
   useEffect(() => {
     console.log(timer)
     if(timer=== 0){
-      
+      setTimer(max);
+      setOut(true);
     }
   }, [timer]);
 
