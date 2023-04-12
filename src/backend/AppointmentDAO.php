@@ -31,9 +31,9 @@ class Appointment
             }
             $data = true;
         } catch (PDOException $e) {
-            $data = $e;
+            $data = $e->getMessage();
         } catch (Error $e) {
-            $data = $e;
+            $data = $e->getMessage();
         }
         return $data;
     }
@@ -194,9 +194,9 @@ class Appointment
                 );
             }
         } catch (PDOException $e) {
-            $data = $e;
+            $data = $e->getMessage();
         } catch (Error $e) {
-            $data = $e;
+            $data = $e->getMessage();
         }
         return $data;
     }

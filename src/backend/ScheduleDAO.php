@@ -28,9 +28,9 @@ class Schedule
             $class = new Appointment();
             $data = $class->create_appointment($schedule_id, $user_ids);
         } catch (PDOException $e) {
-            $data = $e;
+            $data = $e->getMessage();
         } catch (Error $e) {
-            $data = $e;
+            $data = $e->getMessage();
         }
         return $data;
     }
@@ -51,9 +51,9 @@ class Schedule
             $ps->execute();
             $data = true;
         } catch (PDOException $e) {
-            $data = $e;
+            $data = $e->getMessage();
         } catch (Error $e) {
-            $data = $e;
+            $data = $e->getMessage();
         }
         return $data;
     }
@@ -93,9 +93,9 @@ class Schedule
 
             }
         } catch (PDOException $e) {
-            $data = $e;
+            $data = $e->getMessage();
         } catch (Error $e) {
-            $data = $e;
+            $data = $e->getMessage();
         }
         return $data;
     }

@@ -17,9 +17,9 @@ class Emoticon
             $ps->execute();
             $data = true;
         } catch (Exception $e) {
-            $data = $e;
+            $data = $e->getMessage();
         } catch (Error $e) {
-            $data = $e;
+            $data = $e->getMessage();
         }
         return $data;
     }

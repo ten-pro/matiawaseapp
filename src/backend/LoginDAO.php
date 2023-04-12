@@ -1,6 +1,10 @@
 <?php
+
+use JetBrains\PhpStorm\Internal\ReturnTypeContract;
+
 require_once './ScheduleDAO.php';
 require_once './AppointmentDAO.php';
+require_once './FriendDAO.php';
 class Login
 {
     function get_pdo()
@@ -29,14 +33,21 @@ class Login
                 $ps->bindValue(3, $mail, PDO::PARAM_STR);
                 $ps->execute();
                 $id = $pdo->lastInsertId();
-                $data = $id ? $id : false;
+                $class1 = new Appointment();
+                $class2 = new Schedule();
+                $class3 = new Friend();
+                return $data = array(
+                    'login' => array('create_acount' => true),
+                    'user_information' => $this->user_information($id),
+                    'appointmentlist' => $class1->get_appointmentlist($id),
+                    'get_schedulelist' => $class2->get_schedulelist($id),
+                    'get_friendlist' => $class3->get_friendlist($id)
+                );
             } else {
-                $data = array("login" => false, "result" => "duplication");
+                $data = array("create_acount" => false, "result" => "duplication");
             }
         } catch (PDOException $e) {
-            // エラーメッセージを出力する
-            echo 'データベースエラー：' . $e->getMessage();
-            $data = false;
+            $data = $e->getMessage();
         }
         return $data;
     }
@@ -52,28 +63,33 @@ class Login
             $ps->bindValue(1, $name, PDO::PARAM_STR);
             $ps->execute();
             $search = $ps->fetchAll();
+            if($search == null)
+            return array('login' => array('login' => false, 'result' => 'name mismatch'));
 
             foreach ($search as $row) {
                 // パスワードの照合
                 if (password_verify($pass, $row['user_pass'])) {
                     $class1 = new Appointment();
                     $class2 = new Schedule();
+                    $class3 = new Friend();
                     $data = array(
+                        'login' => array('login' => false, 'result' => 'password mismatch'),
                         'user_information' => $this->user_information($row['user_id']),
                         'appointmentlist' => $class1->get_appointmentlist($row['user_id']),
-                        'get_schedulelist' => $class2->get_schedulelist($row['user_id'])
+                        'get_schedulelist' => $class2->get_schedulelist($row['user_id']),
+                        'get_friendlist' => $class3->get_friendlist($row['user_id'])
                     );
                     // ユーザー情報を返す
                     return $data;
+                } else {
+                    return $data = array("login" => false, "result" => "password mismatch");
                 }
             }
 
             // 認証失敗時はfalseを返す
             return false;
         } catch (PDOException $e) {
-            // エラーメッセージを出力する
-            $data = $e->getMessage();
-            return $data;
+            return $e->getMessage();
         }
     }
 
@@ -99,8 +115,7 @@ class Login
             }
         } catch (PDOException $e) {
             // エラーメッセージを出力する
-            $data = $e->getMessage();
-            return $data;
+            return $e->getMessage();
         }
         return $data;
     }
