@@ -1,0 +1,14 @@
+.appName {
+    color: white;
+font-family: sans-serif;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    z-index: 1;
+    font-weight: bold;
+    font-size: 36px;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    white-space: nowrap;
+}
