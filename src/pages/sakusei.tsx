@@ -4,8 +4,18 @@ import Modoru from "@/components/modoru";
 import Btn from "@/components/sakusei/sakuseibtn";
 import Form from "@/components/sakusei/form";
 import Top from "@/components/Top";
+import { useState } from "react";
 
 function sakusei(){
+
+  const [yotei,setyotei] = useState<string>("");
+
+  const [place,setplace] = useState<string>("");
+
+  const [time,settime] = useState<string>("");
+
+  const[icon,seticon] = useState<any>("");
+  
   return(
     <div>
       <Header/>
@@ -13,7 +23,10 @@ function sakusei(){
         <div className={Styles.saku_area}>
           <div className={Styles.input_area}>
             
-            <Form/>
+            <Form setyotei={setyotei}
+            setplace={setplace}
+            settime={settime}
+            seticon={seticon}/>
           </div>
           <Btn/>
         </div>
