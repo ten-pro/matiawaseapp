@@ -72,10 +72,16 @@ if (isset($_POST['create_appointment']) == true) {
 
 //削除系処理
 
-//deleate_friend
+//deleate_friendの引数がある時の処理
 if (isset($_POST['delete_friend']) == true) {
     $class = new Friend();
     $data = $class->delete_friend($_POST['follow_id'], $_POST['user_id']);
+}
+
+//delete_scheduleの引数がある時の処理
+if (isset($_POST['delete_schedule']) == true) {
+    $class = new Schedule();
+    $data = $class->delete_schedule($_POST['user_id'], $_POST['schedule_id']);
 }
 
 

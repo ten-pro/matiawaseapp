@@ -174,6 +174,25 @@ class Appointment
     }
 
 
+    function delete_appointment_id($schedule_id)
+    {
+        try {
+            $pdo = $this->get_pdo();
+
+            $sql = "DELETE FROM appointment_tbl WHERE schedule_id = ?";
+            $ps = $pdo->prepare($sql);
+            $ps->bindValue(1, $schedule_id, PDO::PARAM_INT);
+            $ps->execute();
+            $data = true;
+        } catch (Exception $e) {
+            $data = $e->getMessage();
+        } catch (PDOException $e) {
+            $data = $e->getMessage();
+        }
+        return $data;
+    }
+
+
     function get_appointmentlist($user_id)
     {
         try {

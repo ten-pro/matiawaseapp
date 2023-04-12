@@ -59,6 +59,43 @@ class Schedule
     }
 
 
+    function delete_schedule($user_id, $schedule_id)
+    {
+        try {
+            $pdo = $this->get_pdo();
+
+            //送られたidでscheduleが登録されているかの確認
+            $sql = "SELECT COUNT(*) FROM appointment_tbl WHERE schedule_id = ? AND user_id = ?";
+            $ps = $pdo->prepare($sql);
+            $ps->bindValue(1, $schedule_id, PDO::PARAM_INT);
+            $ps->bindValue(2, $user_id, PDO::PARAM_INT);
+            $ps->execute();
+            $count = $ps->fetchColumn();
+
+            if ($count > 0) {
+
+                
+                $class = new Appointment();
+                $class->delete_appointment_id($schedule_id);
+
+                $sql2 = "DELETE FROM schedule_tbl WHERE schedule_id = ?";
+                $ps = $pdo->prepare($sql2);
+                $ps->bindValue(1, $schedule_id, PDO::PARAM_INT);
+                $ps->execute();
+
+                $data = true;
+            } else {
+                $data = array('delete' => false, 'result' => 'id mismatch');
+            }
+        } catch (Exception $e) {
+            $data = $e->getMessage();
+        } catch (PDOException $e) {
+            $data = $e->getMessage();
+        }
+        return $data;
+    }
+
+
     function get_schedulelist($user_id)
     {
         try {
@@ -90,7 +127,6 @@ class Schedule
                         "schedule_status" => $row2["schedule_status"]
                     );
                 }
-
             }
         } catch (PDOException $e) {
             $data = $e->getMessage();
@@ -99,6 +135,4 @@ class Schedule
         }
         return $data;
     }
-
-
 }
