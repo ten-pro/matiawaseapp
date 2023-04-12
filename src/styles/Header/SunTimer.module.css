@@ -1,0 +1,18 @@
+ .sun {
+    position: absolute;
+    top: 85px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+  }
+  
+  @keyframes moveSun {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(400px, 0);
+    }
+  }
+  
+  

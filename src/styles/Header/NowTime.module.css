@@ -1,0 +1,15 @@
+  .wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:auto;
+    width:230px;
+    height: 60px;
+    background-color: #FF8282;
+    border-radius: 50px;
+  }
+  .NowTime{
+    font-size: 45px;
+    font-weight: bold;
+    color: white;
+  }

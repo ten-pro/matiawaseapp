@@ -34,29 +34,36 @@ const addMarkers = (
   });
 };
 
-//otherLocationは相手の緯度経度
 const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const initMap = (
-      currentPosition?: google.maps.LatLngLiteral,
-      otherPosition?: google.maps.LatLngLiteral
-    ) => {
-      if (mapRef.current) {
-        const map = new google.maps.Map(mapRef.current, {
-          center: currentPosition || otherLocation,
-          zoom: 8,
-        });
+  const initMap = (
+    currentPosition?: google.maps.LatLngLiteral,
+    otherPosition?: google.maps.LatLngLiteral
+  ) => {
+    if (mapRef.current && typeof google !== "undefined") {
+      const map = new google.maps.Map(mapRef.current, {
+        center: currentPosition || otherLocation,
+        zoom: 8,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false
+      });
 
-        if (currentPosition && otherPosition) {
-          addMarkers(map, currentPosition, otherPosition);
-        }
+      if (currentPosition && otherPosition) {
+        addMarkers(map, currentPosition, otherPosition);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
+    if (document.querySelector('script[src^="https://maps.googleapis.com/maps/api/js?key="]')) {
+      window.initMap = initMap;
+      return;
+    }
+
+    // 以下は既存のコード
     window.initMap = initMap;
-    initMap();
 
     const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;

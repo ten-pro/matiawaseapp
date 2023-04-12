@@ -1,0 +1,17 @@
+.container{
+    position:fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:170px;
+    height:170px;
+    top:20%;
+    left:50%;
+    transform: translate(-50%, 50%);
+    background-color: white;
+    border-radius: 50%;
+}
+.svg{
+    width: 150px;
+    height:150px;
+}
