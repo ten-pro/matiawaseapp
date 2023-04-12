@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
-import styled from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Styles from "@/styles/App.module.css";
 import "@/styles/globals.css"
 
-const Wrapper = styled.div.attrs<{ renderScale: number }>((p) => ({
-  style: {
-    transform: `scale(${p.renderScale}) translate(-50%,-50%)`,
-  },
-}))``;
+const GlobalStyle = createGlobalStyle`
+  // ここにグローバルなCSSを記述
+`;
 
 export default function App({ Component, pageProps }: AppProps) {
   const [scale, setScale] = useState(1);
@@ -29,10 +27,13 @@ export default function App({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <div className={Styles.body}>
-      <Wrapper className={Styles.container} {...{ renderScale: scale }}>
-        <Component {...pageProps} />
-      </Wrapper>
-    </div>
+    <ThemeProvider theme={{}}>
+      <GlobalStyle />
+      <div className={Styles.body}>
+        <div className={Styles.container} style={{ transform: `scale(${scale}) translate(-50%,-50%)` }}>
+          <Component {...pageProps} />
+        </div>
+      </div>
+    </ThemeProvider>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "@/styles/Header.module.css";
+import styles from "@/styles/Header/NowTime.module.css";
 
 type NowTimeProps = {
   onTimeChange: (time: string) => void;
@@ -26,7 +26,13 @@ const NowTime = ({ onTimeChange }: NowTimeProps) => {
     };
   }, [onTimeChange]);
 
-  return <div className={styles.NowTime}>{currentTime}</div>;
+  return (
+    <div className={styles.wrap}>
+      <div className={styles.NowTime}>
+        {currentTime}
+      </div>
+    </div>
+  );
 };
 
 export default NowTime;
