@@ -10,7 +10,8 @@ const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: fa
 
 const MapPage = () => {
   const [scale, setScale] = useState(1);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isPlayer, setIsPlayer] = useState(true);
 
   const otherLocation = {
     lat: 35.6895, // 相手の緯度
@@ -39,9 +40,14 @@ const MapPage = () => {
       <div style={{ width: "100%", height: "696px", position:"absolute" }}>
         <GoogleMap apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} otherLocation={otherLocation} />
       </div>
-      {/* <FaceSelect /> */}
       {
-        isVisible ? <CenteredFace /> : ""
+        isVisible ? 
+        ""
+        :
+        isPlayer ?
+        <FaceSelect />
+        :
+        <CenteredFace /> 
       }
       <MenuButton onChat={chat} onSchedule={schedule} onVisible={visible} />
     </div>

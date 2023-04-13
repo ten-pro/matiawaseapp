@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import styles from "@/styles/map/FaceSelect.module.css";
 import Image from "next/image";
+import { useAtom } from 'jotai';
+import { faces } from '@/atom/faceAtom';
 
 const FaceSelect = () => {
-  const [scale, setScale] = useState(1);
+  const [face, setFace] = useAtom(faces);
 
   return (
     <div className={styles.container}>
-        <Image src="images/map/face5.svg" alt="face5" className={styles.svg} width={60} height={60} />
-        <Image src="images/map/face4.svg" alt="face4" className={styles.svg} width={60} height={60} />
-        <Image src="images/map/face3.svg" alt="face3" className={styles.svg} width={60} height={60} />
-        <Image src="images/map/face2.svg" alt="face2" className={styles.svg} width={60} height={60} />
-        <Image src="images/map/face1.svg" alt="face1" className={styles.svg} width={60} height={60} />
+      {face.map((faces, i) => (
+        <Image src={faces.src} alt="face" className={styles.svg} width={60} height={60} />
+      ))}
     </div>
   );
 };

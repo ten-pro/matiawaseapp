@@ -3,7 +3,6 @@ import styles from "@/styles/map/CenteredFace.module.css";
 import Image from "next/image";
 
 const FaceSelect = () => {
-  const [scale, setScale] = useState(1);
 
   return (
     <div className={styles.container}>
