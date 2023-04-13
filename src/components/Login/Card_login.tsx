@@ -8,6 +8,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 
 function Card() {
+
+
   return (
     
     <div className={Styles.div}>
