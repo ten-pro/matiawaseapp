@@ -72,7 +72,7 @@ class Appointment
             $ps->execute();
             $search = $ps->fetchAll();
             foreach ($search as $row1) {
-                if ($row1['appointment_status'] == '未到着') {
+                if ($row1['appointment_status'] == '到着') {
                     $sql = "UPDATE schedule_tbl SET emoticon_id = ? WHERE schedule_id = ?;";
                     $ps = $pdo->prepare($sql);
                     $ps->bindValue(1, $emoticon_id, PDO::PARAM_INT);
@@ -80,7 +80,7 @@ class Appointment
                     $ps->execute();
                     return true;
                 } else {
-                    throw new Exception('到着しているため更新できません');
+                    throw new Exception('未到着のため更新できません');
                 }
             }
 
@@ -106,7 +106,7 @@ class Appointment
             $search = $ps->fetchAll();
 
             foreach ($search as $row1) {
-                if ($row1['appointment_status'] === '到着') {
+                if ($row1['appointment_status'] == '未到着') {
                     $sql = "UPDATE schedule_tbl SET comment_id = ? WHERE schedule_id = ?;";
                     $ps = $pdo->prepare($sql);
                     $ps->bindValue(1, $comment_id, PDO::PARAM_INT);
@@ -114,7 +114,7 @@ class Appointment
                     $ps->execute();
                     return true;
                 } else {
-                    throw new Exception('未到着のため更新できません');
+                    throw new Exception('到着しているため更新できません');
                 }
             }
 
