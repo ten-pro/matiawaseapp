@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import FaceSelect from "@/components/map/FaceSelect";
 import CenteredFace from "@/components/map/CenteredFace";
 import MenuButton from "@/components/map/MenuButton";
+import ScheduleList from "@/components/map/ScheduleList";
 
 const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: false });
 
@@ -40,6 +41,7 @@ const MapPage = () => {
       <div style={{ width: "100%", height: "696px", position:"absolute" }}>
         <GoogleMap apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} otherLocation={otherLocation} />
       </div>
+      <ScheduleList />
       {
         isVisible ? 
         ""
