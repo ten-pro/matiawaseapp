@@ -1,11 +1,13 @@
 import React from "react";
 import { Inter } from 'next/font/google'
 import Styles from '@/styles/Login/BackGround_login.module.css'
-import { transition_Login } from "@/atom/Shinki";
 
 const inter = Inter({ subsets: ['latin'] })
 
 function BackGround() {
+    function transition_Login() {
+        location.href = 'login'
+    }
 return (
 
 <div className={Styles.div}>

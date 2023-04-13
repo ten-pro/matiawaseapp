@@ -6,18 +6,16 @@ import Styles from '@/styles/Login/Card_login.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export function pink(event: React.MouseEvent<HTMLInputElement, MouseEvent>) {
-  const target = event.target as HTMLInputElement;
-  target.classList.add(Styles.namePink);
-}
 
 function Card() {
+
+
   return (
     
     <div className={Styles.div}>
         <div className={Styles.card}>
             <div className={Styles.title}>ログインしてください</div>
-            <input className={Styles.name} placeholder="ユーザー名" onClick={ pink }></input>
+            <input className={Styles.name} placeholder="ユーザー名"></input>
             <input className={Styles.pass} placeholder="パスワード"></input>
             <div className={Styles.forgotPass}>パスワードを忘れましたか？</div>
             <button className={Styles.button}>ログイン</button>
