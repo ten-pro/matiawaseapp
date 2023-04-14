@@ -6,8 +6,11 @@ import Top from "@/components/Top";
 import Hyouzi from "@/components/frend/hyouzi";
 import Frendinput from "@/components/frend/frendinput";
 import Kakuteibtn from "@/components/frend/kakuteibtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
+import { error } from "console";
+import { frendlisttype,Name } from "./kanako";
+import axios from "axios";
 
 function frend(){
 
@@ -21,7 +24,52 @@ function frend(){
     settuikabtn(true);
   }
 
-  const [frendinput,setfrendinput] = useState<string>("");
+  const[allfrenddata,setallfrenddata] = useState<frendlisttype>({
+    friend_id:0,
+    friend_name:''
+  });
+
+
+  const [frendname, setFrendname] = useState<Name[]>([
+    { name: '上田' },
+    { name: '上田' },
+    { name: '上田' },
+    { name: '宮川' },
+    { name: '明石' },
+  ]);
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          'http://mp-class.chips.jp/matiawase/main.php',
+          {
+            login_user: '',
+            name: '',
+            pass: '',
+          },
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        if (response.data === false) {
+          // userData.error1 = true;
+        } else {
+          sessionStorage.setItem('id', response.data.user_information.user_id);
+          location.href;
+        }
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
 
   return(
     <div>
@@ -31,11 +79,11 @@ function frend(){
         <p className={Styles.line1}>フレンド</p>
         <div className={Styles.hyouzi}>
           <div style={{display:inputdiv?'block':'none'}}>
-            <Hyouzi />
+            <Hyouzi names={frendname}/>
           </div>
           
           <div className={Styles.freinput_area} style={{display:inputdiv?'none':'block'}}>
-          <Frendinput setfrendinput={setfrendinput}/>
+          <Frendinput />
           </div>
         </div>
         
