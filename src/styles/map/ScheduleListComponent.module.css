@@ -1,14 +1,11 @@
 .whiteBack {
-    position: absolute;
     width: 350px;
     height: 580px;
+    margin: auto;
+    margin-top:50px;
     border: 3px solid #ff8282;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: -650px 0 0 0;
     border-radius: 20px;
     background-color: white;
-    opacity: 0.7;
     position: relative;
 }
 .whiteBack::-webkit-scrollbar {
@@ -16,19 +13,19 @@
 }
 .close {
     position: absolute;
-    bottom: 27px;
+    opacity: 1;
+    bottom: 0px;
+    left:50%;
+    transform: translate(-50%, 50%);
     font-size: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
     color: white;
     background-color: #ff8282;
     border-radius: 50px;
-    height: 60px;
-    width: 60px;
+    height: 40px;
+    width: 40px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .title {
     color: rgba(255, 130, 130, 1.0);
@@ -43,15 +40,15 @@
 }
 .icon {
     width: 50px;
-    margin-left: 15px;
-    top: 50%;
+    left:10px;
+    top: 40px;
     transform: translateY(-50%);
     position: absolute;
 }
 .border {
-margin: 90px auto 0 auto;
-overflow: scroll;
-height: 450px;
+    margin: 90px auto 0 auto;
+    overflow: scroll;
+    height: 450px;
 }
 .contents {
     border: 3px solid #ff8282;
@@ -70,12 +67,14 @@ height: 450px;
     right: 30px;
 }
 .date {
-    font-size: 24px;
+    opacity: 1;
+    font-size: 20px;
     color: #ff8282;
     font-weight: bold;
 }
 .plan {
+    opacity: 1;
     color: #ff8282;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
 }
