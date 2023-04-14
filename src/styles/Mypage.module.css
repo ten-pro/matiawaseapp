@@ -63,5 +63,15 @@
   height: 56px;
   font-size: 32px;
 }
+.input_area{
+  text-align: center;
+}
+.input1{
+  border: none;
+  border-bottom: 1px solid #FF8282;
+  width: 280px;
+  font-size: 20px;
+  margin-top: 80px;
+}
 
 

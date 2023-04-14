@@ -34,22 +34,10 @@ function frend(){
     { name: '上田' },
     { name: '上田' },
     { name: '上田' },
-    { name: '上田' },
-    { name: '上田' },
-    { name: '上田' },
     { name: '宮川' },
     { name: '明石' },
   ]);
 
-  // "get_friendlist": [
-  //   {
-  //       "friend_id": 2,
-  //       "friend_name": "山田次郎"
-  //   },
-  //   {
-  //       "friend_id": 3,
-  //       "friend_name": "山田三郎"
-  //   }
 
 
   useEffect(() => {
@@ -71,7 +59,7 @@ function frend(){
         if (response.data === false) {
           // userData.error1 = true;
         } else {
-          sessionStorage.setItem('id', response.data);
+          sessionStorage.setItem('id', response.data.user_information.user_id);
           location.href;
         }
         console.log(response);
@@ -90,7 +78,6 @@ function frend(){
       <div className={Styles.frend_area}>
         <p className={Styles.line1}>フレンド</p>
         <div className={Styles.hyouzi}>
-          {allfrenddata.friend_name}
           <div style={{display:inputdiv?'block':'none'}}>
             <Hyouzi names={frendname}/>
           </div>
