@@ -6,32 +6,22 @@ interface MenuButtonProps {
   onChat: () => void;
   onSchedule: () => void;
   onVisible: ()=> void;
+  onToggleMenu: () => void;
+  onIsOpen: boolean;
+  onIsClosing: boolean;
 }
 
-const MenuButton: React.FC<MenuButtonProps> = ({ onVisible, onChat, onSchedule }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
-  const animationDuration = 500;
+const MenuButton: React.FC<MenuButtonProps> = ({ onVisible, onChat, onSchedule,onToggleMenu, onIsOpen, onIsClosing }) => {
 
-  const toggleMenu = () => {
-    if (isOpen) {
-      setIsClosing(true);
-      setTimeout(() => {
-        setIsOpen(false);
-        setIsClosing(false);
-      }, animationDuration);
-    } else {
-      setIsOpen(true);
-    }
-  };
+  
 
   const URL = (event: React.MouseEvent, url: string) => {
     location.href=url;
   };
 
-  const mainButtonStyle = isOpen ? styles.hidden : styles.mainButton;
-  const menuStyle = isOpen ? styles.menu : styles.hidden;
-  const backgroundgray = isOpen ? styles.backgroundgray : styles.opacity;
+  const mainButtonStyle = onIsOpen ? styles.hidden : styles.mainButton;
+  const menuStyle = onIsOpen ? styles.menu : styles.hidden;
+  const backgroundgray = onIsOpen ? styles.backgroundgray : styles.opacity;
 
   // 配列を作成
   const buttonsData = [
@@ -54,7 +44,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({ onVisible, onChat, onSchedule }
           width={50}
           height={50}
           className={`${styles.button} ${mainButtonStyle}`} 
-          onClick={toggleMenu} 
+          onClick={onToggleMenu} 
         />
         <div className={`${styles.menuContainer} ${menuStyle}`}>
           {/* 6つの周りのボタン */}
@@ -66,7 +56,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({ onVisible, onChat, onSchedule }
               height={50}
               alt=""
               className={`${styles.button} ${styles.menuItem} ${
-                isOpen ? (isClosing ? styles.menuItemClosing : styles.menuItemOpening) : ""
+                onIsOpen ? (onIsClosing ? styles.menuItemClosing : styles.menuItemOpening) : ""
               }`}
               style={{
                 width: i === 3 ? "40px" : "65px",
@@ -75,7 +65,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({ onVisible, onChat, onSchedule }
               } as React.CSSProperties}
               onClick={
                 buttonData.id === 4
-                  ? toggleMenu
+                  ? onToggleMenu
                   : buttonData.id === 3 || buttonData.id === 5
                   ? (event) => URL(event, buttonData.url)
                   : buttonData.id === 1

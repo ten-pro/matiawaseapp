@@ -2,5 +2,7 @@
     position:absolute;
     left:50%;
     transform: translate(-50%, -50%);
-    top:100px;
+    top:450px;
+    width:200px;
+    z-index: 10;
   }

@@ -13,6 +13,7 @@ const Header = () => {
   const [max, setMax] = useAtom(maxTime);
   const [bgimg, setBgimg] = useAtom(nowBgimg);
   const [out] = useAtom(timeOut);
+  const [CountDownTime, setCountDownTime] = useState<string>("00:01:30.00");
 
   const images = [
     "/images/Header/sougen.svg",
@@ -51,7 +52,7 @@ const Header = () => {
       <Image src={images[bgimg]} className={styles.bgimg} alt="背景" width={50} height={50} priority/>
       <NowTime onTimeChange={handleTimeChange} />
       <SunTimer onPositionChange={handlePositionChange} />
-      <CountDown initialTime="01:30:00.00" />
+      <CountDown initialTime={CountDownTime} />
     </div>
   );
 };

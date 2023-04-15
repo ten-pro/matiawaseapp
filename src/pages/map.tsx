@@ -24,6 +24,9 @@ const MapPage = () => {
   const [isMenu, setIsMenu] = useState(true);
   const [isScheduleList, setIsScheduleList] = useState(false);
   const [isArrival, setIsArrival] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const animationDuration = 500;
 
   const [schedules,setSchedules] = useState<schedules[]>([
     { date: '2023/12/31 12:34', plan: '旅行' },
@@ -44,6 +47,18 @@ const MapPage = () => {
     //TODO : 到着ボタンの表示非表示条件を追加する
     setIsVisible(isArrival)
   }, [isMenu])
+
+  const toggleMenu = () => {
+    if (isOpen) {
+      setIsClosing(true);
+      setTimeout(() => {
+        setIsOpen(false);
+        setIsClosing(false);
+      }, animationDuration);
+    } else {
+      setIsOpen(true);
+    }
+  };
 
   const visible = () => {
     // chat関数の処理
@@ -109,14 +124,14 @@ const MapPage = () => {
         <CenteredFace /> 
       }
       {
-        isMenu ?
+        isOpen ?
         <ArrivalButton onArrival={arrival}/>
         :
         ""
       }
       {
         isMenu ?
-        <MenuButton onChat={chat} onSchedule={schedule} onVisible={visible} />
+        <MenuButton onToggleMenu={toggleMenu} onIsOpen={isOpen} onIsClosing={isClosing} onChat={chat} onSchedule={schedule} onVisible={visible} />
         :
         ""
       }
