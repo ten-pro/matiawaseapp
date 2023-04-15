@@ -29,7 +29,20 @@ const try_login = async () => {
     if(response.data.login === true) {
       localStorage.setItem('user_id', response.data.user_information.user_id)
       seterror(false)
-      console.log(localStorage.getItem('user_id'))
+      if(response.data.get_friendlist !== null){
+        const FrinedList_id = []
+        const FrinedList_name= []
+      for(let i = 0; i < response.data.get_friendlist.length; i++){
+        FrinedList_id.push(response.data.get_friendlist[i].friend_id)
+        FrinedList_name.push(response.data.get_friendlist[i].friend_name)
+      }
+      localStorage.setItem('friend_name', JSON.stringify(FrinedList_name))
+      localStorage.setItem('friendList_id', JSON.stringify(FrinedList_id))
+      console.log(FrinedList_name)
+      console.log(FrinedList_id)
+    }
+      // location.href = '/map'
+      // console.log(localStorage.getItem('user_id'))
     } else {
       seterror(true)
       // console.log(response.data.login)

@@ -32,6 +32,7 @@ function Card() {
           localStorage.setItem('user_id', response.data.user_information.user_id)
           // console.log(localStorage.getItem('user_id'))
           seterror(false)
+          location.href = '/map'
         } else {
           seterror(true)
           // console.log(response.data)

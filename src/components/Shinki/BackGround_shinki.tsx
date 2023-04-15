@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 function BackGround() {
     function transition_Login() {
-        location.href = 'login'
+        location.href = '/login'
     }
 return (
 

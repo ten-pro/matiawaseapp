@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 function BackGround() {
     function transition_Shinki() {
-        location.href = 'shinki'
+        location.href = '/shinki'
     }
 return (
 
