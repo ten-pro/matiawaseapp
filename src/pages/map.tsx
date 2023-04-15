@@ -9,6 +9,8 @@ import ScheduleListComponent from "@/components/map/ScheduleListComponent";
 import Chat from "@/components/map/Chat";
 import ArrivalButton from "@/components/map/ArrivalButton";
 import axios from "axios";
+import { useAtom } from "jotai";
+import { faces } from "@/atom/faceAtom";
 
 const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: false });
 
@@ -18,9 +20,10 @@ interface schedules {
 }
 
 const MapPage = () => {
-  const [scale, setScale] = useState(1);
+  const [facesArray] = useAtom(faces);
+  const [nowFace, setNowFace] = useState("images/map/face5.svg");
   const [isVisible, setIsVisible] = useState(false);
-  const [isPlayer, setIsPlayer] = useState(true);
+  const [isPlayer, setIsPlayer] = useState(false);
   const [isChat, setIsChat] = useState(false);
   const [isMenu, setIsMenu] = useState(true);
   const [isScheduleList, setIsScheduleList] = useState(false);
@@ -44,6 +47,22 @@ const MapPage = () => {
     lng: 139.6917, // 相手の経度
   };
   
+  useEffect(() => {
+    axios
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
+        get_user:'',
+        user_id:'7',
+      }, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+      })
+      .then(function(res){
+        console.log(res.data.get_schedulelist[0].emoticon_id);
+        setNowFace(facesArray[res.data.get_schedulelist[0].emoticon_id-1].src);
+      })
+  }, [])
+
   useEffect(() => {
     //TODO : 到着ボタンの表示非表示条件を追加する
     setIsVisible(isArrival)
@@ -91,9 +110,9 @@ const MapPage = () => {
     // arrival関数の処理
     // apiを叩いて到着したことを伝える
     axios
-      .post('http://mp-class.chips.jp/group_task/main.php', {
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_arrival:'',
-        appointment_id:'25',
+        appointment_id:'26',
         schedule_id:'16'
       }, {
           headers: {
@@ -108,6 +127,19 @@ const MapPage = () => {
   const postFace = (post: number) => {
     console.log(post);
     //TODO: ここでfaceのpostを送信する
+    axios
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
+        update_emoticon:'',
+        appointment_id:'25',
+        emoticon_id:post
+      }, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+      })
+      .then(function(res){
+        console.log(res);
+      })
   };
 
   return (
@@ -135,7 +167,7 @@ const MapPage = () => {
         isPlayer ?
         <FaceSelect onPostFace={postFace}/>
         :
-        <CenteredFace /> 
+        <CenteredFace onNowFace={nowFace}/> 
       }
       {
         isOpen ?

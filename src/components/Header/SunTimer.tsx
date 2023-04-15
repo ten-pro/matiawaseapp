@@ -27,7 +27,6 @@ const SunTimer: React.FC<SunTimerProps> = ({ onPositionChange }) => {
   }, []);
 
   useEffect(() => {
-    console.log(timer)
     if(timer=== 0 && !out){
       setTimer(max);
       setOut(true);
