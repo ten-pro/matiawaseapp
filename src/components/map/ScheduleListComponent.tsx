@@ -6,8 +6,14 @@ import Image from "next/image";
 interface ScheduleProps {
     onSchedule: () => void;
     schedules: {
-        date: string;
-        plan: string;
+        comment_id: number;
+        emoticon_id: number;
+        schedule_id: number;
+        schedule_lat: string;
+        schedule_lng: string;
+        schedule_name: string;
+        schedule_status: string;
+        schedule_time: string;
     }[];
 }
 
@@ -23,8 +29,8 @@ return (
             <div className={Styles.contents} key={index}>
             <img src="/svg/nifePink.svg" className={Styles.icon} />
             <div className={Styles.innerContents}>
-                <div className={Styles.date}>{schedule.date}</div>
-                <div className={Styles.plan}>{schedule.plan}</div>
+                <div className={Styles.date}>{schedule.schedule_time}</div>
+                <div className={Styles.plan}>{schedule.schedule_name}</div>
             </div>
             </div>
             ))}
