@@ -75,7 +75,7 @@ const MapPage = () => {
   
         const name = data.user_information.user_name;
         let messages = new Array();
-        messages[0] = data.get_schedulelist[0].comment_id;
+        messages = data.get_chatlist;
         setChatList({ name, messages });
   
         let scheduleList = new Array();

@@ -6,7 +6,7 @@ interface ChatProps {
     onChat: () => void;
     onChatList: {
         name: string;
-        messages: number[];
+        messages: number[] | null;
     };
 }
 
@@ -23,9 +23,9 @@ const BackGround: React.FC<ChatProps> = ({ onChat, onChatList }) => {
 return (
     <div className={Styles.whiteBack}>
         <div className={Styles.name}>{onChatList.name}</div>
-        {onChatList.messages.map((message, i) => (
-            <div className={Styles.hensin}>{chatArray[message]}</div>
-        ))}
+            {onChatList.messages && onChatList.messages.map((message, i) => (
+                <div className={Styles.hensin}>{chatArray[message]}</div>
+            ))}
         <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onChat}/>
     </div>
 );
