@@ -1,11 +1,17 @@
-import Styles from "@/styles/Sakusei.module.css";
+// Btn.tsx
+import React from 'react';
+import Styles from '@/styles/Sakusei.module.css';
 
-const sakuseibtn = () =>{
-  
-  return(
-    <div className={Styles.btn_area}>
-      <button className={Styles.btn}>作成</button>
-    </div>
-  )
-}
-export default sakuseibtn;
+type BtnProps = {
+  onClick: () => void;
+};
+
+const Btn: React.FC<BtnProps> = ({ onClick }) => {
+  return (
+    <button className={Styles.btn} onClick={onClick}>
+      作成
+    </button>
+  );
+};
+
+export default Btn;

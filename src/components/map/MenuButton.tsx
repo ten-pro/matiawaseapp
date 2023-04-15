@@ -27,9 +27,9 @@ const MenuButton: React.FC<MenuButtonProps> = ({ onVisible, onChat, onSchedule,o
   const buttonsData = [
     { id: 1, img: "/images/map/invisible.svg", url: "" },
     { id: 2, img: "/images/map/chat.svg", url: "" },
-    { id: 3, img: "/images/map/profile.svg", url: "/profile" },
+    { id: 3, img: "/images/map/profile.svg", url: "/mypage" },
     { id: 4, img: "/images/map/close.svg", url: "" },
-    { id: 5, img: "/images/map/friend.svg", url: "friend" },
+    { id: 5, img: "/images/map/friend.svg", url: "/frend" },
     { id: 6, img: "/images/map/schedule.svg", url: "" },
     // { id: 7, img: "/images/map/close.svg" },
     // { id: 8, img: "/images/map/arrival.svg" },
@@ -86,7 +86,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({ onVisible, onChat, onSchedule,o
             height={50}
             className={`${styles.button} ${styles.menuItem}`}
             style={{ width: "65px", height: "65px", transform: "translate(-50%, -50%)" }}
-            onClick={(event) => URL(event, "/create")}
+            onClick={(event) => URL(event, "/sakusei")}
           />
         </div>
       </div>

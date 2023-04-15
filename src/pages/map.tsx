@@ -74,6 +74,7 @@ const MapPage = () => {
 
   // 自分の現在地を送信
   useEffect(() => {
+    try{
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_currentlocation:'',
@@ -88,6 +89,9 @@ const MapPage = () => {
       .then(function (res) {
         console.log(res.data);
       })
+    }catch(e){
+      console.log(e);
+    }
   }, [myLocation])
   
   // ユーザーデータ取得

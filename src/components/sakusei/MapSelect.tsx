@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import MapModal from '@/components/sakusei/MapModal';
+import styles from '@/styles/sakusei/MapSelect.module.css';
 
 const IndexPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -23,16 +24,16 @@ const IndexPage = () => {
 
   return (
     <div>
-      <button onClick={handleOpenModal}>地図を開く</button>
+      <div onClick={handleOpenModal} className={styles.openButton}>地図を開く</div>
       <MapModal
         show={showModal}
         onHide={handleCloseModal}
         onSelectLocation={handleSelectLocation}
       />
       {latitude && longitude && (
-        <div>
-          <p>選択された緯度: {latitude}</p>
-          <p>選択された経度: {longitude}</p>
+        <div className={styles.latlng}>
+          <p>緯度: {latitude}</p>
+          <p>経度: {longitude}</p>
         </div>
       )}
     </div>
