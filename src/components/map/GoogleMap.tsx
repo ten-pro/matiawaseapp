@@ -102,7 +102,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-
           // ここで myLocation を更新します
           setMyLocation(currentPosition);
           // otherLocation.lat = currentPosition.lat + 0.01;

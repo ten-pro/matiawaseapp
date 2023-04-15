@@ -13,7 +13,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import { useAtom } from "jotai";
 import { faces } from "@/atom/faceAtom";
-import { schedulesAtom } from "@/atom/SchedulesAtom";
+import { schedulesAtom, schedulesStatusAtom } from "@/atom/SchedulesAtom";
 
 const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: false });
 
@@ -44,7 +44,7 @@ const MapPage = () => {
   const [isArrival, setIsArrival] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [nowSchedule, setNowSchedule] = useState<number>(0);
+  const [nowSchedule, setNowSchedule] = useAtom(schedulesStatusAtom);
   const [currentArrival, setCurrentArrival] = useState<boolean>(false);//true:セリヌンティウス false:メロス
   const [globalArrival, setGlobalArrival] = useState<boolean>(false);
   const [apiRequest, setApiRequest] = useState<boolean>(false);
@@ -71,6 +71,7 @@ const MapPage = () => {
     lng: 138.6917, // 目的地の経度
   });
 
+  // 自分の現在地を送信
   useEffect(() => {
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
@@ -88,6 +89,7 @@ const MapPage = () => {
       })
   }, [myLocation])
   
+  // ユーザーデータ取得
   useEffect(() => {
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
@@ -104,7 +106,7 @@ const MapPage = () => {
         if(data.get_schedulelist.length === 0){
 
         }else{
-          setNowFace(facesArray[data.get_schedulelist[0].emoticon_id - 1].src);
+          setNowFace(facesArray[data.get_schedulelist[nowSchedule].emoticon_id - 1].src);
     
           const name = data.user_information.user_name;
           let messages = new Array();
@@ -118,19 +120,35 @@ const MapPage = () => {
           setSchedules(scheduleList);
           
           setOtherLocation({
-            lat: parseFloat(data.get_schedulelist[0].user_current[0].appointment_lat),
-            lng: parseFloat(data.get_schedulelist[0].user_current[0].appointment_lng),
+            lat: parseFloat(data.get_schedulelist[nowSchedule].user_current[nowSchedule].appointment_lat),
+            lng: parseFloat(data.get_schedulelist[nowSchedule].user_current[nowSchedule].appointment_lng),
           });
 
-          data.appointmentlist[0].appointment_status === '到着' ? setCurrentArrival(true) : setCurrentArrival(false);
-          data.appointmentlist[0].partner_status[0].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
+          setDestination({
+            lat: parseFloat(data.get_schedulelist[nowSchedule].schedule_lat),
+            lng: parseFloat(data.get_schedulelist[nowSchedule].schedule_lng),
+          });
+
+          data.appointmentlist[nowSchedule].appointment_status === '到着' ? setCurrentArrival(true) : setCurrentArrival(false);
+          data.appointmentlist[nowSchedule].partner_status[nowSchedule].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
         }
         
       })
   }, [facesArray, apiRequest])
+
+  // 1分ごとにデータを取得
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setApiRequest(!apiRequest);
+    }, 60000); // 1分 = 60,000ミリ秒
+  
+    // クリーンアップ関数を返すことで、コンポーネントがアンマウントされたときにタイマーをクリアします
+    return () => clearInterval(interval);
+  }, [apiRequest]);  
   
   useEffect(() => {
-  }, [schedules])
+    console.log(nowSchedule)
+  }, [nowSchedule])
 
   useEffect(() => {
     setIsVisible(isArrival)
@@ -198,6 +216,12 @@ const MapPage = () => {
     setIsVisible(isScheduleList)
   }, [isScheduleList])
 
+  const scheduleChange = (post:number) => {
+    setNowSchedule(post)
+    swal("予定変更", "押された予定を適応しました", "success")
+  }
+
+
   const arrival = () => {
     // arrival関数の処理
     axios
@@ -256,7 +280,7 @@ const MapPage = () => {
       }
       {
         isScheduleList ?
-        <ScheduleListComponent onSchedule={schedule} schedules={schedules} setNowSchedule={setNowSchedule}/>
+        <ScheduleListComponent onSchedule={schedule} schedules={schedules} onScheduleChange={scheduleChange} />
         :
         ""
       }
@@ -266,7 +290,7 @@ const MapPage = () => {
         :
         currentArrival || globalArrival ?
           currentArrival?
-          <FaceSelect onPostFace={postFace} schedules={schedules} />
+          <FaceSelect onPostFace={postFace} schedules={schedules} onNowSchedule={nowSchedule}/>
           :
           <CenteredFace onNowFace={nowFace} /> 
         :
