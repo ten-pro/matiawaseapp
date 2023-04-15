@@ -1,4 +1,3 @@
-
 //ユーザテーブル
 CREATE TABLE user_tbl(
     user_id         INT             AUTO_INCREMENT  ,

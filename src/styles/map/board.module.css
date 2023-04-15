@@ -1,0 +1,54 @@
+.adiv {
+}
+.whiteBack {
+    width: 350px;
+    height: 560px;
+    margin:auto;
+    margin-top:50px;
+    background-color: white;
+    opacity: 0.8;
+    border-radius: 20px;
+    border: 5px solid rgba(255, 130, 130, 1);
+}
+.name {
+    color: #ff8282;
+    font-weight: bold;
+    font-family: sans-serif;
+    margin-top:30px;
+    margin-bottom: 30px;
+    font-size: 28px;
+    text-align: center;
+}
+.hensin {
+    margin-top:30px;
+    margin-left:20px;
+    color: #ff8282;
+    border: 3px solid #ff8282;
+    border-radius: 50px;
+    left: 60px;
+    width: 170px;
+    height: 35px;
+    align-items: center;
+    display: flex;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 24px;
+    justify-content: center;
+    text-align: center;
+}
+.close {
+    position: absolute;
+    opacity: 1;
+    bottom: 80px;
+    left:50%;
+    transform: translate(-50%, 50%);
+    font-size: 50px;
+    color: white;
+    background-color: #ff8282;
+    border-radius: 50px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

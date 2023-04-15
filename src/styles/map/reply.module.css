@@ -1,0 +1,53 @@
+.map {
+    width: 414px;
+    height: 696px;
+    bottom: 0;
+}
+.adiv {
+}
+.whiteBack {
+    display: flex;
+    margin:auto;
+    margin-top:300px;
+    width: 350px;
+    height: 300px;
+    background-color: white;
+    opacity: 0.8;
+    border-radius: 20px;
+    border: 5px solid rgba(255, 130, 130, 1);
+}
+.replyWord1 {
+    width: 175px;
+    text-align: center;
+}
+.replyWord2 {
+    width: 175px;
+    text-align: center;
+    right: 0;
+    top: 0;
+}
+.word {
+    margin: 50px auto 0 auto;
+    color: #ff8282;
+    border: 3px solid #ff8282;
+    border-radius: 20px;
+    font-weight: bold;
+    width: 150px;
+    font-size: 20px;
+}
+.close {
+    position: absolute;
+    opacity: 1;
+    bottom: 80px;
+    left:50%;
+    transform: translate(-50%, 50%);
+    font-size: 50px;
+    color: white;
+    background-color: #ff8282;
+    border-radius: 50px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

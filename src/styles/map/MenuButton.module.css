@@ -1,0 +1,89 @@
+.menuButtonContainer {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translate(-50%, 50%);
+  }
+
+  .backgroundgray{
+    background-color: #ffffff87;
+    width: 414px;
+    height: 697px;
+    position: absolute;
+    top: 199px;
+    left: 0;
+    z-index: 1;
+}
+  .opacity{
+    background-color: rgba(255, 255, 255, 0);
+  }
+  .button {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .mainButton {
+    width: 75px;
+    height: 75px;
+    z-index: 10;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .menuContainer {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: -50px;
+    bottom: 80px;
+  }
+  
+  .menuItem {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transition: transform 0.3s ease;
+  }
+  
+  .menuItem.closed {
+    transform: translate(-50%, -50%);
+  }
+  
+  .menuItem.open {
+    transform: translate(-50%, -50%) rotate(var(--rotate)) translateY(-100px) rotate(calc(-1 * var(--rotate)));
+  }
+
+  .menuItemOpening {
+    animation: menuItemOpening 0.3s forwards;
+  }
+  
+  .menuItemOpening {
+    animation: open 0.5s forwards;
+  }
+  
+  .menuItemClosing {
+    animation: close 0.5s forwards;
+  }
+  
+  @keyframes open {
+    0% {
+      transform: translate(-50%, -50%);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(var(--rotate)) translateY(-120px) rotate(calc(-1 * var(--rotate)));
+    }
+  }
+  
+  @keyframes close {
+    0% {
+      transform: translate(-50%, -50%) rotate(var(--rotate)) translateY(-100px) rotate(calc(-1 * var(--rotate)));
+    }
+    100% {
+      transform: translate(-50%, -50%);
+    }
+  }
