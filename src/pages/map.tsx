@@ -8,6 +8,7 @@ import MenuButton from "@/components/map/MenuButton";
 import ScheduleListComponent from "@/components/map/ScheduleListComponent";
 import Chat from "@/components/map/Chat";
 import ArrivalButton from "@/components/map/ArrivalButton";
+import axios from "axios";
 
 const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: false });
 
@@ -89,6 +90,19 @@ const MapPage = () => {
   const arrival = () => {
     // arrival関数の処理
     // apiを叩いて到着したことを伝える
+    axios
+      .post('http://mp-class.chips.jp/group_task/main.php', {
+        update_arrival:'',
+        appointment_id:'25',
+        schedule_id:'16'
+      }, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+      })
+      .then(function(res){
+        console.log(res);
+      })
   }
 
   const postFace = (post: number) => {
