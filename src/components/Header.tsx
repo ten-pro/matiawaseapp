@@ -37,7 +37,6 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    console.log(timer / max)
     if(out){
       setBgimg(2);
     }else if(timer / max > 0.3){

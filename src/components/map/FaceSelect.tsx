@@ -16,7 +16,7 @@ const FaceSelect: React.FC<FaceSelectProps> = ({ onPostFace }) => {
   return (
     <div className={styles.container}>
       {face.map((faces, i) => (
-        <Image key={i} src={faces.src} alt="face" className={styles.svg} width={60} height={60} onClick={() => onPostFace(i)}/>
+        <Image key={i} src={faces.src} alt="face" className={styles.svg} width={60} height={60} onClick={() => onPostFace(i+1)}/>
       ))}
     </div>
   );

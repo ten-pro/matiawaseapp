@@ -45,6 +45,21 @@ const MapPage = () => {
   };
   
   useEffect(() => {
+    axios
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
+        get_user:'',
+        user_id:'7',
+      }, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+      })
+      .then(function(res){
+        console.log(res);
+      })
+  }, [])
+
+  useEffect(() => {
     //TODO : 到着ボタンの表示非表示条件を追加する
     setIsVisible(isArrival)
   }, [isMenu])
@@ -91,9 +106,9 @@ const MapPage = () => {
     // arrival関数の処理
     // apiを叩いて到着したことを伝える
     axios
-      .post('http://mp-class.chips.jp/group_task/main.php', {
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_arrival:'',
-        appointment_id:'25',
+        appointment_id:'26',
         schedule_id:'16'
       }, {
           headers: {
@@ -108,6 +123,19 @@ const MapPage = () => {
   const postFace = (post: number) => {
     console.log(post);
     //TODO: ここでfaceのpostを送信する
+    axios
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
+        update_emoticon:'',
+        appointment_id:'25',
+        emoticon_id:post
+      }, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+      })
+      .then(function(res){
+        console.log(res);
+      })
   };
 
   return (
