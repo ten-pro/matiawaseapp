@@ -7,6 +7,7 @@ import CenteredFace from "@/components/map/CenteredFace";
 import MenuButton from "@/components/map/MenuButton";
 import ScheduleListComponent from "@/components/map/ScheduleListComponent";
 import Chat from "@/components/map/Chat";
+import Reply from "@/components/map/Reply";
 import ArrivalButton from "@/components/map/ArrivalButton";
 import axios from "axios";
 import { useAtom } from "jotai";
@@ -23,7 +24,7 @@ const MapPage = () => {
   const [facesArray] = useAtom(faces);
   const [nowFace, setNowFace] = useState("images/map/face5.svg");
   const [isVisible, setIsVisible] = useState(false);
-  const [isPlayer, setIsPlayer] = useState(false);
+  const [isPlayer, setIsPlayer] = useState(true); //true:セリヌンティウス false:メロス
   const [isChat, setIsChat] = useState(false);
   const [isMenu, setIsMenu] = useState(true);
   const [isScheduleList, setIsScheduleList] = useState(false);
@@ -96,6 +97,22 @@ const MapPage = () => {
     setIsMenu(!isChat)
   }, [isChat])
 
+  const postChat = (post: number) => {
+    axios
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
+        update_comment:'',
+        appointment_id:'26',
+        comment_id:post
+      }, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+      })
+      .then(function(res){
+        console.log(res);
+      })
+  }
+
   const schedule = () => {
     // schedule関数の処理
     console.log("スケジュールだよ")
@@ -112,7 +129,7 @@ const MapPage = () => {
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_arrival:'',
-        appointment_id:'26',
+        appointment_id:'25',
         schedule_id:'16'
       }, {
           headers: {
@@ -125,8 +142,6 @@ const MapPage = () => {
   }
 
   const postFace = (post: number) => {
-    console.log(post);
-    //TODO: ここでfaceのpostを送信する
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_emoticon:'',
@@ -150,7 +165,10 @@ const MapPage = () => {
       </div>
       {
         isChat ?
-        <Chat onChat={chat}/>
+          isPlayer ?
+          <Chat onChat={chat}/>
+          :
+          <Reply onChat={chat} onPostChat={postChat}/>
         :
         ""
       }
@@ -161,7 +179,7 @@ const MapPage = () => {
         ""
       }
       {
-        isVisible ? 
+        isVisible || isChat? 
         ""
         :
         isPlayer ?
@@ -170,10 +188,10 @@ const MapPage = () => {
         <CenteredFace onNowFace={nowFace}/> 
       }
       {
-        isOpen ?
-        <ArrivalButton onArrival={arrival}/>
-        :
+        !isOpen || isChat?
         ""
+        :
+        <ArrivalButton onArrival={arrival}/>
       }
       {
         isMenu ?
