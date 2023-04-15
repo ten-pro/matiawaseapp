@@ -15,10 +15,10 @@ interface ScheduleProps {
         schedule_status: string;
         schedule_time: string;
     }[];
-    setNowSchedule: (value: number) => void;
+    onScheduleChange: (value: number) => void;
 }
 
-const ScheduleListComponent: React.FC<ScheduleProps> = ({ onSchedule, schedules, setNowSchedule }) => {
+const ScheduleListComponent: React.FC<ScheduleProps> = ({ onSchedule, schedules, onScheduleChange }) => {
     
 return (
 
@@ -29,7 +29,7 @@ return (
         {schedules.map((schedule, index) => (
             <div className={Styles.contents} key={index}>
             <img src="/svg/nifePink.svg" className={Styles.icon} />
-            <div className={Styles.innerContents} onClick={()=>setNowSchedule}>
+            <div className={Styles.innerContents} onClick={()=>onScheduleChange(index)}>
                 <div className={Styles.date}>{schedule.schedule_time}</div>
                 <div className={Styles.plan}>{schedule.schedule_name}</div>
             </div>

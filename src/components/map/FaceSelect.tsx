@@ -17,9 +17,10 @@ interface FaceSelectProps {
     schedule_status: string;
     schedule_time: string;
   }[];
+  onNowSchedule:number;
 }
 
-const FaceSelect: React.FC<FaceSelectProps> = ({ onPostFace, schedules }) => {
+const FaceSelect: React.FC<FaceSelectProps> = ({ onPostFace, schedules, onNowSchedule }) => {
 
 
   const [face, setFace] = useAtom(faces);
@@ -36,7 +37,7 @@ const FaceSelect: React.FC<FaceSelectProps> = ({ onPostFace, schedules }) => {
         key={i}
         src={faces.src}
         alt="face"
-        className={schedules[0].emoticon_id === faces.id ? styles.selectedSvg : styles.normalSvg}
+        className={schedules[onNowSchedule].emoticon_id === faces.id ? styles.selectedSvg : styles.normalSvg}
         width={60}
         height={60}
         onClick={() => onPostFace(i + 1)}

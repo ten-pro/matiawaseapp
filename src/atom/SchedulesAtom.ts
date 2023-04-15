@@ -13,3 +13,5 @@ interface schedules {
 
 export const schedulesAtom= atom<schedules[]>([
 ]);
+
+export const schedulesStatusAtom = atom<number>(0);

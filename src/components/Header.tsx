@@ -6,13 +6,14 @@ import CountDown from "./Header/CountDown";
 import Image from "next/image";
 import { useAtom } from 'jotai';
 import { nowBgimg, nowTime, maxTime, timeOut } from '@/atom/bgimg';
-import { schedulesAtom } from "@/atom/SchedulesAtom";
+import { schedulesAtom, schedulesStatusAtom } from "@/atom/SchedulesAtom";
 
 const Header = () => {
 
   const [timer] = useAtom(nowTime);
   const [max, setMax] = useAtom(maxTime);
   const [bgimg, setBgimg] = useAtom(nowBgimg);
+  const [nowSchedule, setNowSchedule] = useAtom(schedulesStatusAtom);
   const [out] = useAtom(timeOut);
   const [schedules] = useAtom(schedulesAtom);
   const [CountDownTime, setCountDownTime] = useState<string>("00:00:00.00");
@@ -54,7 +55,7 @@ const Header = () => {
 
   useEffect(() => {
     if (schedules.length > 0 && currentTime) {
-      const scheduleTime = new Date(schedules[0].schedule_time);
+      const scheduleTime = new Date(schedules[nowSchedule].schedule_time);
       const currentTimeArray = currentTime.split(':');
       const currentDate = new Date(scheduleTime);
       currentDate.setHours(parseInt(currentTimeArray[0]));
