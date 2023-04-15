@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface GoogleMapProps {
   apiKey: string;
@@ -10,6 +10,7 @@ interface GoogleMapProps {
     lat: number;
     lng: number;
   };
+  setMyLocation: (value: google.maps.LatLngLiteral) => void;
 }
 
 const addMarkers = (
@@ -48,8 +49,9 @@ const addMarkers = (
   });
 };
 
-const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destination }) => {
+const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destination, setMyLocation }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
+  const watchId = useRef<number | null>(null);
 
   const initMap = (
     currentPosition?: google.maps.LatLngLiteral,
@@ -77,7 +79,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
       return;
     }
 
-    // 以下は既存のコード
     window.initMap = initMap;
 
     const script = document.createElement("script");
@@ -86,13 +87,25 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
     script.async = true;
     document.head.appendChild(script);
 
+    return () => {
+      document.head.removeChild(script);
+      delete window.initMap;
+    };
+  }, [apiKey]);
+
+  useEffect(() => {
+    console.log("otherLocation", otherLocation);
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
+      // watchPosition を使って位置情報を監視し、ID を保存します
+      const id = navigator.geolocation.watchPosition(
         (position) => {
           const currentPosition = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+
+          // ここで myLocation を更新します
+          setMyLocation(currentPosition);
 
           initMap(currentPosition, otherLocation, destination);
         },
@@ -100,18 +113,21 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
           console.error("Error occurred while getting current location.", error);
         }
       );
+
+      watchId.current = id;
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
 
     return () => {
-        document.head.removeChild(script);
-        delete window.initMap;
-      };
-    }, [apiKey, otherLocation, destination]);
+      if (watchId.current !== null) {
+        navigator.geolocation.clearWatch(watchId.current);
+      }
+    };
+  }, [otherLocation, destination, setMyLocation]);
   
-    return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
-  };
-  
-  export default GoogleMap;
-  
+
+return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
+};
+
+export default GoogleMap;
