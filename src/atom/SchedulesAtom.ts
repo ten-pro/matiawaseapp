@@ -14,4 +14,19 @@ interface schedules {
 export const schedulesAtom= atom<schedules[]>([
 ]);
 
+interface appointment {
+    appointment_id: number;
+    appointment_status: string;
+    chat_list: string[];
+    partner_status: {
+        user_id: number;
+        user_name: string;
+        appointment_status: string;
+    }[];
+    schedule_id: number;
+}
+
+export const appointmentAtom= atom<appointment[]>([
+]);
+
 export const schedulesStatusAtom = atom<number>(0);
