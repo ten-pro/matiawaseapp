@@ -37,54 +37,12 @@ function frend(){
 
   const [frendname, setFrendname] = useState<Name[]>([]);
 
+  const [frendinput,setfrendinput] = useState<string>('');
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setfrendinput(event.target.value);
+  };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.post(
-  //         'http://mp-class.chips.jp/matiawase/main.php',
-  //         {
-  //           login_user: '',
-  //           name: '変更',
-  //           pass: 'pass0000',
-  //         },
-  //         {
-  //           headers: {
-  //             'Content-Type': 'multipart/form-data',
-  //           },
-  //         }
-  //       );
-  //       if (response.data === false) {
-  //         // userData.error1 = true;
-  //       } else {
-  //         console.log(response);
-  //         sessionStorage.setItem('id', response.data.user_information.user_id);
-  //         if(response.data.get_friendlist==null){
-  //           console.log("フレンドがいません");
-  //           let friend_id:number=0;
-  //           let friend_name:string="フレンドがいません。登録しませんか？";
-  //           //setallfrenddata({friend_id:friend_id ,friend_name:friend_name});
-  //           setFrendname((prevFrendname) => [...prevFrendname, { name: friend_name }]);
-  //           if (!response.data.get_frinedlist) { // 判定を追加する
-  //             return;
-  //           }
-  //         }else{
-  //         let friend_id:number=response.data.get_friendlist.friend_id;
-  //         let friend_name:string=response.data.get_friendlist.friend_name;
-  //         location.href;
-  //         setFrendname((prevFrendname) => [...prevFrendname, { name: friend_name }]);
-  //         }
-  //       }
-  //       console.log(response);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
-  // 
   
   const fetchData = useCallback(() => {
     const fetchDataAsync = async () => {
@@ -105,7 +63,7 @@ function frend(){
         if (response.data === false) {
           // userData.error1 = true;
         } else {
-          console.log(response);
+          console.log(response.data);
           sessionStorage.setItem('id', response.data.user_information.user_id);
           if (response.data.get_friendlist === null) {
             console.log('フレンドがいません');
@@ -153,6 +111,30 @@ function frend(){
   
   useEffect(fetchData, []);
 
+  const handleSaveChanges = async () => {
+    try {
+      const response = await axios.post(
+        'http://mp-class.chips.jp/matiawase/main.php',
+        {
+          create_friend:'',
+          follow_id:9,//友達のuser_id
+          user_id:10//自分のuser_id
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log(response);
+      setinputdiv(true);
+      sethyouzidiv(false);
+      settuikabtn(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return(
     <div>
       <Header/>
@@ -165,7 +147,7 @@ function frend(){
           </div>
           
           <div className={Styles.freinput_area} style={{display:inputdiv?'none':'block'}}>
-          <Frendinput />
+          <Frendinput inputValue={frendinput} onInputChange={handleInputChange}/>
           </div>
         </div>
         
@@ -174,7 +156,7 @@ function frend(){
         <Tuika hidediv={hidediv} />
       </div>
       <div style={{display:tuikabtn?'block':'none'}}>
-        <Kakuteibtn />
+        <Kakuteibtn handleSaveChanges={handleSaveChanges}/>
       </div>
       
       <Top/>
