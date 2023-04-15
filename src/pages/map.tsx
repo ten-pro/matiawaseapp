@@ -9,6 +9,8 @@ import ScheduleListComponent from "@/components/map/ScheduleListComponent";
 import Chat from "@/components/map/Chat";
 import ArrivalButton from "@/components/map/ArrivalButton";
 import axios from "axios";
+import { useAtom } from "jotai";
+import { faces } from "@/atom/faceAtom";
 
 const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: false });
 
@@ -18,9 +20,10 @@ interface schedules {
 }
 
 const MapPage = () => {
-  const [scale, setScale] = useState(1);
+  const [facesArray] = useAtom(faces);
+  const [nowFace, setNowFace] = useState("images/map/face5.svg");
   const [isVisible, setIsVisible] = useState(false);
-  const [isPlayer, setIsPlayer] = useState(true);
+  const [isPlayer, setIsPlayer] = useState(false);
   const [isChat, setIsChat] = useState(false);
   const [isMenu, setIsMenu] = useState(true);
   const [isScheduleList, setIsScheduleList] = useState(false);
@@ -55,7 +58,8 @@ const MapPage = () => {
           }
       })
       .then(function(res){
-        console.log(res);
+        console.log(res.data.get_schedulelist[0].emoticon_id);
+        setNowFace(facesArray[res.data.get_schedulelist[0].emoticon_id-1].src);
       })
   }, [])
 
@@ -163,7 +167,7 @@ const MapPage = () => {
         isPlayer ?
         <FaceSelect onPostFace={postFace}/>
         :
-        <CenteredFace /> 
+        <CenteredFace onNowFace={nowFace}/> 
       }
       {
         isOpen ?
