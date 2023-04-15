@@ -6,25 +6,30 @@ import { maxTime, nowTime, timeOut } from '@/atom/bgimg';
 
 type SunTimerProps = {
   onPositionChange?: (x: number, y: number) => void;
+  startTimer: boolean;
 };
 
-const SunTimer: React.FC<SunTimerProps> = ({ onPositionChange }) => {
+const SunTimer: React.FC<SunTimerProps> = ({ onPositionChange, startTimer }) => {
   const [timer, setTimer] = useAtom(nowTime);
   const [max] = useAtom(maxTime);
   const [out, setOut] = useAtom(timeOut);
 
+
   useEffect(() => {
     setOut(false);
     const updateTimer = () => {
-      setTimer((prevTimer) => (prevTimer - 1));
+      if (startTimer) {
+        setTimer((prevTimer) => (prevTimer - 1));
+      }
     };
-
+  
     const timerIntervalId = setInterval(updateTimer, 1000);
-
+  
     return () => {
       clearInterval(timerIntervalId);
     };
-  }, []);
+  }, [startTimer]);
+  
 
   useEffect(() => {
     if(timer=== 0 && !out){

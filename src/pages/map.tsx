@@ -10,6 +10,7 @@ import Chat from "@/components/map/Chat";
 import Reply from "@/components/map/Reply";
 import ArrivalButton from "@/components/map/ArrivalButton";
 import axios from "axios";
+import swal from "sweetalert";
 import { useAtom } from "jotai";
 import { faces } from "@/atom/faceAtom";
 import { schedulesAtom } from "@/atom/SchedulesAtom";
@@ -37,14 +38,16 @@ const MapPage = () => {
   const [schedules, setSchedules] = useAtom(schedulesAtom);
   const [nowFace, setNowFace] = useState("images/map/face5.svg");
   const [isVisible, setIsVisible] = useState(false);
-  const [isPlayer, setIsPlayer] = useState(true); //true:セリヌンティウス false:メロス
   const [isChat, setIsChat] = useState(false);
   const [isMenu, setIsMenu] = useState(true);
   const [isScheduleList, setIsScheduleList] = useState(false);
   const [isArrival, setIsArrival] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [nowSchedule, setNowSchedule] = useState<number>(0)
+  const [nowSchedule, setNowSchedule] = useState<number>(0);
+  const [currentArrival, setCurrentArrival] = useState<boolean>(false);//true:セリヌンティウス false:メロス
+  const [globalArrival, setGlobalArrival] = useState<boolean>(false);
+  const [apiRequest, setApiRequest] = useState<boolean>(false);
   const animationDuration = 500;
 
   const [chatList, setChatList] = useState<chatLists>({
@@ -98,35 +101,38 @@ const MapPage = () => {
       .then(function (res) {
         console.log(res.data);
         const data = res.data;
-  
-        setNowFace(facesArray[data.get_schedulelist[0].emoticon_id - 1].src);
-  
-        const name = data.user_information.user_name;
-        let messages = new Array();
-        messages = data.get_chatlist;
-        setChatList({ name, messages });
-  
-        let scheduleList = new Array();
-        for (let i = 0; i < data.get_schedulelist.length; i++) {
-          scheduleList[i] = data.get_schedulelist[i];
+        if(data.get_schedulelist.length === 0){
+
+        }else{
+          setNowFace(facesArray[data.get_schedulelist[0].emoticon_id - 1].src);
+    
+          const name = data.user_information.user_name;
+          let messages = new Array();
+          messages = data.get_chatlist;
+          setChatList({ name, messages });
+    
+          let scheduleList = new Array();
+          for (let i = 0; i < data.get_schedulelist.length; i++) {
+            scheduleList[i] = data.get_schedulelist[i];
+          }
+          setSchedules(scheduleList);
+          
+          setOtherLocation({
+            lat: parseFloat(data.get_schedulelist[0].user_current[0].appointment_lat),
+            lng: parseFloat(data.get_schedulelist[0].user_current[0].appointment_lng),
+          });
+
+          data.appointmentlist[0].appointment_status === '到着' ? setCurrentArrival(true) : setCurrentArrival(false);
+          data.appointmentlist[0].partner_status[0].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
         }
-        setSchedules(scheduleList);
-        
-        console.log(data.get_schedulelist[0].user_current[0].appointment_lat)
-        setOtherLocation({
-          lat: parseFloat(data.get_schedulelist[0].user_current[0].appointment_lat),
-          lng: parseFloat(data.get_schedulelist[0].user_current[0].appointment_lng),
-        });
         
       })
-  }, [facesArray])
+  }, [facesArray, apiRequest])
   
   useEffect(() => {
-    console.log(otherLocation)
-  }, [otherLocation])
+  }, [schedules])
 
   useEffect(() => {
-    //TODO : 到着ボタンの表示非表示条件を追加する
     setIsVisible(isArrival)
   }, [isMenu])
 
@@ -151,6 +157,10 @@ const MapPage = () => {
   const chat = () => {
     // chat関数の処理
     console.log("チャットだよ")
+    if(!currentArrival && !globalArrival){
+      swal("未到着", "あなたも相手も未到着です", "warning")
+      return;
+    }
     setIsChat(!isChat)
   };
   useEffect(() => {
@@ -177,6 +187,10 @@ const MapPage = () => {
   const schedule = () => {
     // schedule関数の処理
     console.log("スケジュールだよ")
+    if(!currentArrival && !globalArrival){
+      swal("予定がありません", "メニューボタンから作成画面へ移動し予定を作成しましょう", "error")
+      return;
+    }
     setIsScheduleList(!isScheduleList)
   };
   useEffect(() => {
@@ -186,7 +200,6 @@ const MapPage = () => {
 
   const arrival = () => {
     // arrival関数の処理
-    // apiを叩いて到着したことを伝える
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_arrival:'',
@@ -215,6 +228,7 @@ const MapPage = () => {
       })
       .then(function(res){
         console.log(res);
+        setApiRequest(!apiRequest)
       })
   };
 
@@ -231,10 +245,12 @@ const MapPage = () => {
       </div>
       {
         isChat ?
-          isPlayer ?
-          <Chat onChat={chat} onChatList={chatList}/>
-          :
-          <Reply onChat={chat} onPostChat={postChat}/>
+          currentArrival || globalArrival ?
+            currentArrival?
+            <Chat onChat={chat} onChatList={chatList}/>
+            :
+            <Reply onChat={chat} onPostChat={postChat}/>
+          :""
         :
         ""
       }
@@ -248,13 +264,16 @@ const MapPage = () => {
         isVisible || isChat || isScheduleList? 
         ""
         :
-        isPlayer ?
-        <FaceSelect onPostFace={postFace} />
+        currentArrival || globalArrival ?
+          currentArrival?
+          <FaceSelect onPostFace={postFace} schedules={schedules} />
+          :
+          <CenteredFace onNowFace={nowFace} /> 
         :
-        <CenteredFace onNowFace={nowFace} /> 
+        ""
       }
       {
-        !isOpen || isChat || isScheduleList?
+        !isOpen || isChat || isScheduleList || currentArrival?
         ""
         :
         <ArrivalButton onArrival={arrival}/>

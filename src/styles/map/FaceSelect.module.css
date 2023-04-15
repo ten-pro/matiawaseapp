@@ -11,7 +11,15 @@
     background-color: white;
     border-radius: 50px;
 }
-.svg{
-    width:65px;
-    height: 65px;
-}
+  .normalSvg {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .selectedSvg {
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+  }
+  
