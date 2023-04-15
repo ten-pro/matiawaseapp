@@ -11,7 +11,7 @@ function Card() {
     const[pass, setpass] = useState<string>('')
     const[error, seterror] = useState<boolean>(false)
 
-    const fetchData = async () => {
+    const create_account = async () => {
       try {
         const response = await axios.post(
           'http://mp-class.chips.jp/matiawase/main.php',
@@ -36,8 +36,7 @@ function Card() {
           seterror(true)
           // console.log(response.data)
         }
-      } 
-      catch(error) {
+      } catch(error) {
         console.log(error)
       }
     };
@@ -50,7 +49,7 @@ function Card() {
             <input className={Styles.pass} placeholder="メールアドレス"  value={ mail } onChange={(e) => setmail(e.target.value)}/>
             <input className={Styles.pass} placeholder="パスワード" type="password" value={ pass } onChange={(e) => setpass(e.target.value)}/>
             <div className={Styles.error} style={{display: error? 'block' : 'none'}}>エラー：名前が重複しています</div>
-            <button className={ Styles.button }  onClick={ fetchData }>アカウント作成</button>
+            <button className={ Styles.button }  onClick={ create_account }>アカウント作成</button>
         </div>
     </div>
   );
