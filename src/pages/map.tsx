@@ -16,8 +16,19 @@ import { faces } from "@/atom/faceAtom";
 const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: false });
 
 interface schedules {
-  date: string;
-  plan: string;
+  comment_id: number;
+  emoticon_id: number;
+  schedule_id: number;
+  schedule_lat: string;
+  schedule_lng: string;
+  schedule_name: string;
+  schedule_status: string;
+  schedule_time: string;
+}
+
+interface chatLists {
+  name: string;
+  messages: number[];
 }
 
 const MapPage = () => {
@@ -34,14 +45,13 @@ const MapPage = () => {
   const animationDuration = 500;
 
   const [schedules,setSchedules] = useState<schedules[]>([
-    { date: '2023/12/31 12:34', plan: '旅行' },
-    { date: '2023/12/31 15:00', plan: '会議' },
-    { date: '2023/12/31 18:00', plan: '打ち上げ' },
-    { date: '2023/12/31 18:00', plan: '会食' },
-    { date: '2023/12/31 18:00', plan: '飲み会' },
-    { date: '2023/12/31 18:00', plan: '仕事' },
-    { date: '2023/12/31 18:00', plan: 'プレゼン' },
   ]);
+
+  const [chatList, setChatList] = useState<chatLists>({
+    name: "スライムさん",
+    messages: [
+    ]
+  });
 
   const otherLocation = {
     lat: 35.6895, // 相手の緯度
@@ -59,8 +69,22 @@ const MapPage = () => {
           }
       })
       .then(function(res){
-        console.log(res.data.get_schedulelist[0].emoticon_id);
-        setNowFace(facesArray[res.data.get_schedulelist[0].emoticon_id-1].src);
+        console.log(res.data);
+        const data=res.data;
+
+
+        setNowFace(facesArray[data.get_schedulelist[0].emoticon_id-1].src);
+
+        const name = data.user_information.user_name;
+        let messages = new Array();
+        messages[0] = data.get_schedulelist[0].comment_id;
+        setChatList({ name, messages});
+
+        let scheduleList = new Array();
+        for(let i=0; i<data.get_schedulelist.length; i++){
+          scheduleList[i] = data.get_schedulelist[i];
+        }
+        setSchedules(scheduleList);
       })
   }, [])
 
@@ -166,7 +190,7 @@ const MapPage = () => {
       {
         isChat ?
           isPlayer ?
-          <Chat onChat={chat}/>
+          <Chat onChat={chat} onChatList={chatList}/>
           :
           <Reply onChat={chat} onPostChat={postChat}/>
         :
