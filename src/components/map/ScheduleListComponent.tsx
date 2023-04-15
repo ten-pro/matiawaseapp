@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Inter } from 'next/font/google'
 import Styles from '@/styles/map/ScheduleListComponent.module.css'
 import Image from "next/image";
@@ -15,9 +15,10 @@ interface ScheduleProps {
         schedule_status: string;
         schedule_time: string;
     }[];
+    setNowSchedule: (value: number) => void;
 }
 
-const ScheduleListComponent: React.FC<ScheduleProps> = ({ onSchedule, schedules }) => {
+const ScheduleListComponent: React.FC<ScheduleProps> = ({ onSchedule, schedules, setNowSchedule }) => {
     
 return (
 
@@ -28,12 +29,12 @@ return (
         {schedules.map((schedule, index) => (
             <div className={Styles.contents} key={index}>
             <img src="/svg/nifePink.svg" className={Styles.icon} />
-            <div className={Styles.innerContents}>
+            <div className={Styles.innerContents} onClick={()=>setNowSchedule}>
                 <div className={Styles.date}>{schedule.schedule_time}</div>
                 <div className={Styles.plan}>{schedule.schedule_name}</div>
             </div>
             </div>
-            ))}
+        ))}
         </div>
         <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onSchedule}/>
     </div>
