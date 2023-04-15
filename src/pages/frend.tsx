@@ -9,8 +9,13 @@ import Kakuteibtn from "@/components/frend/kakuteibtn";
 import { useEffect, useState,useCallback } from "react";
 import React from "react";
 import { error } from "console";
-import { frendlisttype,Name } from "./kanako";
 import axios from "axios";
+
+type frendlisttype = {
+  friend_id:number,
+  friend_name:string
+}
+type Name = { name: string };
 
 interface Friend {
   friend_id: number;
