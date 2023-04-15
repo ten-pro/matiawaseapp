@@ -1,19 +1,56 @@
-import React from "react";
 import { Inter } from 'next/font/google'
 import Styles from '@/styles/Login/Card_login.module.css'
-
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
+
 function Card() {
+    const[name, setname] = useState<string>('')
+    const[mail, setmail] = useState<string>('')
+    const[pass, setpass] = useState<string>('')
+    const[error, seterror] = useState<boolean>(false)
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          'http://mp-class.chips.jp/matiawase/main.php',
+          {
+            create_user: '',
+            name: name,
+            pass: pass,
+            mail: mail
+          },
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        // console.log(response.data)
+        if(response.data.create_acount === true) {
+          localStorage.setItem('user_id', response.data.user_information.user_id)
+          // console.log(localStorage.getItem('user_id'))
+          seterror(false)
+        } else {
+          seterror(true)
+          // console.log(response.data)
+        }
+      } 
+      catch(error) {
+        console.log(error)
+      }
+    };
   return (
     
     <div className={Styles.div}>
         <div className={Styles.card}>
             <div className={Styles.title}>アカウントを作成してください</div>
-            <input className={Styles.name} placeholder="ユーザー名"></input>
-            <input className={Styles.pass} placeholder="メールアドレス"></input>
-            <input className={Styles.pass} placeholder="パスワード" type="password"></input>
-            <button className={Styles.button}>アカウント作成</button>
+            <input className={Styles.name} placeholder="ユーザー名" value={ name } onChange={(e) => setname(e.target.value)}/>
+            <input className={Styles.pass} placeholder="メールアドレス"  value={ mail } onChange={(e) => setmail(e.target.value)}/>
+            <input className={Styles.pass} placeholder="パスワード" type="password" value={ pass } onChange={(e) => setpass(e.target.value)}/>
+            <div className={Styles.error} style={{display: error? 'block' : 'none'}}>エラー：名前が重複しています</div>
+            <button className={ Styles.button }  onClick={ fetchData }>アカウント作成</button>
         </div>
     </div>
   );
