@@ -51,7 +51,7 @@ const SunTimer: React.FC<SunTimerProps> = ({ onPositionChange, startTimer }) => 
       <Image
         className={styles.sun}
         style={{ transform: `translate(${x}px, ${y}px)` }}
-        src="/images/Header/sun.svg"
+        src={out ? "/images/Header/moon.svg" : "/images/Header/sun.svg"}
         alt="太陽"
         width={70}
         height={70}

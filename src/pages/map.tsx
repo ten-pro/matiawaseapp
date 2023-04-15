@@ -13,7 +13,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import { useAtom } from "jotai";
 import { faces } from "@/atom/faceAtom";
-import { schedulesAtom, schedulesStatusAtom } from "@/atom/SchedulesAtom";
+import { schedulesAtom, schedulesStatusAtom, appointmentAtom } from "@/atom/SchedulesAtom";
 
 const GoogleMap = dynamic(() => import("@/components//map/GoogleMap"), { ssr: false });
 
@@ -45,6 +45,7 @@ const MapPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [nowSchedule, setNowSchedule] = useAtom(schedulesStatusAtom);
+  const [appointmentId, setAppointmentId] = useAtom(appointmentAtom);
   const [currentArrival, setCurrentArrival] = useState<boolean>(false);//true:セリヌンティウス false:メロス
   const [globalArrival, setGlobalArrival] = useState<boolean>(false);
   const [apiRequest, setApiRequest] = useState<boolean>(false);
@@ -76,7 +77,7 @@ const MapPage = () => {
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_currentlocation:'',
-        appointment_id:'25',
+        appointment_id:appointmentId[nowSchedule].appointment_id,
         appointment_lat:myLocation.lat,
         appointment_lng:myLocation.lng,
       }, {
@@ -118,6 +119,8 @@ const MapPage = () => {
             scheduleList[i] = data.get_schedulelist[i];
           }
           setSchedules(scheduleList);
+
+          setAppointmentId(data.appointmentlist)
           
           setOtherLocation({
             lat: parseFloat(data.get_schedulelist[nowSchedule].user_current[nowSchedule].appointment_lat),
@@ -147,8 +150,8 @@ const MapPage = () => {
   }, [apiRequest]);  
   
   useEffect(() => {
-    console.log(nowSchedule)
-  }, [nowSchedule])
+    console.log(appointmentId)
+  }, [appointmentId])
 
   useEffect(() => {
     setIsVisible(isArrival)
@@ -190,7 +193,7 @@ const MapPage = () => {
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_comment:'',
-        appointment_id:'26',
+        appointment_id:appointmentId[nowSchedule].appointment_id,
         comment_id:post
       }, {
           headers: {
@@ -227,8 +230,8 @@ const MapPage = () => {
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_arrival:'',
-        appointment_id:'25',
-        schedule_id:'16'
+        appointment_id:appointmentId[nowSchedule].appointment_id,
+        schedule_id:appointmentId[nowSchedule].schedule_id
       }, {
           headers: {
               'Content-Type': 'multipart/form-data'
@@ -243,7 +246,7 @@ const MapPage = () => {
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
         update_emoticon:'',
-        appointment_id:'25',
+        appointment_id:appointmentId[nowSchedule].appointment_id,
         emoticon_id:post
       }, {
           headers: {
