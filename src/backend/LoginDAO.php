@@ -149,4 +149,26 @@ class Login
         }
         return $data;
     }
+
+    function get_username($user_id)
+    {
+        try {
+            $pdo = $this->get_pdo();
+
+            // ユーザー名に一致するユーザーを取得する
+            $sql = "SELECT * FROM user_tbl WHERE user_id = ?";
+            $ps = $pdo->prepare($sql);
+            $ps->bindValue(1, $user_id, PDO::PARAM_INT);
+            $ps->execute();
+            $search = $ps->fetchAll();
+            // データの整形
+            foreach ($search as $row) {
+                $data = $row['user_name'];
+            }
+        } catch (PDOException $e) {
+            // エラーメッセージを出力する
+            return $e->getMessage();
+        }
+        return $data;
+    }
 }

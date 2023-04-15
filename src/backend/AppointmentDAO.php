@@ -1,4 +1,6 @@
 <?php
+require_once './ChatDAO.php';
+
 class Appointment
 {
     function get_pdo()
@@ -196,19 +198,24 @@ class Appointment
         try {
             $pdo = $this->get_pdo();
 
-            $sql = "SELECT * FROM `appointment_tbl` WHERE user_id = ? AND appointment_status = '未到着';";
+            $sql = "SELECT A.appointment_id,A.user_id,A.schedule_id,A.appointment_status,S.schedule_status
+            FROM appointment_tbl AS A LEFT OUTER JOIN schedule_tbl AS S
+            ON A.schedule_id = S.schedule_id
+            WHERE A.user_id = ? AND S.schedule_status = '未完了';";
             $ps = $pdo->prepare($sql);
             $ps->bindValue(1, $user_id, PDO::PARAM_INT);
             $ps->execute();
             $search = $ps->fetchAll();
             // データの整形
             $data = array();
+            $class = new Chat();
             foreach ($search as $row) {
                 $data[] = array(
                     'appointment_id' => $row['appointment_id'],
                     'schedule_id' => $row['schedule_id'],
-                    'appointment_status' => $row['appointment_status']
-                    
+                    'appointment_status' => $row['appointment_status'],
+                    'chat_list' => $class->get_chatlist($row['appointment_id'])
+
                 );
             }
         } catch (PDOException $e) {
