@@ -12,6 +12,8 @@ require_once './IconDAO.php';
 require_once './CommentDAO.php';
 require_once './EmoticonDAO.php';
 require_once './FriendDAO.php';
+require_once './AppointmentDAO.php';
+require_once './ChatDAO.php';
 
 $data = "nosend";
 
@@ -35,7 +37,7 @@ if (isset($_POST['create_user']) == true) {
 //create_scheduleの引数がある時の処理
 if (isset($_POST['create_schedule']) == true) {
     $class = new Schedule();
-    $data = $class->create_schedule($_POST['schedule_name'],$_POST['schedule_lat'],$_POST['schedule_lng'],$_POST['schedule_time'],$_POST['icon_id'],$_POST['user_ids']);
+    $data = $class->create_schedule($_POST['schedule_name'], $_POST['schedule_lat'], $_POST['schedule_lng'], $_POST['schedule_time'], $_POST['icon_id'], $_POST['user_ids']);
 }
 
 //create_iconの引数がある時の処理
@@ -59,22 +61,88 @@ if (isset($_POST['create_emoticon']) == true) {
 //create_friendの引数がある時の処理
 if (isset($_POST['create_friend']) == true) {
     $class = new Friend();
-    $data = $class->create_friend($_POST['follow_id'],$_POST['user_id']);
+    $data = $class->create_friend($_POST['follow_id'], $_POST['user_id']);
 }
 
 //create_appointmentの引数がある時の処理
 if (isset($_POST['create_appointment']) == true) {
     $class = new Appointment();
-    $data = $class->create_appointment($_POST['schedule_id'],$_POST['user_ids']);
+    $data = $class->create_appointment($_POST['schedule_id'], $_POST['user_ids']);
+}
+
+//create_chatの引数がある時の処理
+if (isset($_POST['create_chat']) == true) {
+    $class = new Chat();
+    $data = $class->create_chat($_POST['schedule_id'], $_POST['user_id'], $_POST['comment_id']);
 }
 
 
 //削除系処理
 
-//deleate_friend
+//deleate_friendの引数がある時の処理
 if (isset($_POST['delete_friend']) == true) {
     $class = new Friend();
-    $data = $class->delete_friend($_POST['follow_id'],$_POST['user_id']);
+    $data = $class->delete_friend($_POST['follow_id'], $_POST['user_id']);
+}
+
+//delete_scheduleの引数がある時の処理
+if (isset($_POST['delete_schedule']) == true) {
+    $class = new Schedule();
+    $data = $class->delete_schedule($_POST['user_id'], $_POST['schedule_id']);
+}
+
+
+//更新系処理
+
+//update_currentlocationの引数がある時の処理
+if (isset($_POST['update_currentlocation']) == true) {
+    $class = new Appointment();
+    $data = $class->create_appointment($_POST['appointment_id'], $_POST['appointment_lat'], $_POST['appointment_lng']);
+}
+
+//update_emoticonの引数がある時の処理
+if (isset($_POST['update_emoticon']) == true) {
+    $class = new Appointment();
+    $data = $class->update_emoticon($_POST['appointment_id'], $_POST['emoticon_id']);
+}
+
+//update_commentの引数がある時の処理
+if (isset($_POST['update_comment']) == true) {
+    $class = new Appointment();
+    $data = $class->update_comment($_POST['appointment_id'], $_POST['comment_id']);
+}
+
+//update_arrivalの引数がある時の処理
+if (isset($_POST['update_arrival']) == true) {
+    $class = new Appointment();
+    $data = $class->update_arrival($_POST['appointment_id'], $_POST['schedule_id']);
+}
+
+//update_userの引数がある時の処理
+if (isset($_POST['update_user']) == true) {
+    $class = new Login();
+    $data = $class->update_user($_POST['user_id'], $_POST['newname'], $_POST['newmail']);
+}
+
+//update_scheduleの引数がある時の処理
+if (isset($_POST['update_schedule']) == true) {
+    $class = new Schedule();
+    $data = $class->update_schedule($_POST['schedule_name'], $_POST['schedule_lat'], $_POST['schedule_lng'], $_POST['schedule_time'], $_POST['icon_id'], $_POST['schedule_id']);
+}
+
+
+//取得系処理
+
+//get_userの引数がある時の処理
+if (isset($_POST['get_user']) == true) {
+    $class = new Login();
+    $class1 = new Appointment();
+    $class2 = new Schedule();
+    $data = array(
+        'user_information' => $class->user_information($_POST['user_id']),
+        'appointmentlist' => $class1->get_appointmentlist($_POST['user_id']),
+        'get_schedulelist' => $class2->get_schedulelist($_POST['user_id'])
+    );
 }
 
 

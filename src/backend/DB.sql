@@ -69,3 +69,19 @@ CREATE TABLE icon_tbl(
     icon_detail     VARCHAR(200)    NOT NULL        ,
     PRIMARY KEY     (icon_id)
 );
+
+//チャットテーブル
+CREATE TABLE chat_tbl(
+chat_id         INT             AUTO_INCREMENT  ,
+appointment_id  INT                             ,
+user_id         INT                             ,
+comment_id      INT             NOT NULL        ,
+PRIMARY KEY     (chat_id)                ,
+FOREIGN KEY (appointment_id) REFERENCES appointment_tbl(appointment_id),
+FOREIGN KEY (user_id) REFERENCES user_tbl(user_id)
+);
+
+SELECT A.appointment_id,A.user_id,A.schedule_id,A.appointment_status,S.schedule_status
+FROM appointment_tbl AS A LEFT OUTER JOIN schedule_tbl AS S
+ON A.schedule_id = S.schedule_id
+WHERE A.user_id =  AND S.schedule_status = '未完了';

@@ -31,14 +31,19 @@ class Friend
                 $ps->bindValue(1, $follow_id, PDO::PARAM_INT);
                 $ps->bindValue(2, $follower_id, PDO::PARAM_INT);
                 $ps->execute();
+                $sql3 = "INSERT INTO friend_tbl (follow_id,follower_id) VALUE (?,?);";
+                $ps = $pdo->prepare($sql3);
+                $ps->bindValue(1, $follower_id, PDO::PARAM_INT);
+                $ps->bindValue(2, $follow_id, PDO::PARAM_INT);
+                $ps->execute();
                 $data = true;
             } else {
                 $data = false;
             }
         } catch (Exception $e) {
-            $data = $e;
+            $data = $e->getMessage();
         } catch (PDOException $e) {
-            $data = $e;
+            $data = $e->getMessage();
         }
         return $data;
     }
@@ -71,9 +76,38 @@ class Friend
             } else {
                 $data = false;
             }
+        } catch (Exception $e) {
+            $data = $e->getMessage();
         } catch (PDOException $e) {
             $data = $e->getMessage();
         }
         return $data;
     }
+
+
+    function get_friendlist($user_id)
+    {
+        try {
+            $pdo = $this->get_pdo();
+
+            $sql = "SELECT F.follow_id AS friend_id,F.follower_id,U.user_name AS 'friend_name' FROM friend_tbl AS F
+            LEFT OUTER JOIN user_tbl AS U
+            ON F.follow_id = U.user_id WHERE F.follower_id = ?;";
+            $ps = $pdo->prepare($sql);
+            $ps->bindValue(1, $user_id, PDO::PARAM_INT);
+            $ps->execute();
+            $search = $ps->fetchAll();
+            foreach ($search as $row1) {
+                $data[] = array('friend_id'=>$row1['friend_id'],'friend_name'=>$row1['friend_name']);
+            }
+
+            return $data;
+        } catch (PDOException $e) {
+            $data = $e->getMessage();
+        } catch (Exception $e) {
+            $data = $e->getMessage();
+        }
+        return $data;
+    }
+
 }
