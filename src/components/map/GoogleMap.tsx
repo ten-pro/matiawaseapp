@@ -6,12 +6,17 @@ interface GoogleMapProps {
     lat: number;
     lng: number;
   };
+  destination: {
+    lat: number;
+    lng: number;
+  };
 }
 
 const addMarkers = (
   map: google.maps.Map,
   currentPosition: google.maps.LatLngLiteral,
-  otherPosition: google.maps.LatLngLiteral
+  otherPosition: google.maps.LatLngLiteral,
+  destination: google.maps.LatLngLiteral
 ) => {
   // 自分の現在地のマーカー
   new google.maps.Marker({
@@ -32,14 +37,24 @@ const addMarkers = (
       url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
     },
   });
+  // 目的地のマーカー
+  new google.maps.Marker({
+    position: destination,
+    map,
+    title: "Destination",
+    icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+    },
+  });
 };
 
-const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
+const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destination }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   const initMap = (
     currentPosition?: google.maps.LatLngLiteral,
-    otherPosition?: google.maps.LatLngLiteral
+    otherPosition?: google.maps.LatLngLiteral,
+    destination?: google.maps.LatLngLiteral
   ) => {
     if (mapRef.current && typeof google !== "undefined") {
       const map = new google.maps.Map(mapRef.current, {
@@ -50,8 +65,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
         fullscreenControl: false
       });
 
-      if (currentPosition && otherPosition) {
-        addMarkers(map, currentPosition, otherPosition);
+      if (currentPosition && otherPosition && destination) {
+        addMarkers(map, currentPosition, otherPosition, destination);
       }
     }
   };
@@ -79,11 +94,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
             lng: position.coords.longitude,
           };
 
-          // 仮に相手の位置を現在地から少し離れた位置にする
-          otherLocation.lat = currentPosition.lat + 0.1;
-          otherLocation.lng = currentPosition.lng + 0.1;
-
-          initMap(currentPosition, otherLocation);
+          initMap(currentPosition, otherLocation, destination);
         },
         (error) => {
           console.error("Error occurred while getting current location.", error);
@@ -94,12 +105,13 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
     }
 
     return () => {
-      document.head.removeChild(script);
-      delete window.initMap;
-    };
-  }, [apiKey, otherLocation]);
-
-  return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
-};
-
-export default GoogleMap;
+        document.head.removeChild(script);
+        delete window.initMap;
+      };
+    }, [apiKey, otherLocation, destination]);
+  
+    return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
+  };
+  
+  export default GoogleMap;
+  

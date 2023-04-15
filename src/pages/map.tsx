@@ -44,6 +44,7 @@ const MapPage = () => {
   const [isArrival, setIsArrival] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [nowSchedule, setNowSchedule] = useState<number>(0)
   const animationDuration = 500;
 
   const [chatList, setChatList] = useState<chatLists>({
@@ -52,10 +53,15 @@ const MapPage = () => {
     ]
   });
 
-  const otherLocation = {
+  const [otherLocation, setOtherLocation] = useState<{lat:number,lng:number}>({
     lat: 35.6895, // 相手の緯度
     lng: 139.6917, // 相手の経度
-  };
+  });
+
+  const [destination, setDestination] = useState<{lat:number,lng:number}>({
+    lat: 34.6895, // 目的地の緯度
+    lng: 138.6917, // 目的地の経度
+  });
   
   useEffect(() => {
     axios
@@ -184,7 +190,7 @@ const MapPage = () => {
     <div>
       <Header />
       <div style={{ width: "100%", height: "696px", position:"absolute" }}>
-        <GoogleMap apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} otherLocation={otherLocation} />
+        <GoogleMap apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} otherLocation={otherLocation} destination={destination} />
       </div>
       {
         isChat ?
@@ -197,12 +203,12 @@ const MapPage = () => {
       }
       {
         isScheduleList ?
-        <ScheduleListComponent onSchedule={schedule} schedules={schedules}/>
+        <ScheduleListComponent onSchedule={schedule} schedules={schedules} setNowSchedule={setNowSchedule}/>
         :
         ""
       }
       {
-        isVisible || isChat? 
+        isVisible || isChat || isScheduleList? 
         ""
         :
         isPlayer ?
@@ -211,7 +217,7 @@ const MapPage = () => {
         <CenteredFace onNowFace={nowFace}/> 
       }
       {
-        !isOpen || isChat?
+        !isOpen || isChat || isScheduleList?
         ""
         :
         <ArrivalButton onArrival={arrival}/>
