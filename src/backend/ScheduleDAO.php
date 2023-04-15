@@ -36,18 +36,19 @@ class Schedule
     }
 
 
-    function update_schedule($schedule_name, $schedule_lat, $schedule_lng, $schedule_time, $schedule_id)
+    function update_schedule($schedule_name, $schedule_lat, $schedule_lng, $schedule_time, $icon_id, $schedule_id)
     {
         try {
             $pdo = $this->get_pdo();
 
-            $sql = "UPDATE `schedule_tbl` SET `schedule_name` = ?, `schedule_lat` = ?, `schedule_lng` = ?, `schedule_time` = ? WHERE `schedule_id` = ?;";
+            $sql = "UPDATE `schedule_tbl` SET `schedule_name` = ?, `schedule_lat` = ?, `schedule_lng` = ?, `schedule_time` = ?,`icon_id` = ? WHERE `schedule_id` = ?;";
             $ps = $pdo->prepare($sql);
             $ps->bindValue(1, $schedule_name, PDO::PARAM_STR);
             $ps->bindValue(2, $schedule_lat, PDO::PARAM_STR);
             $ps->bindValue(3, $schedule_lng, PDO::PARAM_STR);
             $ps->bindValue(4, $schedule_time, PDO::PARAM_STR);
-            $ps->bindValue(5, $schedule_id, PDO::PARAM_INT);
+            $ps->bindValue(5, $icon_id, PDO::PARAM_INT);
+            $ps->bindValue(6, $schedule_id, PDO::PARAM_INT);
             $ps->execute();
             $data = true;
         } catch (PDOException $e) {
@@ -74,7 +75,7 @@ class Schedule
 
             if ($count > 0) {
 
-                
+
                 $class = new Appointment();
                 $class->delete_appointment_id($schedule_id);
 

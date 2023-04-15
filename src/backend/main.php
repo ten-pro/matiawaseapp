@@ -13,6 +13,7 @@ require_once './CommentDAO.php';
 require_once './EmoticonDAO.php';
 require_once './FriendDAO.php';
 require_once './AppointmentDAO.php';
+require_once './ChatDAO.php';
 
 $data = "nosend";
 
@@ -69,6 +70,12 @@ if (isset($_POST['create_appointment']) == true) {
     $data = $class->create_appointment($_POST['schedule_id'], $_POST['user_ids']);
 }
 
+//create_chatの引数がある時の処理
+if (isset($_POST['create_chat']) == true) {
+    $class = new Chat();
+    $data = $class->create_chat($_POST['schedule_id'], $_POST['user_id'], $_POST['comment_id']);
+}
+
 
 //削除系処理
 
@@ -114,8 +121,15 @@ if (isset($_POST['update_arrival']) == true) {
 //update_userの引数がある時の処理
 if (isset($_POST['update_user']) == true) {
     $class = new Login();
-    $data = $class->update_user($_POST['user_id'], $_POST['pass'], $_POST['newname'], $_POST['newpass'], $_POST['newmail']);
+    $data = $class->update_user($_POST['user_id'], $_POST['newname'], $_POST['newmail']);
 }
+
+//update_scheduleの引数がある時の処理
+if (isset($_POST['update_schedule']) == true) {
+    $class = new Schedule();
+    $data = $class->update_schedule($_POST['schedule_name'], $_POST['schedule_lat'], $_POST['schedule_lng'], $_POST['schedule_time'], $_POST['icon_id'], $_POST['schedule_id']);
+}
+
 
 //取得系処理
 

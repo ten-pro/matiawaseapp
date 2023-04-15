@@ -163,8 +163,6 @@ class Appointment
                     throw new Exception('すでに到着しているため更新できません');
                 }
             }
-
-            return false;
         } catch (PDOException $e) {
             $data = $e->getMessage();
         } catch (Exception $e) {
@@ -210,6 +208,7 @@ class Appointment
                     'appointment_id' => $row['appointment_id'],
                     'schedule_id' => $row['schedule_id'],
                     'appointment_status' => $row['appointment_status']
+                    
                 );
             }
         } catch (PDOException $e) {
