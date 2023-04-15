@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface GoogleMapProps {
   apiKey: string;
@@ -6,12 +6,18 @@ interface GoogleMapProps {
     lat: number;
     lng: number;
   };
+  destination: {
+    lat: number;
+    lng: number;
+  };
+  setMyLocation: (value: google.maps.LatLngLiteral) => void;
 }
 
 const addMarkers = (
   map: google.maps.Map,
   currentPosition: google.maps.LatLngLiteral,
-  otherPosition: google.maps.LatLngLiteral
+  otherPosition: google.maps.LatLngLiteral,
+  destination: google.maps.LatLngLiteral
 ) => {
   // 自分の現在地のマーカー
   new google.maps.Marker({
@@ -32,26 +38,37 @@ const addMarkers = (
       url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
     },
   });
+  // 目的地のマーカー
+  new google.maps.Marker({
+    position: destination,
+    map,
+    title: "Destination",
+    icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+    },
+  });
 };
 
-const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
+const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destination, setMyLocation }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
+  const watchId = useRef<number | null>(null);
 
   const initMap = (
     currentPosition?: google.maps.LatLngLiteral,
-    otherPosition?: google.maps.LatLngLiteral
+    otherPosition?: google.maps.LatLngLiteral,
+    destination?: google.maps.LatLngLiteral
   ) => {
     if (mapRef.current && typeof google !== "undefined") {
       const map = new google.maps.Map(mapRef.current, {
         center: currentPosition || otherLocation,
-        zoom: 8,
+        zoom: 14,
         streetViewControl: false,
         mapTypeControl: false,
         fullscreenControl: false
       });
 
-      if (currentPosition && otherPosition) {
-        addMarkers(map, currentPosition, otherPosition);
+      if (currentPosition && otherPosition && destination) {
+        addMarkers(map, currentPosition, otherPosition, destination);
       }
     }
   };
@@ -62,7 +79,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
       return;
     }
 
-    // 以下は既存のコード
     window.initMap = initMap;
 
     const script = document.createElement("script");
@@ -71,35 +87,47 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation }) => {
     script.async = true;
     document.head.appendChild(script);
 
+    return () => {
+      document.head.removeChild(script);
+      delete window.initMap;
+    };
+  }, [apiKey]);
+
+  useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
+      // watchPosition を使って位置情報を監視し、ID を保存します
+      const id = navigator.geolocation.watchPosition(
         (position) => {
           const currentPosition = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+          // ここで myLocation を更新します
+          setMyLocation(currentPosition);
+          // otherLocation.lat = currentPosition.lat + 0.01;
+          // otherLocation.lng = currentPosition.lng - 0.01;
 
-          // 仮に相手の位置を現在地から少し離れた位置にする
-          otherLocation.lat = currentPosition.lat + 0.1;
-          otherLocation.lng = currentPosition.lng + 0.1;
-
-          initMap(currentPosition, otherLocation);
+          initMap(currentPosition, otherLocation, destination);
         },
         (error) => {
           console.error("Error occurred while getting current location.", error);
         }
       );
+
+      watchId.current = id;
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
 
     return () => {
-      document.head.removeChild(script);
-      delete window.initMap;
+      if (watchId.current !== null) {
+        navigator.geolocation.clearWatch(watchId.current);
+      }
     };
-  }, [apiKey, otherLocation]);
+  }, [otherLocation, destination, setMyLocation]);
+  
 
-  return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
+return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
 };
 
 export default GoogleMap;

@@ -4,7 +4,19 @@
     left: 50%;
     transform: translate(-50%, 50%);
   }
-  
+
+  .backgroundgray{
+    background-color: #ffffff87;
+    width: 414px;
+    height: 697px;
+    position: absolute;
+    top: 199px;
+    left: 0;
+    z-index: 1;
+}
+  .opacity{
+    background-color: rgba(255, 255, 255, 0);
+  }
   .button {
     width: 20px;
     height: 20px;

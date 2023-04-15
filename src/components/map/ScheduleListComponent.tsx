@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Inter } from 'next/font/google'
 import Styles from '@/styles/map/ScheduleListComponent.module.css'
+import Image from "next/image";
 
-const inter = Inter({ subsets: ['latin'] })
+interface ScheduleProps {
+    onSchedule: () => void;
+    schedules: {
+        comment_id: number;
+        emoticon_id: number;
+        schedule_id: number;
+        schedule_lat: string;
+        schedule_lng: string;
+        schedule_name: string;
+        schedule_status: string;
+        schedule_time: string;
+    }[];
+    onScheduleChange: (value: number) => void;
+}
 
-function BackGround() {
-    const schedules = [
-        { date: '2023/12/31 12:34', plan: '旅行' },
-        { date: '2023/12/31 15:00', plan: '会議' },
-        { date: '2023/12/31 18:00', plan: '打ち上げ' },
-        { date: '2023/12/31 18:00', plan: '会食' },
-        { date: '2023/12/31 18:00', plan: '飲み会' },
-        { date: '2023/12/31 18:00', plan: '仕事' },
-        { date: '2023/12/31 18:00', plan: 'プレゼン' },
-      ];
+const ScheduleListComponent: React.FC<ScheduleProps> = ({ onSchedule, schedules, onScheduleChange }) => {
+    
 return (
 
 <div>
@@ -21,19 +27,19 @@ return (
         <div className={Styles.title}>予定一覧</div>
         <div className={Styles.border}>
         {schedules.map((schedule, index) => (
-        <div className={Styles.contents} key={index}>
-        <img src="/svg/nifePink.svg" className={Styles.icon} />
-        <div className={Styles.innerContents}>
-            <div className={Styles.date}>{schedule.date}</div>
-            <div className={Styles.plan}>{schedule.plan}</div>
-        </div>
-        </div>
+            <div className={Styles.contents} key={index}>
+            <img src="/svg/nifePink.svg" className={Styles.icon} />
+            <div className={Styles.innerContents} onClick={()=>onScheduleChange(index)}>
+                <div className={Styles.date}>{schedule.schedule_time}</div>
+                <div className={Styles.plan}>{schedule.schedule_name}</div>
+            </div>
+            </div>
         ))}
         </div>
+        <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onSchedule}/>
     </div>
-    <div className={Styles.close}>×</div>
 </div>
 
 );
 }
-export default BackGround
+export default ScheduleListComponent

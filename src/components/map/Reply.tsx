@@ -1,33 +1,34 @@
 import React from "react";
 import { Inter } from 'next/font/google'
 import Styles from '@/styles/map/reply.module.css'
+import Image from "next/image";
 
-const inter = Inter({ subsets: ['latin'] })
+interface ReplyProps {
+    onChat: () => void;
+    onPostChat: (post: number) => void;
+}
 
-function BackGround() {
+const Reply: React.FC<ReplyProps> = ({ onChat, onPostChat }) => {
 return (
 
 
 <div className={Styles.adiv}>
-    <img src="../../img/map.jpg" className={Styles.map} />
     
     <div className={Styles.whiteBack}>
-    <img src="/svg/face.svg" className={Styles.face}/>
-    <div className={Styles.replyWord1}>
-        <div className={Styles.word}>もうすぐ</div>
-        <div className={Styles.word}>今家でた</div>
-        <div className={Styles.word}>忘れ物した</div>
+        <div className={Styles.replyWord1}>
+            <div className={Styles.word} onClick={()=>onPostChat(1)} >もうすぐ</div>
+            <div className={Styles.word} onClick={()=>onPostChat(2)} >今家でた</div>
+            <div className={Styles.word} onClick={()=>onPostChat(3)} >忘れ物した</div>
+        </div>
+        <div className={Styles.replyWord2}>
+            <div className={Styles.word} onClick={()=>onPostChat(4)} >まだかかりそう</div>
+            <div className={Styles.word} onClick={()=>onPostChat(5)} >今起きた</div>
+            <div className={Styles.word} onClick={()=>onPostChat(6)} >いけなさそう</div>
+        </div>
+        <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onChat}/>
     </div>
-    <div className={Styles.replyWord2}>
-        <div className={Styles.word}>まだかかりそう</div>
-        <div className={Styles.word}>今起きた</div>
-        <div className={Styles.word}>いけなさそう</div>
-    </div>
-    <div className={Styles.replyWord2}></div>
-    </div>
-    <div className={Styles.close}>×</div>
 </div>
 
 );
 }
-export default BackGround
+export default Reply

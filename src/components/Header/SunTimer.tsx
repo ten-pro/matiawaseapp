@@ -6,29 +6,33 @@ import { maxTime, nowTime, timeOut } from '@/atom/bgimg';
 
 type SunTimerProps = {
   onPositionChange?: (x: number, y: number) => void;
+  startTimer: boolean;
 };
 
-const SunTimer: React.FC<SunTimerProps> = ({ onPositionChange }) => {
+const SunTimer: React.FC<SunTimerProps> = ({ onPositionChange, startTimer }) => {
   const [timer, setTimer] = useAtom(nowTime);
   const [max] = useAtom(maxTime);
   const [out, setOut] = useAtom(timeOut);
 
+
   useEffect(() => {
     setOut(false);
     const updateTimer = () => {
-      setTimer((prevTimer) => (prevTimer - 1));
+      if (startTimer) {
+        setTimer((prevTimer) => (prevTimer - 1));
+      }
     };
-
+  
     const timerIntervalId = setInterval(updateTimer, 1000);
-
+  
     return () => {
       clearInterval(timerIntervalId);
     };
-  }, []);
+  }, [startTimer]);
+  
 
   useEffect(() => {
-    console.log(timer)
-    if(timer=== 0){
+    if(timer=== 0 && !out){
       setTimer(max);
       setOut(true);
     }
@@ -47,7 +51,7 @@ const SunTimer: React.FC<SunTimerProps> = ({ onPositionChange }) => {
       <Image
         className={styles.sun}
         style={{ transform: `translate(${x}px, ${y}px)` }}
-        src="/images/Header/sun.svg"
+        src={out ? "/images/Header/moon.svg" : "/images/Header/sun.svg"}
         alt="太陽"
         width={70}
         height={70}

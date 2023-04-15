@@ -4,51 +4,93 @@ import Modoru from "@/components/modoru";
 import Btn from "@/components/sakusei/sakuseibtn";
 import Form from "@/components/sakusei/form";
 import Top from "@/components/Top";
-import React, { useState } from 'react'
 
+import MapSelect from "@/components/sakusei/MapSelect";
+import GoogleMap from "@/components/sakusei/BackgroundMap";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import swal from "sweetalert";
 
-function sakusei(){
-  const [name, setName] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [time, setTime] = useState<string>("");
-  const [icon, setIcon] = useState<string>();
-
-  function handleSendName(name: string) {
-    setName(name);
-  }
-  function handleSendDate(date: string) {
-    setDate(date);
-  }
-  function handleSendTime(time: string) {
-    setTime(time);
-  }
-  function handleSendIcon(icon: string) {
-    setIcon(icon);
-  }
-  // function handleClick() {
-  //   console.log(name, date, time, icon);
-  // }
-
-
-  return(
-    <div>
-      {/* <Header/> */}
-      <Modoru/>
-        <div className={Styles.saku_area}>
-          <div className={Styles.input_area}>
-            
-            <Form 
-                onSendName={handleSendName}
-                onSendDate={handleSendDate}
-                onSendTime={handleSendTime}
-                onSendIcon={handleSendIcon}/>
-          </div>
-          <Btn name={name} date={date} time={time} icon={icon}/>
-          {/* <button onClick={handleClick}>debug2</button> */}
-                  </div>
-      <Top/>
-    </div>
-    
-  )
+interface friends{
+  friend_id: number;
+  friend_name: string;
 }
-export default sakusei;
+
+function Sakusei() {
+  const [yotei, setYotei] = useState<string>("");
+  const [place, setPlace] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+  const [icon, setIcon] = useState<number>();
+  const [friend, setFriend] = useState<number>();
+  const [friends, setFriends] = useState<friends[]>([]);
+  
+
+  useEffect(() => {
+    axios
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
+        login_user:'',
+        name:'テストユーザ１',
+        pass:'pass0000'
+      }, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+      .then(function (res) {
+        console.log(res.data);
+        let friendList = new Array<friends>();
+        for(let i = 0; i < res.data.get_friendlist.length; i++){
+          friendList[i] = res.data.get_friendlist[i];
+        }
+        setFriends(friendList)
+      })
+    },[])
+
+  const postCreate = async () => {
+    axios
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
+        create_schedule: '',
+        schedule_name: yotei,
+        schedule_lat: place,
+        schedule_lng: place,
+        schedule_time: time,
+        icon_id: icon,
+        user_ids: [6,friend] //配列可
+      }, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+      .then(function (res) {
+        console.log(res.data);
+        if(res.data){
+          swal("予定を作成しました","","success");
+        }
+      })
+  }
+
+  return (
+    <div>
+      <Header />
+      <GoogleMap />
+      <Modoru />
+      <MapSelect />
+      <div className={Styles.saku_area}>
+        <div className={Styles.input_area}>
+          <Form
+            setYotei={setYotei}
+            setPlace={setPlace}
+            setTime={setTime}
+            setIcon={setIcon}
+            setFriend={setFriend}
+            friends={friends}
+          />
+          
+        </div>
+        <Btn onClick={postCreate} />
+      </div>
+      <Top />
+    </div>
+  );
+}
+export default Sakusei;

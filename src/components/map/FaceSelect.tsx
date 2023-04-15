@@ -1,17 +1,49 @@
-import React, { useState } from "react";
+// FaceSelect.tsx
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/map/FaceSelect.module.css";
 import Image from "next/image";
+import { useAtom } from 'jotai';
+import { faces } from '@/atom/faceAtom';
 
-const FaceSelect = () => {
-  const [scale, setScale] = useState(1);
+interface FaceSelectProps {
+  onPostFace: (a: number) => void;
+  schedules: {
+    comment_id: number;
+    emoticon_id: number;
+    schedule_id: number;
+    schedule_lat: string;
+    schedule_lng: string;
+    schedule_name: string;
+    schedule_status: string;
+    schedule_time: string;
+  }[];
+  onNowSchedule:number;
+}
+
+const FaceSelect: React.FC<FaceSelectProps> = ({ onPostFace, schedules, onNowSchedule }) => {
+
+
+  const [face, setFace] = useAtom(faces);
+  const [rerender, setRerender] = useState(false);
+
+  useEffect(() => {
+    setRerender(!rerender);
+  }, [schedules]);
 
   return (
     <div className={styles.container}>
-        <Image src="images/map/face5.svg" alt="face5" className={styles.svg} width={60} height={60} />
-        <Image src="images/map/face4.svg" alt="face4" className={styles.svg} width={60} height={60} />
-        <Image src="images/map/face3.svg" alt="face3" className={styles.svg} width={60} height={60} />
-        <Image src="images/map/face2.svg" alt="face2" className={styles.svg} width={60} height={60} />
-        <Image src="images/map/face1.svg" alt="face1" className={styles.svg} width={60} height={60} />
+      {face.map((faces, i) => (
+        <Image
+        key={i}
+        src={faces.src}
+        alt="face"
+        className={schedules[onNowSchedule].emoticon_id === faces.id ? styles.selectedSvg : styles.normalSvg}
+        width={60}
+        height={60}
+        onClick={() => onPostFace(i + 1)}
+      />
+      
+      ))}
     </div>
   );
 };
