@@ -5,7 +5,6 @@ import Btn from "@/components/sakusei/sakuseibtn";
 import Form from "@/components/sakusei/form";
 import Top from "@/components/Top";
 import MapSelect from "@/components/sakusei/MapSelect";
-import GoogleMap from "@/components/sakusei/BackgroundMap";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
@@ -71,7 +70,6 @@ function Sakusei() {
   return (
     <div>
       <Header />
-      <GoogleMap />
       <Modoru />
       <MapSelect />
       <div className={Styles.saku_area}>
