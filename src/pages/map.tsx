@@ -53,6 +53,11 @@ const MapPage = () => {
     ]
   });
 
+  const [myLocation, setMyLocation] = useState<{lat:number,lng:number}>({
+    lat: 35.6895, // 自分の緯度
+    lng: 139.6917, // 自分の経度
+  });
+
   const [otherLocation, setOtherLocation] = useState<{lat:number,lng:number}>({
     lat: 35.6895, // 相手の緯度
     lng: 139.6917, // 相手の経度
@@ -62,6 +67,23 @@ const MapPage = () => {
     lat: 34.6895, // 目的地の緯度
     lng: 138.6917, // 目的地の経度
   });
+
+  useEffect(() => {
+    axios
+      .post('https://mp-class.chips.jp/matiawase/main.php', {
+        update_currentlocation:'',
+        appointment_id:'25',
+        appointment_lat:myLocation.lat,
+        appointment_lng:myLocation.lng,
+      }, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+      .then(function (res) {
+        console.log(res.data);
+      })
+  }, [myLocation])
   
   useEffect(() => {
     axios
@@ -89,9 +111,19 @@ const MapPage = () => {
           scheduleList[i] = data.get_schedulelist[i];
         }
         setSchedules(scheduleList);
+        
+        console.log(data.get_schedulelist[0].user_current[0].appointment_lat)
+        setOtherLocation({
+          lat: parseFloat(data.get_schedulelist[0].user_current[0].appointment_lat),
+          lng: parseFloat(data.get_schedulelist[0].user_current[0].appointment_lng),
+        });
+        
       })
   }, [facesArray])
   
+  useEffect(() => {
+    console.log(otherLocation)
+  }, [otherLocation])
 
   useEffect(() => {
     //TODO : 到着ボタンの表示非表示条件を追加する
@@ -190,7 +222,12 @@ const MapPage = () => {
     <div>
       <Header />
       <div style={{ width: "100%", height: "696px", position:"absolute" }}>
-        <GoogleMap apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} otherLocation={otherLocation} destination={destination} />
+        <GoogleMap 
+          apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} 
+          otherLocation={otherLocation} 
+          destination={destination} 
+          setMyLocation={setMyLocation} 
+        />
       </div>
       {
         isChat ?
@@ -212,9 +249,9 @@ const MapPage = () => {
         ""
         :
         isPlayer ?
-        <FaceSelect onPostFace={postFace}/>
+        <FaceSelect onPostFace={postFace} />
         :
-        <CenteredFace onNowFace={nowFace}/> 
+        <CenteredFace onNowFace={nowFace} /> 
       }
       {
         !isOpen || isChat || isScheduleList?

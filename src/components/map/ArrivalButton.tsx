@@ -11,7 +11,7 @@ return (
     <Image
         src="images/map/arrival.svg"
         alt=""
-        width={50}
+        width={200}
         height={50}
         className={`${styles.arrival}`}
         onClick={onArrival}
