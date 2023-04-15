@@ -61,7 +61,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
     if (mapRef.current && typeof google !== "undefined") {
       const map = new google.maps.Map(mapRef.current, {
         center: currentPosition || otherLocation,
-        zoom: 8,
+        zoom: 14,
         streetViewControl: false,
         mapTypeControl: false,
         fullscreenControl: false
@@ -94,7 +94,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
   }, [apiKey]);
 
   useEffect(() => {
-    console.log("otherLocation", otherLocation);
     if (navigator.geolocation) {
       // watchPosition を使って位置情報を監視し、ID を保存します
       const id = navigator.geolocation.watchPosition(
@@ -106,6 +105,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
 
           // ここで myLocation を更新します
           setMyLocation(currentPosition);
+          // otherLocation.lat = currentPosition.lat + 0.01;
+          // otherLocation.lng = currentPosition.lng - 0.01;
 
           initMap(currentPosition, otherLocation, destination);
         },
