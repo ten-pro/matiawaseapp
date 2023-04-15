@@ -61,7 +61,7 @@ const MapPage = () => {
     axios
       .post('https://mp-class.chips.jp/matiawase/main.php', {
         get_user: '',
-        user_id: '7',
+        user_id: '6',
       }, {
         headers: {
           'Content-Type': 'multipart/form-data',
