@@ -1,16 +1,22 @@
 import Styles from "@/styles/Frend.module.css";
 import { useState } from "react";
-const frendinput = (props:any) =>{
 
-  const sousin = (e:any) =>{
-    props.setfrendinput(e.target.value);
-  }
+type ChildComponentProps = {
+  inputValue: string;
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-  return(
-    <div >
-      <input type="text" placeholder="メールアドレス" className={Styles.input} onChange={sousin}/>
+const Frendinput = ({ inputValue, onInputChange }: ChildComponentProps) => {
 
+  return (
+    <div>
+      <input 
+      type="text" 
+      placeholder="相手のID（半角入力）" 
+      className={Styles.input}
+      value={inputValue} 
+      onChange={onInputChange}/>
     </div>
-  )
-}
-export default frendinput;
+  );
+};
+export default Frendinput;
