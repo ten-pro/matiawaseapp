@@ -2,6 +2,7 @@
 
 import { FC, useEffect, useState } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import styles from '@/styles/sakusei/MapModal.module.css';
 
 interface MapModalProps {
   show: boolean;
@@ -11,8 +12,7 @@ interface MapModalProps {
 
 const containerStyle = {
   width: '394px',
-  height: '600px',
-  margin: '0 auto',
+  height: '650px',
 };
 
 const defaultCenter = {
@@ -44,7 +44,7 @@ const MapModal: FC<MapModalProps> = ({ show, onHide, onSelectLocation }) => {
   };
 
   return (
-    <div style={{ display: show ? 'block' : 'none', position: 'relative' }}>
+    <div style={{ display: show ? 'block' : 'none', position: 'absolute' }} className={styles.wrap}>
       <div>
         <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
           <GoogleMap
@@ -52,17 +52,23 @@ const MapModal: FC<MapModalProps> = ({ show, onHide, onSelectLocation }) => {
             center={defaultCenter}
             zoom={10}
             onClick={handleClick}
+            options={{
+                zoomControl: false,
+                mapTypeControl: false,
+                fullscreenControl: false,
+                streetViewControl: false,
+            }}
           >
             {selectedPosition && <Marker position={selectedPosition} />}
           </GoogleMap>
         </LoadScript>
       </div>
-      <button onClick={onHide} style={{ position: 'absolute', top: 0, right: 0 }}>
+      <div onClick={onHide} className={styles.closeButton}>
         閉じる
-      </button>
-      <button onClick={handleConfirm} style={{ position: 'absolute', bottom: 0, right: 0 }}>
+      </div>
+      <div onClick={handleConfirm} className={styles.sendButton}>
         確定
-      </button>
+      </div>
     </div>
   );
 };
