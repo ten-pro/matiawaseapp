@@ -17,7 +17,6 @@ const hyouzi: React.FC<ChildComponentProps> = ({ names }) => {
       {names.map((name,index)=>
       <p className={Styles.line2} key={index}>{name.name}</p>)}
     </div>
-    
   )
 }
 export default hyouzi;
