@@ -214,8 +214,67 @@ class Appointment
                     'appointment_id' => $row['appointment_id'],
                     'schedule_id' => $row['schedule_id'],
                     'appointment_status' => $row['appointment_status'],
-                    'chat_list' => $class->get_chatlist($row['appointment_id'])
+                    'chat_list' => $class->get_chatlist($row['appointment_id']),
+                    'partner_status' => $this->get_partner_status($row['schedule_id'],$user_id)
+                );
+            }
+        } catch (PDOException $e) {
+            $data = $e->getMessage();
+        } catch (Error $e) {
+            $data = $e->getMessage();
+        }
+        return $data;
+    }
 
+    function get_user_currentlocation($schedule_id, $user_id)
+    {
+        try {
+            $pdo = $this->get_pdo();
+
+            $sql = "SELECT * FROM appointment_tbl WHERE schedule_id = ? AND NOT user_id = ?;";
+            $ps = $pdo->prepare($sql);
+            $ps->bindValue(1, $schedule_id, PDO::PARAM_INT);
+            $ps->bindValue(2, $user_id, PDO::PARAM_INT);
+            $ps->execute();
+            $search = $ps->fetchAll();
+            // データの整形
+            $data = array();
+            $class = new Login();
+            foreach ($search as $row) {
+                $data[] = array(
+                    'user_id' => $row['user_id'],
+                    'user_name' => $class->get_username($row['user_id']),
+                    'appointment_lat' => $row['appointment_lat'],
+                    'appointment_lng' => $row['appointment_lng'],
+                );
+            }
+        } catch (PDOException $e) {
+            $data = $e->getMessage();
+        } catch (Error $e) {
+            $data = $e->getMessage();
+        }
+        return $data;
+    }
+
+
+    function get_partner_status($schedule_id, $user_id)
+    {
+        try {
+            $pdo = $this->get_pdo();
+
+            $sql1 = "SELECT * FROM appointment_tbl WHERE schedule_id = ? AND NOT user_id = ?";
+            $ps = $pdo->prepare($sql1);
+            $ps->bindValue(1, $schedule_id, PDO::PARAM_INT);
+            $ps->bindValue(2, $user_id, PDO::PARAM_INT);
+            $ps->execute();
+            $search = $ps->fetchAll();
+            // データの整形
+            $class = new Login();
+            foreach ($search as $row) {
+                $data[] = array(
+                    'user_id' => $row['user_id'],
+                    'user_name' => $class->get_username($row['user_id']),
+                    'appointment_status' => $row['appointment_status']
                 );
             }
         } catch (PDOException $e) {

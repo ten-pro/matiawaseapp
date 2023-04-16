@@ -97,7 +97,7 @@ if (isset($_POST['delete_schedule']) == true) {
 //update_currentlocationの引数がある時の処理
 if (isset($_POST['update_currentlocation']) == true) {
     $class = new Appointment();
-    $data = $class->create_appointment($_POST['appointment_id'], $_POST['appointment_lat'], $_POST['appointment_lng']);
+    $data = $class->update_currentlocation($_POST['appointment_id'], $_POST['appointment_lat'], $_POST['appointment_lng']);
 }
 
 //update_emoticonの引数がある時の処理

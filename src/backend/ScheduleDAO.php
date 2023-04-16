@@ -108,6 +108,8 @@ class Schedule
             $search = $ps->fetchAll();
             $data = array();
 
+            $class = new Appointment();
+
             foreach ($search as $row1) {
                 $sql2 = "SELECT * FROM `schedule_tbl` WHERE schedule_id = ? AND schedule_status = '未完了';";
                 $ps2 = $pdo->prepare($sql2);
@@ -123,9 +125,9 @@ class Schedule
                         "schedule_lat" => $row2["schedule_lat"],
                         "schedule_lng" => $row2["schedule_lng"],
                         "emoticon_id" => $row2["emoticon_id"],
-                        "comment_id" => $row2["comment_id"],
                         "schedule_time" => $row2["schedule_time"],
-                        "schedule_status" => $row2["schedule_status"]
+                        "schedule_status" => $row2["schedule_status"],
+                        "user_current" => $class->get_user_currentlocation($row2["schedule_id"], $user_id)
                     );
                 }
             }
