@@ -68,10 +68,8 @@ function frend(){
         if (response.data === false) {
           // userData.error1 = true;
         } else {
-          console.log(response.data);
           sessionStorage.setItem('id', response.data.user_information.user_id);
           if (response.data.get_friendlist === null) {
-            console.log('フレンドがいません');
             let friend_id: number = 0;
             let friend_name: string =
               'フレンドがいません。登録しませんか？';
@@ -105,7 +103,6 @@ function frend(){
               ]);
              }
           }
-          console.log(response);
         }
       } catch (error) {
         console.log(error);
@@ -131,7 +128,6 @@ function frend(){
           },
         }
       );
-      console.log(response);
       setinputdiv(true);
       sethyouzidiv(false);
       settuikabtn(false);
