@@ -14,7 +14,7 @@ function Card() {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          'http://mp-class.chips.jp/matiawase/main.php',
+          'https://mp-class.chips.jp/matiawase/main.php',
           {
             create_user: '',
             name: name,

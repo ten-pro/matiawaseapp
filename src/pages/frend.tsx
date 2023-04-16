@@ -53,10 +53,10 @@ function frend(){
     const fetchDataAsync = async () => {
       try {
         const response = await axios.post(
-          'http://mp-class.chips.jp/matiawase/main.php',
+          'https://mp-class.chips.jp/matiawase/main.php',
           {
             login_user: '',
-            name: '変更',
+            name: 'テストユーザ１',
             pass: 'pass0000',
           },
           {
@@ -119,7 +119,7 @@ function frend(){
   const handleSaveChanges = async () => {
     try {
       const response = await axios.post(
-        'http://mp-class.chips.jp/matiawase/main.php',
+        'https://mp-class.chips.jp/matiawase/main.php',
         {
           create_friend:'',
           follow_id:9,//友達のuser_id
