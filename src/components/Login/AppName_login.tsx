@@ -9,7 +9,7 @@ function AppName() {
     
     <div className={Styles.div}>
       
-        <div className={Styles.appName}>待合アプリ（仮）</div>
+        <div className={Styles.appName}>あなたもメロス</div>
         <div className={Styles.card}></div>
     </div>
   );
