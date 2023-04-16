@@ -170,8 +170,8 @@ const MapPage = () => {
   }, [apiRequest]);  
   
   useEffect(() => {
-    console.log(appointmentId)
-  }, [appointmentId])
+    console.log(schedules)
+  }, [schedules])
 
   useEffect(() => {
     setIsVisible(isArrival)
