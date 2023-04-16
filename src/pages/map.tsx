@@ -111,11 +111,14 @@ const MapPage = () => {
         if(data.get_schedulelist.length === 0){
 
         }else{
+          console.log(data.get_schedulelist[nowSchedule])
           setNowFace(facesArray[data.get_schedulelist[nowSchedule].emoticon_id - 1].src);
     
-          const name = data.user_information.user_name;
+          const name = data.appointmentlist[nowSchedule].chat_list[0].user_name;
           let messages = new Array();
-          messages = data.get_chatlist;
+          for(let i = 0; i<data.appointmentlist[nowSchedule].chat_list.length; i++){
+            messages[i] = data.appointmentlist[nowSchedule].chat_list[0].comment_id;
+          }
           setChatList({ name, messages });
     
           let scheduleList = new Array();
@@ -127,8 +130,8 @@ const MapPage = () => {
           setAppointmentId(data.appointmentlist)
           
           setOtherLocation({
-            lat: parseFloat(data.get_schedulelist[nowSchedule].user_current[nowSchedule].appointment_lat),
-            lng: parseFloat(data.get_schedulelist[nowSchedule].user_current[nowSchedule].appointment_lng),
+            lat: parseFloat(data.get_schedulelist[nowSchedule].user_current[0].appointment_lat),
+            lng: parseFloat(data.get_schedulelist[nowSchedule].user_current[0].appointment_lng),
           });
 
           setDestination({
@@ -137,11 +140,15 @@ const MapPage = () => {
           });
 
           data.appointmentlist[nowSchedule].appointment_status === '到着' ? setCurrentArrival(true) : setCurrentArrival(false);
-          data.appointmentlist[nowSchedule].partner_status[nowSchedule].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
+          data.appointmentlist[nowSchedule].partner_status[0].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
         }
         
       })
-  }, [facesArray, apiRequest])
+  }, [facesArray, apiRequest, nowSchedule])
+
+  useEffect(() => {
+    console.log(nowSchedule)
+  },[nowSchedule])
 
   // 1分ごとにデータを取得
   useEffect(() => {
