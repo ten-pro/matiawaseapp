@@ -182,6 +182,7 @@ const MapPage = () => {
   const chat = () => {
     // chat関数の処理
     console.log("チャットだよ")
+    console.log(isOpen+" "+isClosing)
     if(!currentArrival && !globalArrival){
       swal("未到着", "あなたも相手も未到着です", "warning")
       return;
@@ -189,6 +190,8 @@ const MapPage = () => {
     setIsChat(!isChat)
   };
   useEffect(() => {
+    setIsOpen(false)
+    setIsClosing(false)
     setIsVisible(isChat)
     setIsMenu(!isChat)
   }, [isChat])
@@ -219,8 +222,11 @@ const MapPage = () => {
     setIsScheduleList(!isScheduleList)
   };
   useEffect(() => {
+    setIsOpen(false)
+    setIsClosing(false)
     setIsMenu(!isScheduleList)
     setIsVisible(isScheduleList)
+
   }, [isScheduleList])
 
   const scheduleChange = (post:number) => {
