@@ -8,7 +8,7 @@ type BtnProps = {
 
 const Btn: React.FC<BtnProps> = ({ onClick }) => {
   return (
-    <button className={Styles.btn} onClick={onClick}>
+    <button className={Styles.btn} onClick={onClick} style={{cursor:"pointer"}}>
       作成
     </button>
   );

@@ -134,7 +134,11 @@ const MapPage = () => {
           });
 
           if(data.appointmentlist[nowSchedule].appointment_status === "到着" || data.appointmentlist[nowSchedule].partner_status[0].appointment_status === "到着"){
+            try{
             setNowFace(facesArray[data.get_schedulelist[nowSchedule].emoticon_id - 1].src);
+            }catch(e){
+              setNowFace("images/map/face5.svg");
+            }
             try{
               const name = data.appointmentlist[nowSchedule].chat_list[0].user_name;
               let messages = new Array();
@@ -261,6 +265,10 @@ const MapPage = () => {
       })
       .then(function(res){
         console.log(res);
+        swal("到着！", "到着したことを送信しました！", "success")
+        .then(() => {
+          setApiRequest(!apiRequest)
+        })
       })
   }
 
