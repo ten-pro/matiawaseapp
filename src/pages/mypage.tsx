@@ -40,7 +40,7 @@ interface User {
   const handleSaveChanges = async () => {
     try {
       const response = await axios.post(
-        'http://mp-class.chips.jp/matiawase/main.php',
+        'https://mp-class.chips.jp/matiawase/main.php',
         {
           update_user:'',
           user_id:10,
@@ -65,7 +65,7 @@ interface User {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          'http://mp-class.chips.jp/matiawase/main.php',
+          'https://mp-class.chips.jp/matiawase/main.php',
           {
             login_user: '',
             name: 'テストユーザ４',

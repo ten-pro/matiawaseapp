@@ -112,15 +112,9 @@ const MapPage = () => {
 
         }else{
           console.log(data.get_schedulelist[nowSchedule])
-          setNowFace(facesArray[data.get_schedulelist[nowSchedule].emoticon_id - 1].src);
-    
-          const name = data.appointmentlist[nowSchedule].chat_list[0].user_name;
-          let messages = new Array();
-          for(let i = 0; i<data.appointmentlist[nowSchedule].chat_list.length; i++){
-            messages[i] = data.appointmentlist[nowSchedule].chat_list[0].comment_id;
-          }
-          setChatList({ name, messages });
-    
+          data.appointmentlist[nowSchedule].appointment_status === '到着' ? setCurrentArrival(true) : setCurrentArrival(false);
+          data.appointmentlist[nowSchedule].partner_status[0].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
+
           let scheduleList = new Array();
           for (let i = 0; i < data.get_schedulelist.length; i++) {
             scheduleList[i] = data.get_schedulelist[i];
@@ -128,7 +122,7 @@ const MapPage = () => {
           setSchedules(scheduleList);
 
           setAppointmentId(data.appointmentlist)
-          
+            
           setOtherLocation({
             lat: parseFloat(data.get_schedulelist[nowSchedule].user_current[0].appointment_lat),
             lng: parseFloat(data.get_schedulelist[nowSchedule].user_current[0].appointment_lng),
@@ -139,8 +133,19 @@ const MapPage = () => {
             lng: parseFloat(data.get_schedulelist[nowSchedule].schedule_lng),
           });
 
-          data.appointmentlist[nowSchedule].appointment_status === '到着' ? setCurrentArrival(true) : setCurrentArrival(false);
-          data.appointmentlist[nowSchedule].partner_status[0].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
+          if(data.appointmentlist[nowSchedule].appointment_status === "到着" || data.appointmentlist[nowSchedule].partner_status[0].appointment_status === "到着"){
+            setNowFace(facesArray[data.get_schedulelist[nowSchedule].emoticon_id - 1].src);
+            try{
+              const name = data.appointmentlist[nowSchedule].chat_list[0].user_name;
+              let messages = new Array();
+              for(let i = 0; i<data.appointmentlist[nowSchedule].chat_list.length; i++){
+                messages[i] = data.appointmentlist[nowSchedule].chat_list[0].comment_id;
+              }
+              setChatList({ name, messages });
+            }catch(e){
+              setChatList({ name: "相手未到着", messages: [] });
+            }
+          }
         }
         
       })
@@ -222,7 +227,7 @@ const MapPage = () => {
   const schedule = () => {
     // schedule関数の処理
     console.log("スケジュールだよ")
-    if(!currentArrival && !globalArrival){
+    if(schedules.length === 0){
       swal("予定がありません", "メニューボタンから作成画面へ移動し予定を作成しましょう", "error")
       return;
     }
