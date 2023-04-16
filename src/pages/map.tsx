@@ -87,7 +87,6 @@ const MapPage = () => {
         }
       })
       .then(function (res) {
-        console.log(res.data);
       })
     }catch(e){
       console.log(e);
@@ -106,12 +105,10 @@ const MapPage = () => {
         }
       })
       .then(function (res) {
-        console.log(res.data);
         const data = res.data;
         if(data.get_schedulelist.length === 0){
 
         }else{
-          console.log(data.get_schedulelist[nowSchedule])
           data.appointmentlist[nowSchedule].appointment_status === '到着' ? setCurrentArrival(true) : setCurrentArrival(false);
           data.appointmentlist[nowSchedule].partner_status[0].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
 
@@ -156,7 +153,6 @@ const MapPage = () => {
   }, [facesArray, apiRequest, nowSchedule])
 
   useEffect(() => {
-    console.log(nowSchedule)
   },[nowSchedule])
 
   // 1分ごとにデータを取得
@@ -168,10 +164,6 @@ const MapPage = () => {
     // クリーンアップ関数を返すことで、コンポーネントがアンマウントされたときにタイマーをクリアします
     return () => clearInterval(interval);
   }, [apiRequest]);  
-  
-  useEffect(() => {
-    console.log(schedules)
-  }, [schedules])
 
   useEffect(() => {
     setIsVisible(isArrival)
@@ -191,14 +183,11 @@ const MapPage = () => {
 
   const visible = () => {
     // chat関数の処理
-    console.log("表示非表示だよ")
     setIsVisible(!isVisible)
   };
 
   const chat = () => {
     // chat関数の処理
-    console.log("チャットだよ")
-    console.log(isOpen+" "+isClosing)
     if(!currentArrival && !globalArrival){
       swal("未到着", "あなたも相手も未到着です", "warning")
       return;
@@ -224,13 +213,11 @@ const MapPage = () => {
           }
       })
       .then(function(res){
-        console.log(res);
       })
   }
 
   const schedule = () => {
     // schedule関数の処理
-    console.log("スケジュールだよ")
     if(schedules.length === 0){
       swal("予定がありません", "メニューボタンから作成画面へ移動し予定を作成しましょう", "error")
       return;
@@ -264,7 +251,6 @@ const MapPage = () => {
           }
       })
       .then(function(res){
-        console.log(res);
         swal("到着！", "到着したことを送信しました！", "success")
         .then(() => {
           setApiRequest(!apiRequest)
@@ -284,7 +270,6 @@ const MapPage = () => {
           }
       })
       .then(function(res){
-        console.log(res);
         setApiRequest(!apiRequest)
       })
   };

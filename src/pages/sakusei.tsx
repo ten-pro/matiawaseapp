@@ -35,7 +35,6 @@ function Sakusei() {
         }
       })
       .then(function (res) {
-        console.log(res.data);
         let friendList = new Array<friends>();
         for(let i = 0; i < res.data.get_friendlist.length; i++){
           friendList[i] = res.data.get_friendlist[i];
@@ -60,7 +59,6 @@ function Sakusei() {
         }
       })
       .then(function (res) {
-        console.log(res.data);
         if(res.data){
           swal("予定を作成しました","","success");
         }

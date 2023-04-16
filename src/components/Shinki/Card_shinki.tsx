@@ -27,14 +27,11 @@ function Card() {
             },
           }
         );
-        // console.log(response.data)
         if(response.data.create_acount === true) {
           localStorage.setItem('user_id', response.data.user_information.user_id)
-          // console.log(localStorage.getItem('user_id'))
           seterror(false)
         } else {
           seterror(true)
-          // console.log(response.data)
         }
       } 
       catch(error) {
