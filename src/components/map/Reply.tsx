@@ -25,7 +25,7 @@ return (
             <div className={Styles.word} onClick={()=>onPostChat(5)} >今起きた</div>
             <div className={Styles.word} onClick={()=>onPostChat(6)} >いけなさそう</div>
         </div>
-        <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onChat}/>
+        <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onChat} style={{cursor: "pointer"}}/>
     </div>
 </div>
 

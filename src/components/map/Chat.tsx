@@ -26,7 +26,7 @@ return (
             {onChatList.messages && onChatList.messages.map((message, i) => (
                 <div className={Styles.hensin}>{chatArray[message]}</div>
             ))}
-        <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onChat}/>
+        <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onChat} style={{cursor: "pointer"}}/>
     </div>
 );
 }

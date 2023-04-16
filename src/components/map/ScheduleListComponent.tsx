@@ -28,15 +28,15 @@ return (
         <div className={Styles.border}>
         {schedules.map((schedule, index) => (
             <div className={Styles.contents} key={index}>
-            <img src="/svg/nifePink.svg" className={Styles.icon} />
-            <div className={Styles.innerContents} onClick={()=>onScheduleChange(index)}>
-                <div className={Styles.date}>{schedule.schedule_time}</div>
-                <div className={Styles.plan}>{schedule.schedule_name}</div>
-            </div>
+                <img src="/svg/nifePink.svg" className={Styles.icon} />
+                <div className={Styles.innerContents} onClick={()=>onScheduleChange(index)} style={{cursor: "pointer"}}>
+                    <div className={Styles.date}>{schedule.schedule_time}</div>
+                    <div className={Styles.plan}>{schedule.schedule_name}</div>
+                </div>
             </div>
         ))}
         </div>
-        <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onSchedule}/>
+        <Image className={Styles.close} src="/images/map/close.svg" alt="close" width={20} height={20} onClick={onSchedule} style={{cursor: "pointer"}}/>
     </div>
 </div>
 
