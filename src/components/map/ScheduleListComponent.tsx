@@ -19,6 +19,12 @@ interface ScheduleProps {
 }
 
 const ScheduleListComponent: React.FC<ScheduleProps> = ({ onSchedule, schedules, onScheduleChange }) => {
+
+    let scheduleImg = [
+        "/svg/bag.svg",
+        "/svg/nifePink.svg",
+        "/svg/calendar.svg",
+    ]
     
 return (
 
@@ -28,7 +34,7 @@ return (
         <div className={Styles.border}>
         {schedules.map((schedule, index) => (
             <div className={Styles.contents} key={index}>
-                <img src="/svg/nifePink.svg" className={Styles.icon} />
+                <img src={scheduleImg[index%3]} className={Styles.icon} />
                 <div className={Styles.innerContents} onClick={()=>onScheduleChange(index)} style={{cursor: "pointer"}}>
                     <div className={Styles.date}>{schedule.schedule_time}</div>
                     <div className={Styles.plan}>{schedule.schedule_name}</div>
