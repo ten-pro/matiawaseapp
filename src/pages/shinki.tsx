@@ -1,9 +1,6 @@
 import BackGround_shinki from '@/components/Shinki/BackGround_shinki'
 import AppName_shinki from '@/components/Login/AppName_login'
 import Card_shinki from '@/components/Shinki/Card_shinki'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
 
 function Home() {
   return (
