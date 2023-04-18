@@ -87,7 +87,6 @@ const MapPage = () => {
         }
       })
       .then(function (res) {
-        console.log(res.data);
       })
     }catch(e){
       console.log(e);
@@ -106,18 +105,13 @@ const MapPage = () => {
         }
       })
       .then(function (res) {
-        console.log(res.data);
         const data = res.data;
         if(data.get_schedulelist.length === 0){
 
         }else{
-          setNowFace(facesArray[data.get_schedulelist[nowSchedule].emoticon_id - 1].src);
-    
-          const name = data.user_information.user_name;
-          let messages = new Array();
-          messages = data.get_chatlist;
-          setChatList({ name, messages });
-    
+          data.appointmentlist[nowSchedule].appointment_status === '到着' ? setCurrentArrival(true) : setCurrentArrival(false);
+          data.appointmentlist[nowSchedule].partner_status[0].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
+
           let scheduleList = new Array();
           for (let i = 0; i < data.get_schedulelist.length; i++) {
             scheduleList[i] = data.get_schedulelist[i];
@@ -125,10 +119,10 @@ const MapPage = () => {
           setSchedules(scheduleList);
 
           setAppointmentId(data.appointmentlist)
-          
+            
           setOtherLocation({
-            lat: parseFloat(data.get_schedulelist[nowSchedule].user_current[nowSchedule].appointment_lat),
-            lng: parseFloat(data.get_schedulelist[nowSchedule].user_current[nowSchedule].appointment_lng),
+            lat: parseFloat(data.get_schedulelist[nowSchedule].user_current[0].appointment_lat),
+            lng: parseFloat(data.get_schedulelist[nowSchedule].user_current[0].appointment_lng),
           });
 
           setDestination({
@@ -136,12 +130,30 @@ const MapPage = () => {
             lng: parseFloat(data.get_schedulelist[nowSchedule].schedule_lng),
           });
 
-          data.appointmentlist[nowSchedule].appointment_status === '到着' ? setCurrentArrival(true) : setCurrentArrival(false);
-          data.appointmentlist[nowSchedule].partner_status[nowSchedule].appointment_status === '到着' ? setGlobalArrival(true) : setGlobalArrival(false);
+          if(data.appointmentlist[nowSchedule].appointment_status === "到着" || data.appointmentlist[nowSchedule].partner_status[0].appointment_status === "到着"){
+            try{
+            setNowFace(facesArray[data.get_schedulelist[nowSchedule].emoticon_id - 1].src);
+            }catch(e){
+              setNowFace("images/map/face5.svg");
+            }
+            try{
+              const name = data.appointmentlist[nowSchedule].chat_list[0].user_name;
+              let messages = new Array();
+              for(let i = 0; i<data.appointmentlist[nowSchedule].chat_list.length; i++){
+                messages[i] = data.appointmentlist[nowSchedule].chat_list[0].comment_id;
+              }
+              setChatList({ name, messages });
+            }catch(e){
+              setChatList({ name: "相手未到着", messages: [] });
+            }
+          }
         }
         
       })
-  }, [facesArray, apiRequest])
+  }, [facesArray, apiRequest, nowSchedule])
+
+  useEffect(() => {
+  },[nowSchedule])
 
   // 1分ごとにデータを取得
   useEffect(() => {
@@ -152,10 +164,6 @@ const MapPage = () => {
     // クリーンアップ関数を返すことで、コンポーネントがアンマウントされたときにタイマーをクリアします
     return () => clearInterval(interval);
   }, [apiRequest]);  
-  
-  useEffect(() => {
-    console.log(appointmentId)
-  }, [appointmentId])
 
   useEffect(() => {
     setIsVisible(isArrival)
@@ -175,13 +183,11 @@ const MapPage = () => {
 
   const visible = () => {
     // chat関数の処理
-    console.log("表示非表示だよ")
     setIsVisible(!isVisible)
   };
 
   const chat = () => {
     // chat関数の処理
-    console.log("チャットだよ")
     if(!currentArrival && !globalArrival){
       swal("未到着", "あなたも相手も未到着です", "warning")
       return;
@@ -189,6 +195,8 @@ const MapPage = () => {
     setIsChat(!isChat)
   };
   useEffect(() => {
+    setIsOpen(false)
+    setIsClosing(false)
     setIsVisible(isChat)
     setIsMenu(!isChat)
   }, [isChat])
@@ -205,22 +213,23 @@ const MapPage = () => {
           }
       })
       .then(function(res){
-        console.log(res);
       })
   }
 
   const schedule = () => {
     // schedule関数の処理
-    console.log("スケジュールだよ")
-    if(!currentArrival && !globalArrival){
+    if(schedules.length === 0){
       swal("予定がありません", "メニューボタンから作成画面へ移動し予定を作成しましょう", "error")
       return;
     }
     setIsScheduleList(!isScheduleList)
   };
   useEffect(() => {
+    setIsOpen(false)
+    setIsClosing(false)
     setIsMenu(!isScheduleList)
     setIsVisible(isScheduleList)
+
   }, [isScheduleList])
 
   const scheduleChange = (post:number) => {
@@ -242,7 +251,10 @@ const MapPage = () => {
           }
       })
       .then(function(res){
-        console.log(res);
+        swal("到着！", "到着したことを送信しました！", "success")
+        .then(() => {
+          setApiRequest(!apiRequest)
+        })
       })
   }
 
@@ -258,7 +270,6 @@ const MapPage = () => {
           }
       })
       .then(function(res){
-        console.log(res);
         setApiRequest(!apiRequest)
       })
   };

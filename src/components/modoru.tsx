@@ -6,7 +6,7 @@ const modoru = () =>{
   }
 
   return(
-    <div onClick={modoruclick}>
+    <div onClick={modoruclick} style={{cursor: "pointer"}}>
       <div className={styles.circle}>
         <p className={styles.p}>←</p>
       </div>

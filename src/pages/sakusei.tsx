@@ -6,7 +6,6 @@ import Form from "@/components/sakusei/form";
 import Top from "@/components/Top";
 
 import MapSelect from "@/components/sakusei/MapSelect";
-import GoogleMap from "@/components/sakusei/BackgroundMap";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
@@ -37,7 +36,6 @@ function Sakusei() {
         }
       })
       .then(function (res) {
-        console.log(res.data);
         let friendList = new Array<friends>();
         for(let i = 0; i < res.data.get_friendlist.length; i++){
           friendList[i] = res.data.get_friendlist[i];
@@ -62,7 +60,6 @@ function Sakusei() {
         }
       })
       .then(function (res) {
-        console.log(res.data);
         if(res.data){
           swal("予定を作成しました","","success");
         }
@@ -72,7 +69,6 @@ function Sakusei() {
   return (
     <div>
       <Header />
-      <GoogleMap />
       <Modoru />
       <MapSelect />
       <div className={Styles.saku_area}>

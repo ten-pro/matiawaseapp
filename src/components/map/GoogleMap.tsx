@@ -130,4 +130,4 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
 return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
 };
 
-export default GoogleMap;
+export default React.memo(GoogleMap);

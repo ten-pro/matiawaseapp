@@ -9,8 +9,13 @@ import Kakuteibtn from "@/components/frend/kakuteibtn";
 import { useEffect, useState,useCallback } from "react";
 import React from "react";
 import { error } from "console";
-import { frendlisttype,Name } from "./kanako";
 import axios from "axios";
+
+type frendlisttype = {
+  friend_id:number,
+  friend_name:string
+}
+type Name = { name: string };
 
 interface Friend {
   friend_id: number;
@@ -48,10 +53,10 @@ function frend(){
     const fetchDataAsync = async () => {
       try {
         const response = await axios.post(
-          'http://mp-class.chips.jp/matiawase/main.php',
+          'https://mp-class.chips.jp/matiawase/main.php',
           {
             login_user: '',
-            name: '変更',
+            name: 'テストユーザ１',
             pass: 'pass0000',
           },
           {
@@ -63,10 +68,8 @@ function frend(){
         if (response.data === false) {
           // userData.error1 = true;
         } else {
-          console.log(response.data);
           sessionStorage.setItem('id', response.data.user_information.user_id);
           if (response.data.get_friendlist === null) {
-            console.log('フレンドがいません');
             let friend_id: number = 0;
             let friend_name: string =
               'フレンドがいません。登録しませんか？';
@@ -100,7 +103,6 @@ function frend(){
               ]);
              }
           }
-          console.log(response);
         }
       } catch (error) {
         console.log(error);
@@ -114,7 +116,7 @@ function frend(){
   const handleSaveChanges = async () => {
     try {
       const response = await axios.post(
-        'http://mp-class.chips.jp/matiawase/main.php',
+        'https://mp-class.chips.jp/matiawase/main.php',
         {
           create_friend:'',
           follow_id:9,//友達のuser_id
@@ -126,7 +128,6 @@ function frend(){
           },
         }
       );
-      console.log(response);
       setinputdiv(true);
       sethyouzidiv(false);
       settuikabtn(false);

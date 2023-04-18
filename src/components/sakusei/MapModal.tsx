@@ -63,10 +63,10 @@ const MapModal: FC<MapModalProps> = ({ show, onHide, onSelectLocation }) => {
           </GoogleMap>
         </LoadScript>
       </div>
-      <div onClick={onHide} className={styles.closeButton}>
+      <div onClick={onHide} className={styles.closeButton} style={{cursor:"pointer"}}>
         閉じる
       </div>
-      <div onClick={handleConfirm} className={styles.sendButton}>
+      <div onClick={handleConfirm} className={styles.sendButton} style={{cursor:"pointer"}}>
         確定
       </div>
     </div>

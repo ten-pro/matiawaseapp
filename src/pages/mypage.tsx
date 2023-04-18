@@ -40,7 +40,7 @@ interface User {
   const handleSaveChanges = async () => {
     try {
       const response = await axios.post(
-        'http://mp-class.chips.jp/matiawase/main.php',
+        'https://mp-class.chips.jp/matiawase/main.php',
         {
           update_user:'',
           user_id:10,
@@ -53,7 +53,6 @@ interface User {
           },
         }
       );
-      console.log(response);
       setHenkoubtn(true);
       
     } catch (error) {
@@ -65,7 +64,7 @@ interface User {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          'http://mp-class.chips.jp/matiawase/main.php',
+          'https://mp-class.chips.jp/matiawase/main.php',
           {
             login_user: '',
             name: 'テストユーザ４',
@@ -77,17 +76,14 @@ interface User {
             },
           }
         );
-        console.log(response);
         if (response.data === false) {
           // userData.error1 = true;
         } else {
           sessionStorage.setItem('id', response.data.user_information.user_id);
           let user_name: string = response.data.user_information.user_name;
           let user_mail: string = response.data.user_information.user_mail;
-          console.log(user_name, user_mail);
           setUser({ user_name: user_name, user_mail: user_mail });
         }
-        console.log(response);
       } catch (error) {
         console.log(error);
       }

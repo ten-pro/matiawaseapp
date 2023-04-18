@@ -41,7 +41,6 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    console.log(currentTime)
     if(out){
       setBgimg(2);
     }else if(timer / max > 0.3){
@@ -64,11 +63,24 @@ const Header = () => {
       const diff = scheduleTime.getTime() - currentDate.getTime();
   
       if (0 <= diff && diff <= 60 * 60 * 1000) { // 1時間以内
-        setCountDownTime("01:00:00.00");
-        setStartTimer(true);//この関数をifの外に出すと自分でスタートさせることができる
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        const milliseconds = diff % 1000;
+  
+        const formattedHours = hours.toString().padStart(2, '0');
+        const formattedMinutes = minutes.toString().padStart(2, '0');
+        const formattedSeconds = seconds.toString().padStart(2, '0');
+        const formattedMilliseconds = milliseconds.toString().padStart(2, '0');
+  
+        const remainingTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
+  
+        setCountDownTime(remainingTime);
+        setStartTimer(true);
       }
     }
   }, [schedules, currentTime, setStartTimer]);
+  
   
 
 
