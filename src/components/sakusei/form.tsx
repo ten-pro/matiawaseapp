@@ -4,16 +4,6 @@ import React, { useState , useEffect } from "react";
 // import { id_array } from '@/atom/sakusei'
 // import { name_array } from '@/atom/sakusei'
 import { numArray, strArray } from '@/atom/sakusei'
-interface FormProps {
-  onSendName: (name: string) => void
-  onSendDate: (date: string) => void
-  onSendTime: (time: string) => void
-  onSendIcon: (icon: string) => void
-}
-function form(props: FormProps) {
-  // const [friend_id, setfriend_id] = useAtom<number[]>(id_array)
-  // const [friend_name, setfriend_name] = useAtom<string[]>(name_array)
-
 
 export interface FormProps {
   setYotei: (value: string) => void;
