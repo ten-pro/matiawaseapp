@@ -71,10 +71,21 @@
   width: 140px;
   height: 43px;
   font-size: 24px;
-  /* margin-top: 70px;
-  margin-right: auto;
-  margin-left: auto; */
   position: fixed;
   bottom:130px;
   left: 137px;
 }
+
+  .kiken_area {
+    padding: 10px;
+    margin: 13px;
+    position:absolute;
+    width: 350px;
+    height: 835px;
+    border: 8px dashed #773d50;
+  }
+  .conteinaer{
+    position: relative;
+  }
+
+  
