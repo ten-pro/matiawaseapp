@@ -5,7 +5,8 @@
     margin:auto;
     width:230px;
     height: 60px;
-    background-color: #FF8282;
+    /* background-color: #FF8282; */
+    background: linear-gradient(to bottom right, #f4c2c2, #fc5b5b);
     border-radius: 50px;
   }
   .NowTime{
