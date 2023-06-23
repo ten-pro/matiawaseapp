@@ -46,7 +46,7 @@ const MapModal: FC<MapModalProps> = ({ show, onHide, onSelectLocation }) => {
   return (
     <div style={{ display: show ? 'block' : 'none', position: 'absolute' }} className={styles.wrap}>
       <div>
-        <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
+         <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={defaultCenter}
@@ -61,7 +61,7 @@ const MapModal: FC<MapModalProps> = ({ show, onHide, onSelectLocation }) => {
           >
             {selectedPosition && <Marker position={selectedPosition} />}
           </GoogleMap>
-        </LoadScript>
+        </LoadScript> 
       </div>
       <div onClick={onHide} className={styles.closeButton} style={{cursor:"pointer"}}>
         閉じる

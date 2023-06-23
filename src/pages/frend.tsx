@@ -6,6 +6,7 @@ import Top from "@/components/Top";
 import Hyouzi from "@/components/frend/hyouzi";
 import Frendinput from "@/components/frend/frendinput";
 import Kakuteibtn from "@/components/frend/kakuteibtn";
+import Kiken from "@/components/frend/kiken";
 import { useEffect, useState,useCallback } from "react";
 import React from "react";
 import { error } from "console";
@@ -137,7 +138,8 @@ function frend(){
   };
 
   return(
-    <div>
+    <div className={Styles.container}>
+      <Kiken/>
       <Header/>
       <Modoru/>
       <div className={Styles.frend_area}>

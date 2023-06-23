@@ -15,14 +15,18 @@
   border-bottom: 1px solid #FF8282;
   width: 280px;
   font-size: 20px;
-  margin-top: 65px;
+  margin-top: 90px;
+  color: #778899;
+  margin-bottom: 10px;
 }
 .inputTime{
   border: none;
   border-bottom: 1px solid #FF8282;
   width: 280px;
-  font-size: 20px;
+  font-size: 18px;
   margin-top: 25px;
+  color: #778899;
+  margin-bottom: 10px;
 }
 .select{
   border: none;
@@ -30,12 +34,14 @@
   width: 280px;
   font-size: 20px;
   margin-top: 25px;
+  color: #778899;
+  margin-bottom: 10px;
 }
 .op{
   background-color: #FAE6E6;
   color: #705454;
 }
-.btn_area{
+/* .btn_area{
   text-align: center;
 }
 .btn{
@@ -50,4 +56,37 @@
   width: 140px;
   height: 43px;
   font-size: 24px;
+} */
+.btn_area {
+  -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  display: block;
+  max-width: 180px;
+  text-decoration: none;
+  background-color: white;
+  
+}
+
+.btn {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  margin-top: 100px;
+  margin-left: 110px;
+  border:2px solid #45D700;
+  border-radius: 30px;
+  color: #45D700;
+  width: 140px;
+  height: 43px;
+  font-size: 24px;
+}
+
+.btn:hover {
+  color: white;
+  box-shadow: #45D700 0 0px 0px 40px inset;
 }
