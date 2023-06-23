@@ -1,3 +1,4 @@
+
 // Btn.tsx
 import React from 'react';
 import Styles from '@/styles/Sakusei.module.css';
@@ -15,3 +16,4 @@ const Btn: React.FC<BtnProps> = ({ onClick }) => {
 };
 
 export default Btn;
+

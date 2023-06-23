@@ -1,4 +1,9 @@
 import Styles from "@/styles/Sakusei.module.css";
+import React, { useState , useEffect } from "react";
+// import { useAtom } from 'jotai'
+// import { id_array } from '@/atom/sakusei'
+// import { name_array } from '@/atom/sakusei'
+import { numArray, strArray } from '@/atom/sakusei'
 
 export interface FormProps {
   setYotei: (value: string) => void;
@@ -61,3 +66,4 @@ const Form: React.FC<FormProps> = ({ setYotei, setPlace, setTime, setIcon, setFr
 };
 
 export default Form;
+
