@@ -2,8 +2,6 @@ import { Inter } from 'next/font/google'
 import Styles from '@/styles/Login/Card_login.module.css'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-const inter = Inter({ subsets: ['latin'] })
-
 
 function Card() {
     const[name, setname] = useState<string>('')
@@ -28,7 +26,7 @@ function Card() {
           }
           
         );
-        console.log(response.data)
+        let resData = response.data
         if(response.data.create_acount === true) {
           localStorage.setItem('user_id', response.data.user_information.user_id)
           seterror(false)

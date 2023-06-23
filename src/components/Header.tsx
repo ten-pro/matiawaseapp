@@ -53,33 +53,30 @@ const Header = () => {
   // Header.tsx
 
   useEffect(() => {
-    if (schedules.length > 0 && currentTime) {
+    if (schedules.length > 0) {
       const scheduleTime = new Date(schedules[nowSchedule].schedule_time);
-      const currentTimeArray = currentTime.split(':');
-      const currentDate = new Date(scheduleTime);
-      currentDate.setHours(parseInt(currentTimeArray[0]));
-      currentDate.setMinutes(parseInt(currentTimeArray[1]));
-  
-      const diff = scheduleTime.getTime() - currentDate.getTime();
-  
+      const now = new Date(); // 実際の現在時刻を取得
+
+      const diff = scheduleTime.getTime() - now.getTime();
+
       if (0 <= diff && diff <= 60 * 60 * 1000) { // 1時間以内
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
         const milliseconds = diff % 1000;
-  
+
         const formattedHours = hours.toString().padStart(2, '0');
         const formattedMinutes = minutes.toString().padStart(2, '0');
         const formattedSeconds = seconds.toString().padStart(2, '0');
         const formattedMilliseconds = milliseconds.toString().padStart(2, '0');
-  
+
         const remainingTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
-  
+
         setCountDownTime(remainingTime);
         setStartTimer(true);
       }
     }
-  }, [schedules, currentTime, setStartTimer]);
+  }, [schedules, setStartTimer]);
   
   
 
