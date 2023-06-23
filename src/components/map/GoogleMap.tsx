@@ -66,12 +66,34 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
         mapTypeControl: false,
         fullscreenControl: false
       });
-
+  
       if (currentPosition && otherPosition && destination) {
         addMarkers(map, currentPosition, otherPosition, destination);
+  
+        // 追加：DirectionsServiceとDirectionsRendererの初期化
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer();
+  
+        // 追加：DirectionsRendererをマップに関連付け
+        directionsRenderer.setMap(map);
+  
+        // 追加：経路の計算と描画
+        directionsService.route(
+          {
+            origin: currentPosition,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING,
+          },
+          (result, status) => {
+            if (status === 'OK') {
+              directionsRenderer.setDirections(result);
+            }
+          }
+        );
       }
     }
   };
+  
 
   useEffect(() => {
     if (document.querySelector('script[src^="https://maps.googleapis.com/maps/api/js?key="]')) {
