@@ -7,6 +7,7 @@
     height: 60px;
     /* background-color: #FF8282; */
     background: linear-gradient(to bottom right, #f4c2c2, #fc5b5b);
+    /* background: linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%); */
     border-radius: 50px;
   }
   .NowTime{
