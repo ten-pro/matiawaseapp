@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
 
-interface friends{
+interface friends {
   friend_id: number;
   friend_name: string;
 }
@@ -22,55 +22,69 @@ function Sakusei() {
   const [icon, setIcon] = useState<number>();
   const [friend, setFriend] = useState<number>();
   const [friends, setFriends] = useState<friends[]>([]);
-  
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
 
   useEffect(() => {
     axios
-      .post('https://mp-class.chips.jp/matiawase/main.php', {
-        login_user:'',
-        name:'テストユーザ１',
-        pass:'pass0000'
-      }, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      .post(
+        "https://mp-class.chips.jp/matiawase/main.php",
+        {
+          login_user: "",
+          name: "テストユーザ１",
+          pass: "pass0000",
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      })
+      )
       .then(function (res) {
         let friendList = new Array<friends>();
-        for(let i = 0; i < res.data.get_friendlist.length; i++){
+        for (let i = 0; i < res.data.get_friendlist.length; i++) {
           friendList[i] = res.data.get_friendlist[i];
         }
-        setFriends(friendList)
-      })
-    },[])
+        setFriends(friendList);
+      });
+  }, []);
 
   const postCreate = async () => {
     axios
-      .post('https://mp-class.chips.jp/matiawase/main.php', {
-        create_schedule: '',
-        schedule_name: yotei,
-        schedule_lat: place,
-        schedule_lng: place,
-        schedule_time: time,
-        icon_id: icon,
-        user_ids: [6,friend] //配列可
-      }, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      .post(
+        "https://mp-class.chips.jp/matiawase/main.php",
+        {
+          create_schedule: "",
+          schedule_name: yotei,
+          schedule_lat: latitude,
+          schedule_lng: longitude,
+          schedule_time: time,
+          icon_id: icon,
+          user_ids: [6, friend], //配列可
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      })
+      )
       .then(function (res) {
-        if(res.data){
-          swal("予定を作成しました","","success");
+        if (res.data) {
+          swal("予定を作成しました", "", "success");
         }
-      })
-  }
+      });
+  };
 
   return (
     <div>
       <Header />
       <Modoru />
-      <MapSelect />
+      <MapSelect
+        latitude={latitude}
+        longitude={longitude}
+        setLatitude={setLatitude}
+        setLongitude={setLongitude}
+      />
       <div className={Styles.saku_area}>
         <div className={Styles.input_area}>
           <Form
@@ -81,7 +95,6 @@ function Sakusei() {
             setFriend={setFriend}
             friends={friends}
           />
-          
         </div>
         <Btn onClick={postCreate} />
       </div>

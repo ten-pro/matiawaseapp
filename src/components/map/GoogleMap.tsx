@@ -78,6 +78,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ apiKey, otherLocation, destinatio
         directionsRenderer.setMap(map);
   
         // 追加：経路の計算と描画
+        console.log(currentPosition, destination)
         directionsService.route(
           {
             origin: currentPosition,
