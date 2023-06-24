@@ -1,13 +1,19 @@
 // pages/index.tsx
-
+import { FC } from 'react';
 import { useState } from 'react';
 import MapModal from '@/components/sakusei/MapModal';
 import styles from '@/styles/sakusei/MapSelect.module.css';
 
-const IndexPage = () => {
+interface MapSelectProps {
+  latitude: number | null;
+  longitude: number | null;
+  setLatitude: (lat: number | null) => void;
+  setLongitude: (lng: number | null) => void;
+}
+
+// 上記のPropsを使用して関数を定義します。
+const MapSelect: FC<MapSelectProps> = ({ latitude, longitude, setLatitude, setLongitude }) => {
   const [showModal, setShowModal] = useState(false);
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -40,4 +46,4 @@ const IndexPage = () => {
   );
 };
 
-export default IndexPage;
+export default MapSelect;
